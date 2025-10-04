@@ -9,22 +9,22 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const navLinks = ["About", "Services", "Projects", "Gallery", "Reviews", "Contact"];
+  const navLinks = ["About", "Projects", "Gallery", "Contact" ,"Careers"];
 
   return (
     <header className="w-full z-50 bg-white  ">
       <div className="w-[95%] m-auto flex items-center justify-between py-4">
         {/* Logo */}
         <div>
-          <h1 className="text-2xl font-bold text-black cursor-pointer">DCPL</h1>
+          <h1 className="text-2xl font-bold text-black cursor-pointer"><Link href="/">DCPL</Link></h1>
         </div>
 
         {/* Desktop Nav Links - Hidden on mobile */}
         <nav className="hidden md:flex space-x-6">
           {navLinks.map((link) => (
-            <Link 
-              key={link} 
-              href={`#${link.toLowerCase()}`} 
+            <Link
+              key={link}
+              href={link === "Careers" ? "/Careers" : link === "Projects" ? "/Projects" : link === "Gallery" ? "/Portfolio" : link === "Contact" ? "/Contact" : link === "About" ? "/About" : `#${link}`}
               className="text-sm font-medium text-gray-700 hover:text-black transition cursor-pointer"
             >
               {link}
@@ -33,7 +33,7 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile Menu Button - Visible only on mobile */}
-        <button 
+        <button
           className="md:hidden flex flex-col space-y-1.5 z-50"
           onClick={toggleMenu}
           aria-label="Toggle menu"
@@ -50,9 +50,8 @@ export default function Navbar() {
         <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-40 transform transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex flex-col h-full pt-20 px-6">
             {navLinks.map((link) => (
-              <Link 
-                key={link} 
-                href={`#${link.toLowerCase()}`} 
+              <Link
+                href="/Projects"
                 className="py-4 text-lg font-medium text-gray-700 hover:text-black transition border-b border-gray-100"
                 onClick={toggleMenu}
               >

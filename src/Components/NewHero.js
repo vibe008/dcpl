@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Navbar from "./Navbar";
 const heroImage = "../assets/hero-architecture.jpg"
 export default function NewHero() {
     const [isMobile, setIsMobile] = useState(false);
@@ -13,7 +14,10 @@ export default function NewHero() {
     }, []);
   
     return (
-        <motion.section initial={{width:"0"}} animate={{width:isMobile ? "100%" : "95%"}} transition={{duration:1}} className="w-[100%] lg:w-[95%] m-auto">
+
+        <>
+         <Navbar />
+         <motion.section initial={{width:"0"}} animate={{width:isMobile ? "100%" : "95%"}} transition={{duration:1}} className="w-[100%] lg:w-[95%] m-auto relative">
             <div className="hero-images-wrapper" style={{ alignItems: "stretch", minHeight: isMobile ? "50vh" : "85vh", maxHeight: "85vh", marginBottom: "40px", marginLeft: "auto", position: "relative", overflow: "hidden", height: isMobile?"50vh":"100vh" }}>
                 <div className="hero-image-background" style={{ backgroundPosition: "50%", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundAttachment: "fixed", width: "100%", height: "100%", backgroundImage: "url('../assets/bgsky.webp')" }} />
                 {/* Large WOODLAND text */}
@@ -79,5 +83,7 @@ export default function NewHero() {
             </div>
 
         </motion.section>
+        </>
+
     );
 }
