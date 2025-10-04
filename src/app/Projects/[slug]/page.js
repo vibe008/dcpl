@@ -8,12 +8,10 @@ import {
   Ruler, Users, Target, Award 
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import renderProjects from "../../../Components/renderProjects";
 import Navbar from "@/<@>/Components/Navbar";
 
 const page = ({ params }) => {
-  const router = useRouter();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [project, setProject] = useState(null);

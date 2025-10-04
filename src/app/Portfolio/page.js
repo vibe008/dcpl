@@ -6,11 +6,10 @@ import {
   X, ChevronLeft, ChevronRight, ZoomIn, Grid, List, 
   Filter, ArrowRight, ArrowLeft, Play, Pause
 } from "lucide-react";
-import Nav from "../../Components/ui/Nav";
 import renderProjects from "../../Components/renderProjects";
 import Navbar from "@/<@>/Components/Navbar";
 
-export default function page() {
+const Page = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
@@ -387,3 +386,5 @@ export default function page() {
    </>
   );
 }
+
+export default Page;

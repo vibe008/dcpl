@@ -51,7 +51,8 @@ export default function Navbar() {
           <div className="flex flex-col h-full pt-20 px-6">
             {navLinks.map((link) => (
               <Link
-                href="/Projects"
+                key={link}
+                href={link === "Careers" ? "/Careers" : link === "Projects" ? "/Projects" : link === "Gallery" ? "/Portfolio" : link === "Contact" ? "/Contact" : link === "About" ? "/About" : `#${link}`}
                 className="py-4 text-lg font-medium text-gray-700 hover:text-black transition border-b border-gray-100"
                 onClick={toggleMenu}
               >

@@ -96,7 +96,7 @@ const ContactPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Have a project in mind? Let's discuss how we can bring your vision to life with our architectural expertise.
+            Have a project in mind? Let&apos;s discuss how we can bring your vision to life with our architectural expertise.
           </motion.p>
         </div>
       </section>
@@ -114,7 +114,7 @@ const ContactPage = () => {
               <h2 className="text-3xl font-bold mb-8">Let's Start a Conversation</h2>
               <p className="text-gray-600 mb-10 leading-relaxed">
                 We believe that great architecture comes from collaboration and understanding. 
-                Reach out to us with your ideas, and let's create something extraordinary together.
+                Reach out to us with your ideas, and let&apos;s create something extraordinary together.
               </p>
 
               <div className="space-y-8">

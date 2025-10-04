@@ -1,13 +1,11 @@
 "use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef } from "react";
-import { Building, Lightbulb, Ruler, Palette, X, ArrowRight, Send, MapPin, Clock, Award, Users, Sparkles } from "lucide-react";
-import Nav from "@/<@>/Components/ui/Nav";
+import { ArrowRight, Send, MapPin, Clock, Award, Users, Sparkles ,Ruler} from "lucide-react";
 import Navbar from "@/<@>/Components/Navbar";
 
-export default function page() {
+const page = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [activeCategory, setActiveCategory] = useState("all");
@@ -262,7 +260,7 @@ export default function page() {
                         Ready to Design the Future With Us?
                     </h3>
                     <p className="mb-8 max-w-2xl mx-auto text-gray-300">
-                        Even if you don't see the perfect role, we're always interested in connecting with talented individuals.
+                        Even if you don&apos;t see the perfect role, we&apos;re always interested in connecting with talented individuals.
                     </p>
                     <motion.button
                         whileHover={{ scale: 1.05, backgroundColor: "#333" }}
@@ -360,3 +358,5 @@ export default function page() {
         </>
     );
 }
+
+export default page;
