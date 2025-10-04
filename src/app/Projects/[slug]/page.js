@@ -11,7 +11,7 @@ import Link from "next/link";
 import renderProjects from "../../../Components/renderProjects";
 import Navbar from "@/<@>/Components/Navbar";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [project, setProject] = useState(null);
@@ -427,4 +427,4 @@ console.log("project",project?.image)
   );
 };
 
-export default page;
+export default Page;

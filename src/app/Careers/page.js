@@ -2,10 +2,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef } from "react";
-import { ArrowRight, Send, MapPin, Clock, Award, Users, Sparkles ,Ruler} from "lucide-react";
-import Navbar from "@/<@>/Components/Navbar";
+import { ArrowRight, Send, MapPin, Clock, Award, Users, Sparkles ,Ruler ,X} from "lucide-react";
+import Navbar from "../../Components/Navbar";
 
-const page = () => {
+const Page = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [activeCategory, setActiveCategory] = useState("all");
@@ -359,4 +359,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

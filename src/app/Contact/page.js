@@ -111,7 +111,7 @@ const ContactPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <h2 className="text-3xl font-bold mb-8">Let's Start a Conversation</h2>
+              <h2 className="text-3xl font-bold mb-8">Let&apos;s Start a Conversation</h2>
               <p className="text-gray-600 mb-10 leading-relaxed">
                 We believe that great architecture comes from collaboration and understanding. 
                 Reach out to us with your ideas, and let&apos;s create something extraordinary together.
@@ -183,7 +183,7 @@ const ContactPage = () => {
                       animate={{ opacity: 1, scale: 1 }}
                     >
                       <div className="text-2xl font-semibold mb-2">Thank You!</div>
-                      <p>Your message has been sent successfully. We'll get back to you within 24 hours.</p>
+                      <p>Your message has been sent successfully. We&nbps;ll get back to you within 24 hours.</p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">
