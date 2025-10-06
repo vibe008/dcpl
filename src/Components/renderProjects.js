@@ -342,7 +342,7 @@ const renderProjects = [
         "title": "PM MODI AKSHAYVAT",
         "content": "Akshayvat Development",
         "description": "Akshayvat development project",
-        "image": "/assets/ProjectImages/PM_Modi_Akshayvat/Picture67.jpeg",
+        "image": "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpeg",
         "year": "2024",
         "type": "Heritage Conservation",
         "status": "Proposed",
@@ -355,11 +355,11 @@ const renderProjects = [
         ],
         "cost": "15.00 Crores",
         "images": [
-            "/assets/ProjectImages/PM_Modi_Akshayvat/Picture67.jpeg",
-            "/assets/ProjectImages/PM_Modi_Akshayvat/Picture68-fotor-enhance-20250926114101.jpg",
-            "/assets/ProjectImages/PM_Modi_Akshayvat/Picture69.jpg",
-            "/assets/ProjectImages/PM_Modi_Akshayvat/Picture70-fotor-enhance-2025092612015.jpg",
-            "/assets/ProjectImages/PM_Modi_Akshayvat/Picture71.jpg"
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpeg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture68-fotor-enhance-20250926114101.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture69.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture70-fotor-enhance-2025092612015.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture71.jpg"
         ]
     },
     {
@@ -566,7 +566,7 @@ const renderProjects = [
         "title": "VRINDA HOUSING",
         "content": "Vrinda Housing Scheme",
         "description": "Housing development project in Vrindavan area",
-        "image": "/assets/ProjectImages/Vh/Picture111.jpeg",
+        "image": "/assets/ProjectImages/vh/Picture111.jpeg",
         "year": "2022",
         "type": "Architecture",
         "status": "Completed",
@@ -579,10 +579,10 @@ const renderProjects = [
         ],
         "cost": "",
         "images": [
-            "/assets/ProjectImages/Vh/Picture111.jpeg",
-            "/assets/ProjectImages/Vh/Picture112-fotor-enhance-20250926121936.jpg",
-            "/assets/ProjectImages/Vh/Picture113.jpg",
-            "/assets/ProjectImages/Vh/Picture114-fotor-enhance-20250926122006.jpg"
+            "/assets/ProjectImages/vh/Picture111.jpeg",
+            "/assets/ProjectImages/vh/Picture112-fotor-enhance-20250926121936.jpg",
+            "/assets/ProjectImages/vh/Picture113.jpg",
+            "/assets/ProjectImages/vh/Picture114-fotor-enhance-20250926122006.jpg"
         ]
     },
     {
@@ -590,7 +590,7 @@ const renderProjects = [
         "title": "COMMERCIAL COMPLEX",
         "content": "Commercial Complex Development",
         "description": "Commercial complex construction project",
-        "image": "/assets/ProjectImages/Commercial_Complex/Picture4_PhotoGrid.png",
+        "image": "/assets/ProjectImages/commercial_Complex/Picture4_PhotoGrid.png",
         "year": "2022",
         "type": "Architecture",
         "status": "Completed",
@@ -603,10 +603,10 @@ const renderProjects = [
         ],
         "cost": "",
         "images": [
-            "/assets/ProjectImages/Commercial_Complex/Picture4_PhotoGrid.png",
-            "/assets/ProjectImages/Commercial_Complex/Picture5_PhotoGrid.png",
-            "/assets/ProjectImages/Commercial_Complex/Picture6_PhotoGrid.png",
-            "/assets/ProjectImages/Commercial_Complex/Picture7_PhotoGrid.png"
+            "/assets/ProjectImages/commercial_complex/Picture4_PhotoGrid.png",
+            "/assets/ProjectImages/commercial_complex/Picture5_PhotoGrid.png",
+            "/assets/ProjectImages/commercial_complex/Picture6_PhotoGrid.png",
+            "/assets/ProjectImages/commercial_complex/Picture7_PhotoGrid.png"
         ]
     },
     // Additional projects from PDF with correct statuses

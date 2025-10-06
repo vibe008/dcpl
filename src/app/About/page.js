@@ -79,7 +79,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className=" mx-auto px-6 py-16">
         {/* Company Intro */}
         <motion.div
           variants={containerVariants}
@@ -213,7 +213,7 @@ export default function AboutPage() {
        <EmpanelmentList/>
        <ClientsSection/>
         {/* Stats Section */}
-        <motion.div
+        {/* <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -243,7 +243,7 @@ export default function AboutPage() {
               </div>
             </div>
           </motion.div>
-        </motion.div>
+        </motion.div> */}
       </div>
       </div>
     </div>

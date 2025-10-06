@@ -317,7 +317,7 @@ const allProjects = [
         "title": "NAGAR PALIKA RAJASTHAN",
         "content": "DLB Office Buildings",
         "description": "DLB Office Buildings at 40 Places in Rajasthan",
-        "image": "/assets/ProjectImages/Nagar Palika Rajasthan/Picture100.jpg",
+        "image": "/assets/ProjectImages/Nagar_Palika_Rajasthan/Picture100.jpg",
         "year": "2024",
         "type": "Architecture",
         "status": "Proposed",
@@ -330,10 +330,10 @@ const allProjects = [
         ],
         "cost": "160.00 Crores",
         "images": [
-            "/assets/ProjectImages/Nagar Palika Rajasthan/Picture100.jpg",
-            "/assets/ProjectImages/Nagar Palika Rajasthan/Picture101-fotor-enhance-20250926121430.jpg",
-            "/assets/ProjectImages/Nagar Palika Rajasthan/Picture102.jpg",
-            "/assets/ProjectImages/Nagar Palika Rajasthan/Picture103-fotor-enhance-20250926121551.jpg"
+            "/assets/ProjectImages/Nagar_Palika_Rajasthan/Picture100.jpg",
+            "/assets/ProjectImages/Nagar_Palika_Rajasthan/Picture101-fotor-enhance-20250926121430.jpg",
+            "/assets/ProjectImages/Nagar_Palika_Rajasthan/Picture102.jpg",
+            "/assets/ProjectImages/Nagar_Palika_Rajasthan/Picture103-fotor-enhance-20250926121551.jpg"
         ]
     },
     {
@@ -366,7 +366,7 @@ const allProjects = [
         "title": "PM MODI AKSHAYVAT",
         "content": "Akshayvat Development",
         "description": "Akshayvat development project",
-        "image": "/assets/ProjectImages/PM Modi AKshayvat/Picture67.jpeg",
+        "image": "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpeg",
         "year": "2024",
         "type": "Heritage Conservation",
         "status": "Proposed",
@@ -379,11 +379,11 @@ const allProjects = [
         ],
         "cost": "15.00 Crores",
         "images": [
-            "/assets/ProjectImages/PM Modi AKshayvat/Picture67.jpeg",
-            "/assets/ProjectImages/PM Modi AKshayvat/Picture68-fotor-enhance-20250926114101.jpg",
-            "/assets/ProjectImages/PM Modi AKshayvat/Picture69.jpg",
-            "/assets/ProjectImages/PM Modi AKshayvat/Picture70-fotor-enhance-2025092612015.jpg",
-            "/assets/ProjectImages/PM Modi AKshayvat/Picture71.jpg"
+            "/assets/ProjectImages/PM Modi_AKshayvat/Picture67.jpeg",
+            "/assets/ProjectImages/PM Modi_AKshayvat/Picture68-fotor-enhance-20250926114101.jpg",
+            "/assets/ProjectImages/PM Modi_AKshayvat/Picture69.jpg",
+            "/assets/ProjectImages/PM Modi_AKshayvat/Picture70-fotor-enhance-2025092612015.jpg",
+            "/assets/ProjectImages/PM Modi_AKshayvat/Picture71.jpg"
         ]
     },
     {
@@ -590,7 +590,7 @@ const allProjects = [
         "title": "VRINDA HOUSING",
         "content": "Vrinda Housing Scheme",
         "description": "Housing development project in Vrindavan area",
-        "image": "/assets/ProjectImages/Vrinda Houshing/Picture111.jpeg",
+        "image": "/assets/ProjectImages/Vh/Picture111.jpeg",
         "year": "2022",
         "type": "Architecture",
         "status": "Completed",
@@ -603,10 +603,10 @@ const allProjects = [
         ],
         "cost": "",
         "images": [
-            "/assets/ProjectImages/Vrinda Houshing/Picture111.jpeg",
-            "/assets/ProjectImages/Vrinda Houshing/Picture112-fotor-enhance-20250926121936.jpg",
-            "/assets/ProjectImages/Vrinda Houshing/Picture113.jpg",
-            "/assets/ProjectImages/Vrinda Houshing/Picture114-fotor-enhance-20250926122006.jpg"
+            "/assets/ProjectImages/Vh/Picture111.jpeg",
+            "/assets/ProjectImages/Vh/Picture112-fotor-enhance-20250926121936.jpg",
+            "/assets/ProjectImages/Vh/Picture113.jpg",
+            "/assets/ProjectImages/Vh/Picture114-fotor-enhance-20250926122006.jpg"
         ]
     },
     {

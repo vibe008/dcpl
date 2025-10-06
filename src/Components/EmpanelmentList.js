@@ -163,7 +163,7 @@ export default function EnhancedEmpanelmentList() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 py-24  relative overflow-hidden">
+    <div className=" py-24  relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200/10 rounded-full -translate-x-36 -translate-y-36"></div>

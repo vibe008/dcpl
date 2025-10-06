@@ -55,15 +55,15 @@ const ContactPage = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Call Us",
-      details: ["+91 98765 43210", "+91 87654 32109"],
-      link: "tel:+919876543210",
+      details: ["+917351077666"],
+      link: "tel:+917351077666",
       linkText: "Call Now"
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
-      details: ["hello@archstudio.com", "info@archstudio.com"],
-      link: "mailto:hello@archstudio.com",
+      details: ["office@dera.co.in"],
+      link: "mailto:office@dera.co.in",
       linkText: "Send Email"
     },
     {

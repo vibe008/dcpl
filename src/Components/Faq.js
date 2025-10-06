@@ -270,7 +270,7 @@ export default function Faq() {
         </div>
 
         {/* Minimal Footer */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
@@ -279,7 +279,7 @@ export default function Faq() {
           <p className="text-gray-500 font-light tracking-wide">
             Crafting timeless architecture since 2024
           </p>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );
