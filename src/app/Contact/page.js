@@ -48,8 +48,8 @@ const ContactPage = () => {
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: ["123 Architecture Lane", "Design District", "Mathura, UP 281001"],
-      link: "https://maps.google.com",
+      details: ["30- B Geeta enclave, krishna nagar, mathura ,281001"],
+      link: "https://www.google.com/maps/place/DERA+CONSULTANTS+PRIVATE+LIMITED/@27.4983124,77.6516774,13z/data=!4m6!3m5!1s0x397371537d90b05b:0xa6bfe506ff5bbe22!8m2!3d27.5034704!4d77.663168!16s%2Fg%2F11fqc87ztq?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D",
       linkText: "View on Map"
     },
     {
@@ -137,6 +137,8 @@ const ContactPage = () => {
                       {item.link && (
                         <a 
                           href={item.link} 
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-block mt-3 text-black font-medium hover:underline flex items-center"
                         >
                           {item.linkText} <ArrowRight className="w-4 h-4 ml-1" />
@@ -159,7 +161,9 @@ const ContactPage = () => {
                     <Map className="w-12 h-12 mx-auto text-gray-400 mb-3" />
                     <p className="text-gray-500">Interactive Map Would Appear Here</p>
                     <button className="mt-3 px-4 py-2 bg-black text-white rounded-lg text-sm">
-                      View Larger Map
+                      <a href='https://www.google.com/maps/place/DERA+CONSULTANTS+PRIVATE+LIMITED/@27.4983124,77.6516774,13z/data=!4m6!3m5!1s0x397371537d90b05b:0xa6bfe506ff5bbe22!8m2!3d27.5034704!4d77.663168!16s%2Fg%2F11fqc87ztq?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D' target="_blank" rel="noopener noreferrer">
+                        View Larger Map
+                      </a>
                     </button>
                   </div>
                 </div>

@@ -30,8 +30,16 @@ const Footer = () => {
   ];
 
   const locations = [
-    { city: "Mathura", state: "Uttar Pradesh" },
-    { city: "Ahmedabad", state: "Gujarat" }
+    { 
+      city: "Mathura", 
+      state: "Uttar Pradesh",
+      address: "30-B Geeta Enclave, Krishna Nagar, Mathura, 281001"
+    },
+    { 
+      city: "Ahmedabad", 
+      state: "Gujarat",
+      address: "Coming Soon"
+    }
   ];
 
   const handleSubscribe = (e) => {
@@ -69,13 +77,13 @@ const Footer = () => {
 
             <div className="space-y-4 text-sm mb-6">
               <a 
-                href="https://maps.google.com/?q=Mathura,UP" 
+                href="https://maps.google.com/?q=30-B Geeta Enclave, Krishna Nagar, Mathura, 281001" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center text-gray-600 hover:text-black transition-colors group"
+                className="flex items-start text-gray-600 hover:text-black transition-colors group"
               >
-                <MapPin className="w-4 h-4 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <span>Head Office: Mathura, UP</span>
+                <MapPin className="w-4 h-4 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                <span>30-B Geeta Enclave, Krishna Nagar, Mathura, 281001</span>
               </a>
               <a 
                 href="tel:+917351077666"
@@ -202,17 +210,22 @@ const Footer = () => {
           <h4 className="text-lg font-semibold text-black mb-8 text-center">
             Our Office Locations
           </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
             {locations.map((location, index) => (
               <div 
                 key={index} 
-                className="group cursor-pointer p-6 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300 text-center border border-gray-200"
+                className="group cursor-pointer p-6 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300 border border-gray-200 bg-white/50"
               >
-                <div className="font-semibold text-gray-800 group-hover:text-black text-lg mb-1">
-                  {location.city}
-                </div>
-                <div className="text-gray-500 text-sm group-hover:text-gray-700">
-                  {location.state}
+                <div className="text-center">
+                  <div className="font-semibold text-gray-800 group-hover:text-black text-lg mb-2">
+                    {location.city}
+                  </div>
+                  <div className="text-gray-500 text-sm group-hover:text-gray-700 mb-3">
+                    {location.state}
+                  </div>
+                  <div className={`text-xs ${location.address === 'Coming Soon' ? 'text-gray-400 italic' : 'text-gray-600'} group-hover:text-gray-700 leading-relaxed`}>
+                    {location.address}
+                  </div>
                 </div>
               </div>
             ))}
