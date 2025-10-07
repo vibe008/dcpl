@@ -146,7 +146,7 @@ const Team = () => {
       id: 12,
       name: "RAJENDRA KUMAR PAL",
       role: "MEP ENGINEER",
-      image: "../assets/rajendra.jpg",
+      image: "../assets/rajendra.png",
       description: "B.TECH CIVIL",
       email: "rajendra@archstudio.com",
       social: {

@@ -9,7 +9,7 @@ export default function Services() {
                 <div className="grid lg:grid-cols-2 gap-20 items-start">
                     {/* Left Side - Elegant Heading */}
                     <div className="sticky top-20">
-                        <div className=" pl-8">
+                        <div className=" pl-0 lg:pl-8">
                             <Heading className="text-black mb-6">
                             SERVICES
                             </Heading>

@@ -175,7 +175,7 @@ const renderProjects = [
         "title": "GOVIND VIHAR",
         "content": "Govind Vihar Awasiya Yojna",
         "description": "PPP/Land-pooling residential scheme at Jait, Vrindavan",
-        "image": "/assets/ProjectImages/Govind_Vihar/Picture104-fotor-enhance-20250926121633.jpg",
+        "image": "/assets/ProjectImages/Govind_Vihar/Gv1.jpg",
         "year": "2024",
         "type": "Architecture",
         "status": "Ongoing",
@@ -191,7 +191,9 @@ const renderProjects = [
             "/assets/ProjectImages/Govind_Vihar/Picture104-fotor-enhance-20250926121633.jpg",
             "/assets/ProjectImages/Govind_Vihar/Picture105.jpg",
             "/assets/ProjectImages/Govind_Vihar/Picture106-fotor-enhance-20250926121714.jpg",
-            "/assets/ProjectImages/Govind_Vihar/Picture107.jpg"
+            "/assets/ProjectImages/Govind_Vihar/Picture107.jpg",
+            "/assets/ProjectImages/Govind_Vihar/Gv1.jpg",
+            "/assets/ProjectImages/Govind_Vihar/Gv2.jpg"
         ]
     },
     {
@@ -342,7 +344,7 @@ const renderProjects = [
         "title": "PM MODI AKSHAYVAT",
         "content": "Akshayvat Development",
         "description": "Akshayvat development project",
-        "image": "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpeg",
+        "image": "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpg",
         "year": "2024",
         "type": "Heritage Conservation",
         "status": "Proposed",
@@ -355,8 +357,9 @@ const renderProjects = [
         ],
         "cost": "15.00 Crores",
         "images": [
-            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpeg",
-            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture68-fotor-enhance-20250926114101.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/Picture67.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/pmak.jpg",
+            "/assets/ProjectImages/PM_Modi_AKshayvat/pmak2.jpg",
             "/assets/ProjectImages/PM_Modi_AKshayvat/Picture69.jpg",
             "/assets/ProjectImages/PM_Modi_AKshayvat/Picture70-fotor-enhance-2025092612015.jpg",
             "/assets/ProjectImages/PM_Modi_AKshayvat/Picture71.jpg"

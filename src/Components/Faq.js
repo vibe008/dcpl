@@ -132,7 +132,7 @@ export default function Faq() {
     <div ref={containerRef} className="relative min-h-screen bg-white overflow-hidden">
       <ParallaxBackground />
       
-      <div className="relative w-full mx-auto px-4 md:px-8 py-20">
+      <div className="relative w-full mx-auto  md:px-8 lg:px-8 px-0 py-20">
         {/* Elegant Header */}
         {/* <motion.div
           initial={{ opacity: 0, y: 30 }}
