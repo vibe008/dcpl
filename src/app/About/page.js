@@ -95,7 +95,7 @@ export default function AboutPage() {
               </span>{" "}
               was founded by{" "}
               <span className="font-semibold text-gray-900">
-                Ar. Mayank Garg & Anand Thakka
+                Ar. Mayank Garg & Anand Thakkar
               </span>{" "}
               in 2011. Later in 2014, it was converted to Dera Consultants Private Limited.
             </p>

@@ -12,7 +12,7 @@ export default function About() {
                         Later in 2014, it was converted to Dera Consultants Private
                         Limited.
                         DCPL currently has 02 appointed Directors/Decision makers
-                        Mayank Garg & Anand Thakka.</p>
+                        Mayank Garg & Anand Thakkar.</p>
                 </div>
                 <div className="w-[100%] lg:w-[50%]">
                     <p className="lg:text-[.875rem] md:text-[2.5rem]  sm:text-[1rem]"> We are a multidisciplinary practice that provides professional services in Architectural design,
