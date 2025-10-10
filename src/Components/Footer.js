@@ -7,11 +7,11 @@ const Footer = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const navigationLinks = [
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Contact", href: "/contact" },
-    { label: "Careers", href: "/careers" },
+    { label: "About", href: "/About" },
+    { label: "Projects", href: "/Projects" },
+    { label: "Gallery", href: "/Portfolio" },
+    { label: "Contact", href: "/Contact" },
+    { label: "Careers", href: "/Careers" },
   ];
 
   const services = [
@@ -38,7 +38,7 @@ const Footer = () => {
     { 
       city: "Ahmedabad", 
       state: "Gujarat",
-      address: "Coming Soon"
+      address: "508 Ganesh Glory, Jagatpur Road Gota Ahmedabad, Gujarat"
     }
   ];
 

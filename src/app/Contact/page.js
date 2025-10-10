@@ -48,7 +48,7 @@ const ContactPage = () => {
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: ["30- B Geeta enclave, krishna nagar, mathura ,281001"],
+      details: ["30- B Geeta enclave, krishna nagar, mathura ,281001","508 Ganesh Glory, Jagatpur Road Gota Ahmedabad, Gujarat"],
       link: "https://www.google.com/maps/place/DERA+CONSULTANTS+PRIVATE+LIMITED/@27.4983124,77.6516774,13z/data=!4m6!3m5!1s0x397371537d90b05b:0xa6bfe506ff5bbe22!8m2!3d27.5034704!4d77.663168!16s%2Fg%2F11fqc87ztq?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D",
       linkText: "View on Map"
     },

@@ -25,21 +25,21 @@ const renderProjects = [
     },
     {
         "id": 2,
-        "title": "AJMER HOUSING",
-        "content": "Housing project in Ajmer",
-        "description": "Residential housing development in Ajmer",
+        "title": "AJMER Development Authority",
+        "content": "Development Authority Building",
+        "description": "Development Authority Building at Ajmer",
         "image": "/assets/ProjectImages/Ajmer_Housing/Picture11.jpg",
         "year": "2024",
         "type": "Architecture",
         "status": "Ongoing",
         "city": "Ajmer",
-        "category": "Housing",
+        "category": "Government",
         "features": [
             "Sustainable Design",
             "Smart City Integration",
             "Green Technology"
         ],
-        "cost": "",
+        "cost": "2235.91 Lakh",
         "images": [
             "/assets/ProjectImages/Ajmer_Housing/Picture11.jpg",
             "/assets/ProjectImages/Ajmer_Housing/Picture13.jpg",
