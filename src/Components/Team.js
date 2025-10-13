@@ -13,7 +13,7 @@ const Team = () => {
     {
       id: 1,
       name: "AR. MAYANK GARG",
-      role: "MANAGING DIRECTOR/ CHIEF ARCHITECT",
+      role: "Founding Managing Director / Chief Architect",
       image: "../assets/mayankGarg.jpg",
       description: "B.ARCH / M.PLAN",
       email: "mayank@archstudio.com",
@@ -39,7 +39,7 @@ const Team = () => {
       name: "ARUN KUMAR SINGH",
       role: "SENIOR ESTIMATOR CUM ENGINEER",
       image: "../assets/arun.jpg",
-      description: "B.A + DIPLOMA IN ARCHITECTURE",
+      description: "DIPLOMA IN ARCHITECTURE",
       email: "arun@archstudio.com",
       social: {
         linkedin: "#",

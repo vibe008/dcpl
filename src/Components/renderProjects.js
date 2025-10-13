@@ -79,46 +79,49 @@ const renderProjects = [
         "year": "2022",
         "type": "Architecture",
         "status": "Completed",
-        "city": "Unknown",
+        "city": "Alwar",
         "category": "General",
         "features": [
             "Sustainable Design",
             "Smart City Integration",
             "Green Technology"
         ],
-        "cost": "",
+        "cost": "52.51 Lakh",
         "images": [
             "/assets/ProjectImages/Bala_Quila/Picture57.jpg",
             "/assets/ProjectImages/Bala_Quila/Picture58-fotor-enhance-20250926113157.jpg",
             "/assets/ProjectImages/Bala_Quila/Picture59.jpg",
             "/assets/ProjectImages/Bala_Quila/Picture60-fotor-enhance-20250926113639.jpg",
-            "/assets/ProjectImages/Bala_Quila/Picture61.jpg",
-            "/assets/ProjectImages/Bala_Quila/Picture62-fotor-enhance-20250926113801.jpg"
+            "/assets/ProjectImages/Bala_Quila/Picture62-fotor-enhance-20250926113801.jpg",
+            "/assets/ProjectImages/Bala_Quila/blql1.jpg"
         ]
     },
     {
         "id": 5,
-        "title": "CHANRODAYA CIRCLE",
-        "content": "Chanrodaya Circle Development",
-        "description": "Circle development and beautification project",
-        "image": "/assets/ProjectImages/Chanrodaya_Circle/Picture29.jpg",
+        "title": "CONVENTION CENTER",
+        "content": "Convention Center Development",
+        "description": "Development project at Convention Center",
+        "image": "/assets/ProjectImages/ConventionCenter/ccMain.jpg",
         "year": "2022",
-        "type": "Urban Planning",
+        "type": "Architecture",
         "status": "Completed",
-        "city": "Unknown",
-        "category": "Infrastructure",
+        "city": "Alwar",
+        "category": "General",
         "features": [
             "Sustainable Design",
             "Smart City Integration",
             "Green Technology"
         ],
-        "cost": "",
+        "cost": "2375.95 Lakh",
         "images": [
-            "/assets/ProjectImages/Chanrodaya_Circle/Picture29.jpg",
-            "/assets/ProjectImages/Chanrodaya_Circle/Picture30-fotor-enhance-20250926111141.jpg",
-            "/assets/ProjectImages/Chanrodaya_Circle/Picture31.jpg"
+            "/assets/ProjectImages/ConventionCenter/ccMain.jpg",
+            "/assets/ProjectImages/ConventionCenter/cc1.jpg",
+            "/assets/ProjectImages/ConventionCenter/cc2.jpg",
+            "/assets/ProjectImages/ConventionCenter/cc3.jpg",
+            "/assets/ProjectImages/ConventionCenter/cc4.jpg"
         ]
     },
+
     {
         "id": 6,
         "title": "DHOLPUR MACHKUND ",
@@ -148,26 +151,27 @@ const renderProjects = [
     },
     {
         "id": 8,
-        "title": "DUBLE BASEMENT AJMER",
+        "title": "DUBLE BASEMENT ALWAR",
         "content": "Double Basement Ajmer",
-        "description": "Double basement construction project in Ajmer",
-        "image": "/assets/ProjectImages/Duble_Basement_Ajmer/Picture53.jpg",
+        "description": "Double basement construction project in ALWAR",
+        "image": "/assets/ProjectImages/Duble_Basement_Ajmer/alwarCarMain.jpg",
         "year": "2024",
         "type": "Architecture",
         "status": "Ongoing",
-        "city": "Ajmer",
+        "city": "ALWAR",
         "category": "Commercial",
         "features": [
             "Sustainable Design",
             "Smart City Integration",
             "Green Technology"
         ],
-        "cost": "",
+        "cost": "2332.23 L",
         "images": [
-            "/assets/ProjectImages/Duble_Basement_Ajmer/Picture53.jpg",
-            "/assets/ProjectImages/Duble_Basement_Ajmer/Picture54-fotor-enhance-20250926113013.jpg",
+            "/assets/ProjectImages/Duble_Basement_Ajmer/alwarCarMain.jpg",
+            "/assets/ProjectImages/Duble_Basement_Ajmer/alwarCar1.jpg",
             "/assets/ProjectImages/Duble_Basement_Ajmer/Picture55.jpg",
-            "/assets/ProjectImages/Duble_Basement_Ajmer/Picture56.jpg"
+            "/assets/ProjectImages/Duble_Basement_Ajmer/Picture56.jpg",
+            "/assets/ProjectImages/Duble_Basement_Ajmer/car1.jpg"
         ]
     },
     {
@@ -615,14 +619,14 @@ const renderProjects = [
     // Additional projects from PDF with correct statuses
     {
         "id": 27,
-        "title": "MULTI LEVEL CAR PARKING, VRINDAVAN",
+        "title": "DOUBLE BASEMENT CAR PARKING (UIT ALWAR)",
         "content": "640 Car Parking Space Multi Level Car Parking",
-        "description": "Multi-level car parking facility with 640 parking spaces in Vrindavan",
-        "image": "",
+        "description": "Multi-level car parking facility with 640 parking spaces in ALWAR ",
+        "image": "/assets/ProjectImages/carParkingAlwar/",
         "year": "2023",
         "type": "Architecture",
         "status": "Completed",
-        "city": "Vrindavan",
+        "city": "ALWAR",
         "category": "Infrastructure",
         "features": [
             "Multi-level Parking",
@@ -675,7 +679,7 @@ const renderProjects = [
         "title": "JUBILEE PARK MLCP, MATHURA",
         "content": "Multi Level Car Parking & Facilities",
         "description": "Jubilee Park multi-level car parking with 350 car spaces, 225 vendor spaces, and 2500-seat amphitheatre",
-        "image": "",
+        "image": "/assets/ProjectImages/jublee/jubleeMain.jpg",
         "year": "2023",
         "type": "Architecture",
         "status": "Completed",
@@ -687,7 +691,12 @@ const renderProjects = [
             "Amphitheatre"
         ],
         "cost": "23.50 Crores",
-        "images": []
+        "images": [
+            "/assets/ProjectImages/jublee/jubleeMain.jpg",
+            "/assets/ProjectImages/jublee/jb1.jpg",
+            "/assets/ProjectImages/jublee/jb2.jpg",
+            "/assets/ProjectImages/jublee/jb4.jpg"
+        ]
     },
     {
         "id": 31,
@@ -713,7 +722,7 @@ const renderProjects = [
         "title": "PWD GUEST HOUSE, GOVERDHAN",
         "content": "VIP Guest House with Meeting Facilities",
         "description": "PWD guest house with 3 VIP suites, 100-seating meeting hall, and control room for Goverdhan Parikrama",
-        "image": "",
+        "image": "/assets/ProjectImages/PWDGuestHouse/pwdMain.jpg",
         "year": "2023",
         "type": "Architecture",
         "status": "Completed",
@@ -725,7 +734,12 @@ const renderProjects = [
             "Control Room"
         ],
         "cost": "03.50 Crores",
-        "images": []
+        "images": [
+            "/assets/ProjectImages/PWDGuestHouse/pwdMain.jpg",
+            "/assets/ProjectImages/PWDGuestHouse/pwd1.jpg",
+            "/assets/ProjectImages/PWDGuestHouse/pwd2.jpg",
+            "/assets/ProjectImages/PWDGuestHouse/pwd3.jpg"
+        ]
     },
     {
         "id": 33,
@@ -808,7 +822,7 @@ const renderProjects = [
         "title": "NARAD KUND, GOVERDHAN",
         "content": "Redevelopment of Holy Kund",
         "description": "Redevelopment of Narad Kund at Goverdhan as per Hindu mythology where Narad ji developed this kund",
-        "image": "",
+        "image": "/assets/ProjectImages/NaradKund/nk1.jpeg",
         "year": "2023",
         "type": "Heritage Conservation",
         "status": "Completed",
@@ -820,7 +834,11 @@ const renderProjects = [
             "Religious Site"
         ],
         "cost": "05.00 Crores",
-        "images": []
+        "images": [
+            "/assets/ProjectImages/NaradKund/nk1.jpeg",
+            "/assets/ProjectImages/NaradKund/nk2.jpeg",
+            "/assets/ProjectImages/NaradKund/nk3.jpeg",
+        ]
     },
     {
         "id": 38,
@@ -1011,7 +1029,80 @@ const renderProjects = [
         ],
         "cost": "",
         "images": []
-    }
+    },
+        {
+        "id": 48,
+        "title": "CHANRODAYA CIRCLE",
+        "content": "Chanrodaya Circle Development",
+        "description": "Circle development and beautification project",
+        "image": "/assets/ProjectImages/Chanrodaya_Circle/Picture29.jpg",
+        "year": "2022",
+        "type": "Urban Planning",
+        "status": "Completed",
+        "city": "Unknown",
+        "category": "Infrastructure",
+        "features": [
+            "Sustainable Design",
+            "Smart City Integration",
+            "Green Technology"
+        ],
+        "cost": "",
+        "images": [
+            "/assets/ProjectImages/Chanrodaya_Circle/Picture29.jpg",
+            "/assets/ProjectImages/Chanrodaya_Circle/Picture30-fotor-enhance-20250926111141.jpg",
+            "/assets/ProjectImages/Chanrodaya_Circle/Picture31.jpg"
+        ]
+    },
+        {
+        "id": 49,
+        "title": "UNDERPASS",
+        "content": "Underpass Development",
+        "description": "Underpass development and beautification project",
+        "image": "/assets/ProjectImages/Underpass/UnderpassMain.jpg",
+        "year": "2022",
+        "type": "Urban Planning",
+        "status": "Ongoing",
+        "city": "Alwar",
+        "category": "Infrastructure",
+        "features": [
+            "Sustainable Design",
+            "Smart City Integration",
+            "Green Technology"
+        ],
+        "cost": "260.57 Lakh",
+        "images": [
+            "/assets/ProjectImages/Underpass/UnderpassMain.jpg",
+            "/assets/ProjectImages/Underpass/Underpass1.jpg",
+            "/assets/ProjectImages/Underpass/Underpass2.jpg",
+            "/assets/ProjectImages/Underpass/Underpass3.jpg",
+            "/assets/ProjectImages/Underpass/Underpass4.jpg",
+        ]
+    },
+        {
+        "id": 50,
+        "title": "UIT OFFICE BUILDING",
+        "content": "UIT Office Building",
+        "description": "UIT Office Building at Alwar",
+        "image": "/assets/ProjectImages/UitOffice/uitMain.jpg",
+        "year": "2022",
+        "type": "Urban Planning",
+        "status": "Completed",
+        "city": "Alwar",
+        "category": "Infrastructure",
+        "features": [
+            "Sustainable Design",
+            "Smart City Integration",
+            "Green Technology"
+        ],
+        "cost": "2522.99 Lakh",
+        "images": [
+            "/assets/ProjectImages/UitOffice/uitMain.jpg",
+            "/assets/ProjectImages/UitOffice/uitMain1.jpg",
+            "/assets/ProjectImages/UitOffice/uitMain2.jpg",
+            "/assets/ProjectImages/UitOffice/uitMain3.jpg",
+            "/assets/ProjectImages/UitOffice/uitMain4.jpg",
+        ]
+    },
 ]
 
 export default renderProjects
