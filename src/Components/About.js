@@ -8,11 +8,7 @@ export default function About() {
             </div>
             <div className="w-[100%] lg:w-[50%] flex flex-col lg:flex-row gap-5 lg:gap-13">
                 <div className="w-[100%] lg:w-[50%] my-5 lg:my-0">
-                    <p className="lg:text-[.875rem] md:text-[2.5rem]  sm:text-[1rem]"> Dera Consultants was founded by Ar. Mayank Garg in 2011.
-                        Later in 2014, it was converted to Dera Consultants Private
-                        Limited.
-                        DCPL currently has 02 appointed Directors/Decision makers
-                        Mayank Garg & Anand Thakkar.</p>
+                    <p className="lg:text-[.875rem] md:text-[2.5rem]  sm:text-[1rem]"> Dera Consultants was founded by Ar. Mayank Garg in 2011, later it was converted to Private Limited in 2014 and in 2016, Anand J Thakkar join the company as one of the Directors.</p>
                 </div>
                 <div className="w-[100%] lg:w-[50%]">
                     <p className="lg:text-[.875rem] md:text-[2.5rem]  sm:text-[1rem]"> We are a multidisciplinary practice that provides professional services in Architectural design,

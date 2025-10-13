@@ -97,7 +97,7 @@ export default function AboutPage() {
               <span className="font-semibold text-gray-900">
                 Ar. Mayank Garg & Anand Thakkar
               </span>{" "}
-              in 2011. Later in 2014, it was converted to Dera Consultants Private Limited.
+             in 2014 and in 2016, Anand J Thakkar join the company as one of the Director.
             </p>
             
             <p className="text-xl md:text-2xl leading-relaxed text-gray-700 max-w-4xl mx-auto">
