@@ -272,7 +272,7 @@ export default function Achievements() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 1.4 }}
         >
-          "Architecture is the thoughtful making of space." — Louis Kahn
+         &quot;Architecture is the thoughtful making of space.&quot; — Louis Kahn
         </motion.p>
         
         <motion.button 
