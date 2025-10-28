@@ -23,8 +23,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true} >
-        {children}
-        <Footer />
+          <div>
+            <h5 className="text-center p-3 bg-gray-200 dark:bg-gray-800 dark:text-white">
+              Hellow Word.
+            </h5>
+            {/* <Navbar />
+            {children}
+            <Footer /> */}
+          </div>
+        {/* {children}
+        <Footer /> */}
       </body>
     </html>
   );
