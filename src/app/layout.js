@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning={true} >
           <div>
             <h5 className="text-center p-3 bg-gray-200 dark:bg-gray-800 dark:text-white">
-              Hellow Word.
+              This domain is no longer active because its registration has expired.
             </h5>
             {/* <Navbar />
             {children}
