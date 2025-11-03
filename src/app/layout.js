@@ -24,12 +24,12 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true} >
           <div>
-            <h5 className="text-center p-3 bg-gray-200 dark:bg-gray-800 dark:text-white">
+            {/* <h5 className="text-center p-3 bg-gray-200 dark:bg-gray-800 dark:text-white">
               This domain is no longer active because its registration has expired.
-            </h5>
-            {/* <Navbar />
+            </h5> */}
+            {/* <Navbar /> */}
             {children}
-            <Footer /> */}
+            <Footer />
           </div>
         {/* {children}
         <Footer /> */}
