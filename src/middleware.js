@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-export function middleware(req) {
-  console.log("MIDDLEWARE HIT:", req.nextUrl.pathname);
+export async function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  // Allow admin login page
+  if (pathname === "/admin/login") {
+    return NextResponse.next();
+  }
   const token = req.cookies.get("admin_token")?.value;
 
   if (!token) {
@@ -10,18 +15,19 @@ export function middleware(req) {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
 
     if (payload.role !== "admin") {
       return NextResponse.redirect(new URL("/admin/login", req.url));
     }
 
     return NextResponse.next();
-  } catch {
+  } catch (err) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 }
 
 export const config = {
-  matcher: ["/admin((?!/login).*)"],
+  matcher: ["/admin/:path*"],
 };

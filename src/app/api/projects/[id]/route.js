@@ -11,7 +11,7 @@ export async function PUT(req, { params }) {
     try {
         await dbConnect();
         const body = await req.json();
-        const id = await params?.id
+       const { id } =await  params;
         if ("sectors" in body) {
             if (!Array.isArray(body.sectors)) {
                 return jsonResponse(false, "Sectors must be an array", null, 400);
@@ -39,7 +39,8 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
     try {
         await dbConnect();
-        const id = await params.id
+        const { id } = await params;
+        console.log("Deleting project with id:", id);
         const deleted = await Projects.findOneAndDelete({ id: id });
 
         if (!deleted) return jsonResponse(false, "Project not found", null, 404);

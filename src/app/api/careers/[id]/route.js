@@ -19,7 +19,7 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
     try {
         await dbConnect();
-        const { id } = params;
+        const { id } = await params;
         const body = await req.json();
 
         // OPTIONAL: admin auth
@@ -35,12 +35,10 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
     try {
         await dbConnect();
-        const { id } = params;
+        const { id } =await  params;
 
-        const updated = await Position.findByIdAndUpdate(
+        const updated = await Position.findByIdAndDelete(
             id,
-            { isActive: false },
-            { new: true }
         );
 
         if (!updated) return json({ success: false, message: "Not found" }, 404);

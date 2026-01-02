@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 export default function ProjectCarousel({ projects }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -115,9 +116,11 @@ export default function ProjectCarousel({ projects }) {
                   </span>
                 </div>
                 
-                <h3 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-                  {currentProject.title}
-                </h3>
+               <Link href={`/Projects/${currentProject._id}`}>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4 cursor-pointer hover:underline">
+                    {currentProject.title}
+                  </h2>
+               </Link>
                 
                 <p className="text-xl text-white/90 mb-8 leading-relaxed">
                   {currentProject.description}
@@ -215,11 +218,11 @@ export default function ProjectCarousel({ projects }) {
                   transition-opacity duration-300
                   ${index === currentIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'}
                 `} />
-                <div className="absolute bottom-2 left-2 right-2">
+                <div className="absolute bottom-2 left-2 right-2 cursor-pointer">
                   <p className={`
                     text-xs font-medium truncate text-white
                     ${index === currentIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
-                    transition-opacity duration-300
+                    transition-opacity duration-300 cursor-pointer
                   `}>
                     {project.title}
                   </p>

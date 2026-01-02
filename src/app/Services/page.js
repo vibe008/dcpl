@@ -6,6 +6,7 @@ import { motion, AnimatePresence, LayoutGroup, useScroll, useTransform } from 'f
 import ServiceCard from '../../Components/ServiceCard';
 import ProjectCarousel from '../../Components/ProjectCarousel';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ServicesClient() {
   const [services, setServices] = useState([]);
@@ -68,7 +69,7 @@ export default function ServicesClient() {
       if (detailsSectionRef.current) {
         const yOffset = -100; // Adjust this value as needed
         const y = detailsSectionRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        
+
         window.scrollTo({
           top: y,
           behavior: 'smooth'
@@ -351,7 +352,7 @@ export default function ServicesClient() {
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                              
+
                               {/* Service Title Overlay */}
                               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
                                 <div className="text-white">
@@ -370,7 +371,7 @@ export default function ServicesClient() {
                                 </div>
                               </div>
                             </div>
-                            
+
                             {/* Decorative Border */}
                             {/* <motion.div
                               animate={{
@@ -416,7 +417,7 @@ export default function ServicesClient() {
                               <div className="w-2 h-2 rounded-full bg-[#6556D5]"></div>
                               <span className="text-sm font-medium text-[#6556D5]">Specialized Service</span>
                             </div>
-                            
+
                             <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 mb-6 leading-tight">
                               {selectedService.title}
                             </h3>
@@ -573,7 +574,10 @@ export default function ServicesClient() {
                     whileTap={{ scale: 0.95 }}
                     className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-[#6556D5] hover:text-[#6556D5] transition-colors"
                   >
-                    View All Projects
+                    <Link href="/Projects">
+                      View All Projects
+                    </Link>
+
                   </motion.button>
                 </div>
               </div>

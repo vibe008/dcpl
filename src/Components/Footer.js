@@ -296,7 +296,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Copyright Section */}
-        <div className="border-t border-gray-200 pt-8 pb-6">
+        {/* <div className="border-t border-gray-200 pt-8 pb-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-600 text-sm">
               © {new Date().getFullYear()} Dera Consultants Pvt. Ltd. All rights reserved.
@@ -307,7 +307,7 @@ const Footer = () => {
               Crafting architectural excellence since 1998
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

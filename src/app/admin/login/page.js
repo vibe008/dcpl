@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import LoginForm from "../components/login/LoginForm";
 
-export default  async function LoginPage() {
-  const token = await cookies().get("admin_token")?.value;
+export default async function LoginPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_token")?.value;
 
   if (token) {
     let payload;
@@ -16,7 +17,7 @@ export default  async function LoginPage() {
     }
 
     if (payload?.role === "admin") {
-      redirect("/admin/dashboard"); // ✅ now it WORKS
+      redirect("/admin/dashboard"); 
     }
   }
 
