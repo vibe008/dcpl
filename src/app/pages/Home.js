@@ -12,23 +12,25 @@ import ReviewNew from "../../Components/ReviewNew";
 import Team from "../../Components/Team";
 import Contact from "../../Components/Contact";
 import Footer from "../../Components/Footer";
+import MainSlider from "src/Components/MainSlider";
 
   export default function Home() {
   return (
     <main>
+      <MainSlider/>
       {/* <Navbar /> */}
       {/* <Hero /> */}
-      <NewHero />
+      {/* <NewHero />
       <About /> 
       <Services />
       <Projects />
-      <Achivments />
+      <Achivments /> */}
       {/* <Awards /> */}
       {/* <Reviews /> */}
-      <Gallery />
+      {/* <Gallery />
       <Team />
       <ReviewNew />
-      <Contact />
+      <Contact /> */}
       {/* <Footer /> */}
     </main>
   );

@@ -1,7 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import FooterWrapper from "../Components/FooterWrapper"; // NEW
+import NavbarNew from "../Components/NavbarNew"
+import NavWrapper from "src/Components/NavWrapper";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,21 +21,25 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning={true} >
-          <div>
-            {/* <h5 className="text-center p-3 bg-gray-200 dark:bg-gray-800 dark:text-white">
-              This domain is no longer active because its registration has expired.
-            </h5> */}
-            {/* <Navbar /> */}
-            {children}
+        suppressHydrationWarning={true}
+      >
+        <NavWrapper>
+
+        <NavbarNew  />
+        </NavWrapper>
+        <div>
+          {children}
+
+          {/* Footer wrapper will decide when to hide */}
+          <FooterWrapper>
             <Footer />
-          </div>
-        {/* {children}
-        <Footer /> */}
+          </FooterWrapper>
+        </div>
       </body>
     </html>
   );

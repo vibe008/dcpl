@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import "tailwindcss";
+
 
 :root {
   --background: #ffffff;
@@ -29,3 +31,17 @@ body {
     transform: translateY(0px 100% 0px)
 }
 
+@font-face {
+  font-family: "TrajanPro-Bold";
+  src: url("/fonts/TrajanPro-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
