@@ -402,7 +402,7 @@ const CareersPage = () => {
                                                 }}
                                             >
                                                 {selectedJob?._id === job._id && isExpanded ? 'Close' : 'Apply Now'}
-                                                <ArrowRight className={`w-4 h-4 transition-transform ${selectedJob?._id === job._id && isExpanded ? 'rotate-180' : ''}`} />
+                                                <ArrowRight className={`w-4 h-4 transition-transform ${selectedJob?._id === job._id && isExpanded ? 'rotate-180' :'&apos;'}`} />
                                             </motion.button>
                                         </div>
                                     </div>
