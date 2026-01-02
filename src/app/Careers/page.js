@@ -136,8 +136,8 @@ const CareersPage = () => {
                 position: selectedJob._id,
                 name: formData.get('name'),
                 email: formData.get('email'),
-                phone: formData.get('phone') || '',
-                coverLetter: formData.get('coverLetter') || '',
+                phone: formData.get('phone') || '&apos;',
+                coverLetter: formData.get('coverLetter') || '&apos;',
                 resumeUrl: resumeUrl
             };
 
@@ -241,7 +241,7 @@ const CareersPage = () => {
                         className="absolute inset-0"
                         style={{ y, scale }}
                     >
-                        <img
+                        <Image
                             src="/assets/career.jpg"
                             alt="Projects Header"
                             className="w-full h-full object-cover"
