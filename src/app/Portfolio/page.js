@@ -7,7 +7,6 @@ import {
   Filter, ArrowRight, ArrowLeft, Play, Pause
 } from "lucide-react";
 import renderProjects from "../../Components/renderProjects";
-import Navbar from "@/<@>/Components/Navbar";
 
 const Page = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -93,7 +92,6 @@ const Page = () => {
 
   return (
    <>
-   <Navbar />
    <div className="min-h-screen bg-white text-gray-900 w-[95%] mx-auto">
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center overflow-hidden">
