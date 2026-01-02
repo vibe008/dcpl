@@ -367,7 +367,7 @@ const DeleteConfirmationModal = ({ project, onClose, onConfirm }) => {
 
         <h3 className="text-xl font-semibold text-center text-gray-900 mb-2">Delete Project</h3>
         <p className="text-gray-600 text-center mb-6">
-          Are you sure you want to delete <strong>"{project?.title}"</strong>? This action cannot be undone.
+          Are you sure you want to delete <strong>&quot;{project?.title}&quot;</strong>? This action cannot be undone.
         </p>
 
         <div className="flex gap-4">

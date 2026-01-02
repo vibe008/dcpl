@@ -136,8 +136,8 @@ const CareersPage = () => {
                 position: selectedJob._id,
                 name: formData.get('name'),
                 email: formData.get('email'),
-                phone: formData.get('phone') || '&apos;',
-                coverLetter: formData.get('coverLetter') || '&apos;',
+                phone: formData.get('phone') || '',
+                coverLetter: formData.get('coverLetter') || '',
                 resumeUrl: resumeUrl
             };
 
@@ -241,7 +241,7 @@ const CareersPage = () => {
                         className="absolute inset-0"
                         style={{ y, scale }}
                     >
-                        <Image
+                        <img
                             src="/assets/career.jpg"
                             alt="Projects Header"
                             className="w-full h-full object-cover"
@@ -402,7 +402,7 @@ const CareersPage = () => {
                                                 }}
                                             >
                                                 {selectedJob?._id === job._id && isExpanded ? 'Close' : 'Apply Now'}
-                                                <ArrowRight className={`w-4 h-4 transition-transform ${selectedJob?._id === job._id && isExpanded ? 'rotate-180' :'&apos;'}`} />
+                                                <ArrowRight className={`w-4 h-4 transition-transform ${selectedJob?._id === job._id && isExpanded ? 'rotate-180' : '&quot'}`} />
                                             </motion.button>
                                         </div>
                                     </div>
@@ -667,7 +667,7 @@ const CareersPage = () => {
                                 No Current Openings
                             </h3>
                             <p className="text-gray-600 max-w-md mx-auto font-light">
-                                We don't have any open positions at the moment. Please check back later or submit your portfolio for future opportunities.
+                                We don&apos;t have any open positions at the moment. Please check back later or submit your portfolio for future opportunities.
                             </p>
                         </motion.div>
                     )}
@@ -770,7 +770,7 @@ const CareersPage = () => {
                             Interested in Joining Our Team?
                         </h3>
                         <p className="text-gray-600 mb-8 max-w-2xl mx-auto font-light">
-                            Even if you don't see the perfect role, we're always looking for talented individuals who share our passion for architectural excellence.
+                            Even if you don&apos;t see the perfect role, we&apos;re always looking for talented individuals who share our passion for architectural excellence.
                         </p>
                         <div className="w-20 h-px bg-gray-300 mx-auto mb-8 relative">
                             <motion.div

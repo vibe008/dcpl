@@ -167,7 +167,7 @@ export default function MainSlider() {
           </div>
           <p className="text-white/50 text-lg mb-2 tracking-wide">NO FEATURED PROJECTS</p>
           <p className="text-white/30 text-sm tracking-wider">
-            Mark projects as "Feature on Homepage" to display them here
+            Mark projects as &quot;Feature on Homepage&quot; to display them here
           </p>
         </div>
       </div>

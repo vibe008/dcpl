@@ -558,7 +558,7 @@ export default function ServicesClient() {
                   Ready to Start Your Project?
                 </h3>
                 <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-                  Let's discuss how our services can bring your vision to life.
+                  Let&apos;s discuss how our services can bring your vision to life.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <motion.button
