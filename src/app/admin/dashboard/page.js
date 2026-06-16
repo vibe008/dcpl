@@ -175,58 +175,76 @@ function DashboardPage() {
     {
       label: 'Total Projects',
       value: statsData.totalProjects,
-      icon: <Layers className="w-5 h-5" />,
-      link: '/admin/projects'
+      icon: <Layers className="w-5 h-5 text-indigo-600" />,
+      link: '/admin/projects',
+      iconBg: 'bg-indigo-50',
+      borderHover: 'hover:border-indigo-300'
     },
     {
       label: 'Active Jobs',
       value: jobsData.filter(job => job.isActive).length,
-      icon: <Briefcase className="w-5 h-5" />,
-      link: '/admin/careers'
+      icon: <Briefcase className="w-5 h-5 text-emerald-600" />,
+      link: '/admin/careers',
+      iconBg: 'bg-emerald-50',
+      borderHover: 'hover:border-emerald-300'
     },
     {
       label: 'New Inquiries',
       value: statsData.totalInquiries,
-      icon: <MessageSquare className="w-5 h-5" />,
-      link: '/admin/inquiries'
+      icon: <MessageSquare className="w-5 h-5 text-amber-600" />,
+      link: '/admin/inquiries',
+      iconBg: 'bg-amber-50',
+      borderHover: 'hover:border-amber-300'
     },
     {
       label: 'Applications',
       value: statsData.totalApplications,
-      icon: <FileCheck className="w-5 h-5" />,
-      link: '/admin/applications'
+      icon: <FileCheck className="w-5 h-5 text-violet-600" />,
+      link: '/admin/applications',
+      iconBg: 'bg-violet-50',
+      borderHover: 'hover:border-violet-300'
     }
   ];
 
+  const getTabCount = (tabId) => {
+    switch (tabId) {
+      case 'projects': return projectsData.length;
+      case 'jobs': return jobsData.length;
+      case 'inquiries': return inquiriesData.length;
+      case 'applications': return applicationsData.length;
+      default: return 0;
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="relative">
-            <div className="w-16 h-16 border-2 border-gray-300 rounded-full"></div>
-            <div className="w-16 h-16 border-2 border-gray-800 border-t-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="relative inline-block">
+            <div className="w-16 h-16 border-4 border-gray-200/80 rounded-full"></div>
+            <div className="w-16 h-16 border-4 border-gray-900 border-t-transparent rounded-full animate-spin absolute top-0"></div>
           </div>
-          <p className="mt-6 text-gray-700 font-medium">Loading Dashboard</p>
+          <p className="mt-6 text-gray-600 font-medium tracking-tight">Loading Dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+      <header className="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-white/20">
         <div className="px-6">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
-                <span className="text-white font-semibold">A</span>
+              <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20">
+                <span className="text-white font-bold text-sm">A</span>
               </div>
               <div>
-                <h1 className="text-lg font-semibold text-gray-900">
+                <h1 className="text-lg font-semibold text-gray-900 tracking-tight">
                   Dashboard Overview
                 </h1>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs text-gray-500 font-light">
                   Last updated just now
                 </p>
               </div>
@@ -236,63 +254,63 @@ function DashboardPage() {
               <button
                 onClick={fetchAllData}
                 disabled={isRefreshing}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white/50 hover:bg-white text-sm text-gray-700 transition-colors shadow-sm disabled:opacity-50"
               >
-                <RefreshCw className={`w-4 h-4 text-gray-600 ${isRefreshing ? 'animate-spin' : ''}`} />
-                <span className="text-sm text-gray-700">Refresh</span>
+                <RefreshCw className={`w-4 h-4 text-gray-500 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <span className="font-semibold">Refresh</span>
               </button>
               
-              <button className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50">
-                <Bell className="w-5 h-5 text-gray-600" />
+              <button className="p-2.5 rounded-xl border border-gray-200 bg-white/50 hover:bg-white transition-colors shadow-sm relative">
+                <Bell className="w-4 h-4 text-gray-500" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full"></span>
               </button>
               
               <div className="relative">
-                <div className="w-8 h-8 rounded-lg border border-gray-300 flex items-center justify-center">
-                  <span className="font-medium text-gray-700">A</span>
+                <div className="w-8.5 h-8.5 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-medium text-sm flex items-center justify-center shadow-md shadow-indigo-500/20">
+                  <span>A</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </header>
-
+ 
       {/* Main Content */}
       <main className="px-6 py-6">
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.08, type: "spring", stiffness: 300, damping: 24 }}
+              whileHover={{ y: -4, scale: 1.01 }}
               className="group"
             >
               <Link href={stat.link}>
-                <div className="bg-white border border-gray-200 rounded-lg p-5 hover:border-gray-300 hover:shadow-sm transition-all">
+                <div className={`bg-white/60 backdrop-blur-lg border border-white/20 shadow-sm rounded-2xl p-6 transition-all duration-300 hover:bg-white/80 hover:shadow-md ${stat.borderHover}`}>
                   <div className="flex items-start justify-between mb-4">
-                    <div className="p-2 rounded-lg border border-gray-200">
-                      <div className="text-gray-700">
-                        {stat.icon}
-                      </div>
+                    <div className={`p-3 rounded-xl ${stat.iconBg} shadow-inner`}>
+                      {stat.icon}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-700 transition-colors" />
                   </div>
                   
                   <div>
-                    <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                    <p className="text-sm text-gray-600">{stat.label}</p>
+                    <p className="text-3xl font-semibold text-gray-900 mb-1">{stat.value}</p>
+                    <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
                   </div>
                 </div>
               </Link>
             </motion.div>
           ))}
         </div>
-
+ 
         {/* Navigation Tabs */}
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-px">
+            <div className="flex overflow-x-auto space-x-1 custom-scrollbar">
               {[
                 { id: 'projects', label: 'Projects', icon: <Layers className="w-4 h-4" /> },
                 { id: 'jobs', label: 'Jobs', icon: <Briefcase className="w-4 h-4" /> },
@@ -302,24 +320,32 @@ function DashboardPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveSection(tab.id)}
-                  className={`relative flex items-center gap-2 px-5 py-3 font-medium text-sm transition-colors ${
+                  className={`relative flex items-center gap-2 px-5 py-3.5 font-semibold text-sm transition-colors cursor-pointer outline-none ${
                     activeSection === tab.id
-                      ? 'text-gray-900 border-b-2 border-gray-900'
+                      ? 'text-gray-900 font-bold'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
-                  <span>{tab.icon}</span>
-                  <span>{tab.label}</span>
-                  <span className="text-xs px-2 py-1 bg-gray-100 rounded">
-                    {eval(`${tab.id}Data`).length}
+                  <span className="z-10">{tab.icon}</span>
+                  <span className="z-10">{tab.label}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full z-10 font-bold ${activeSection === tab.id ? 'bg-gray-950 text-white' : 'bg-gray-150 text-gray-600'}`}>
+                    {getTabCount(tab.id)}
                   </span>
+                  
+                  {activeSection === tab.id && (
+                    <motion.div
+                      layoutId="active-dashboard-tab"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-950 rounded-full z-0"
+                      transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                    />
+                  )}
                 </button>
               ))}
             </div>
             
-            <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm text-gray-700">
-                <Filter className="w-4 h-4" />
+            <div className="flex items-center gap-3 pb-2 sm:pb-0">
+              <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white/50 hover:bg-white text-sm font-semibold text-gray-700 transition-colors shadow-sm">
+                <Filter className="w-4 h-4 text-gray-500" />
                 Filter
               </button>
               <Link href={
@@ -328,7 +354,7 @@ function DashboardPage() {
                 activeSection === 'inquiries' ? "/admin/inquiries" :
                 "/admin/applications"
               }>
-                <button className="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-gray-800">
+                <button className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-800 transition-all shadow-md shadow-gray-900/10 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] cursor-pointer">
                   {activeSection === 'projects' ? 'New Project' :
                    activeSection === 'jobs' ? 'Post Job' :
                    activeSection === 'inquiries' ? 'View All' :
@@ -338,156 +364,174 @@ function DashboardPage() {
             </div>
           </div>
         </div>
-
+ 
         {/* Content Section */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="bg-white border border-gray-200 rounded-lg"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="bg-white/60 backdrop-blur-lg border border-white/20 rounded-3xl shadow-xl overflow-hidden"
           >
             {/* Section Header */}
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <div className="flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-white/20 bg-white/20 backdrop-blur-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-gray-900">
                     {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
                   </h2>
-                  <p className="text-sm text-gray-500">
-                    Total {eval(`${activeSection}Data`).length} records
+                  <p className="text-sm text-gray-500 font-light mt-0.5">
+                    Total {getTabCount(activeSection)} records
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <div className="relative w-full sm:w-auto">
+                    <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="text"
-                      placeholder="Search..."
-                      className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm w-64"
+                      placeholder={`Search ${activeSection}...`}
+                      className="pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:ring-2 focus:ring-gray-500/20 focus:border-gray-500 transition-all duration-200 outline-none text-sm w-full sm:w-64"
                     />
                   </div>
-                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm text-gray-700">
-                    <ExternalLink className="w-4 h-4" />
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#1e293b]/10 bg-white/50 hover:bg-white text-sm font-semibold text-gray-700 transition-colors shadow-sm">
+                    <ExternalLink className="w-4 h-4 text-gray-500" />
                     Export
                   </button>
                 </div>
               </div>
             </div>
-
+ 
             {/* Content */}
             <div className="p-6">
               {/* Projects Section */}
               {activeSection === 'projects' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {projectsData.map((project, index) => (
-                    <div
+                    <motion.div
                       key={project._id}
-                      className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-sm transition-shadow"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.04 }}
+                      whileHover={{ y: -4 }}
+                      className="bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group"
                     >
                       {/* Project Image */}
-                      <div className="relative h-40 bg-gray-100">
+                      <div className="relative h-44 bg-gray-100 overflow-hidden">
                         {project.headerimage ? (
                           <img
                             src={project.headerimage}
                             alt={project.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Building className="w-10 h-10 text-gray-400" />
+                            <Building className="w-10 h-10 text-gray-300" />
                           </div>
                         )}
                         <div className="absolute top-3 right-3">
-                          <span className={`px-2 py-1 rounded text-xs ${getStatusColor(project.status)}`}>
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm ${
+                            project.status === 'Active' ? 'bg-green-150 text-green-800' :
+                            project.status === 'Completed' ? 'bg-blue-150 text-blue-800' :
+                            'bg-gray-150 text-gray-800'
+                          }`}>
                             {project.status}
                           </span>
                         </div>
                       </div>
                       
                       {/* Project Details */}
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2">
+                      <div className="p-5">
+                        <h3 className="font-semibold text-gray-950 text-base mb-2 line-clamp-1 group-hover:text-indigo-600 transition-colors">
                           {project.title}
                         </h3>
                         
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                        <p className="text-gray-500 text-sm mb-4 line-clamp-2 font-light">
                           {project.description}
                         </p>
-
+ 
                         {/* Project Meta */}
-                        <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="grid grid-cols-2 gap-3 mb-4 pt-3 border-t border-gray-100/50">
                           <div className="flex items-center gap-2">
-                            <MapPin className="w-3 h-3 text-gray-400" />
-                            <span className="text-xs text-gray-700">{project.location || 'N/A'}</span>
+                            <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="text-xs text-gray-600 truncate">{project.location || 'N/A'}</span>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <DollarSign className="w-3 h-3 text-gray-400" />
-                            <span className="text-xs text-gray-700">{formatCurrency(project.cost)}</span>
+                          <div className="flex items-center gap-2 justify-end">
+                            <DollarSign className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="text-xs text-gray-600 truncate">{formatCurrency(project.cost)}</span>
                           </div>
                         </div>
-
+ 
                         {/* Last Updated */}
-                        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                          <span className="text-xs text-gray-500">
+                        <div className="flex items-center justify-between pt-3 border-t border-gray-100/50">
+                          <span className="text-xs text-gray-400">
                             {formatDate(project.updatedAt)}
                           </span>
-                          <button className="text-xs text-gray-600 hover:text-gray-900">
-                            View Details →
-                          </button>
+                          <Link href="/admin/projects" className="text-xs font-semibold text-gray-700 hover:text-gray-950 flex items-center gap-0.5">
+                            Edit Details
+                            <ChevronRight className="w-3 h-3" />
+                          </Link>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
-
+ 
               {/* Jobs Section */}
               {activeSection === 'jobs' && (
-                <div className="overflow-x-auto">
-                  <table className="w-full">
+                <div className="overflow-x-auto rounded-2xl border border-gray-100">
+                  <table className="w-full border-collapse text-left">
                     <thead>
-                      <tr className="bg-gray-50">
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Job Title</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Department</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Location</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Type</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Status</th>
+                      <tr className="bg-gray-50/50 border-b border-gray-250/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Job Title</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Location</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {jobsData.map((job, index) => (
-                        <tr key={job._id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3">
+                    <tbody className="divide-y divide-gray-100 bg-white/20">
+                      {jobsData.map((job) => (
+                        <tr key={job._id} className="hover:bg-white/40 transition-colors">
+                          <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="w-8 h-8 rounded border border-gray-200 flex items-center justify-center mr-3">
+                              <div className="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mr-3 shadow-inner">
                                 <Briefcase className="w-4 h-4 text-gray-600" />
                               </div>
                               <div>
-                                <div className="font-medium text-gray-900">{job.title}</div>
-                                <div className="text-xs text-gray-500">{formatDate(job.createdAt)}</div>
+                                <div className="font-semibold text-gray-900 text-sm">{job.title}</div>
+                                <div className="text-xs text-gray-400 mt-0.5">{formatDate(job.createdAt)}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
-                            <span className="text-gray-900">{job.department || 'N/A'}</span>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm text-gray-600">{job.department || 'N/A'}</span>
                           </td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-2">
-                              <MapPin className="w-3 h-3 text-gray-400" />
-                              <span className="text-gray-900">{job.location || 'N/A'}</span>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                              <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                              <span>{job.location || 'N/A'}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
-                            <span className="text-gray-900 capitalize">{job.type || 'N/A'}</span>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-xs font-medium bg-gray-100/80 text-gray-700 px-2.5 py-1 rounded-full capitalize border border-gray-200/50">
+                              {job.type || 'N/A'}
+                            </span>
                           </td>
-                          <td className="px-4 py-3">
-                            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs ${
-                              job.isActive ? 'bg-gray-100 text-gray-800' : 'bg-gray-50 text-gray-800'
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                              job.isActive ? 'bg-green-50 text-green-700 border border-green-200/50' : 'bg-red-50 text-red-700 border border-red-200/50'
                             }`}>
                               {job.isActive ? 'Active' : 'Inactive'}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <Link href="/admin/careers" className="text-indigo-600 hover:text-indigo-900 font-semibold">
+                              Manage
+                            </Link>
                           </td>
                         </tr>
                       ))}
@@ -495,102 +539,108 @@ function DashboardPage() {
                   </table>
                 </div>
               )}
-
+ 
               {/* Inquiries Section */}
               {activeSection === 'inquiries' && (
                 <div className="space-y-4">
-                  {inquiriesData.map((inquiry, index) => (
+                  {inquiriesData.map((inquiry) => (
                     <div
                       key={inquiry._id}
-                      className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                      className="border border-gray-100 bg-white/40 hover:bg-white/80 rounded-2xl p-5 hover:shadow-sm transition-all duration-300"
                     >
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shadow-inner">
                             <User className="w-5 h-5 text-gray-600" />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-900">{inquiry.name}</h3>
-                            <p className="text-sm text-gray-500">{inquiry.email}</p>
+                            <h3 className="font-semibold text-gray-900 text-sm">{inquiry.name}</h3>
+                            <p className="text-xs text-gray-500 font-light mt-0.5">{inquiry.email}</p>
                           </div>
                         </div>
-                        <span className="text-sm text-gray-500">{formatDate(inquiry.date)}</span>
+                        <span className="text-xs text-gray-400 font-medium sm:text-right">{formatDate(inquiry.date)}</span>
                       </div>
                       
-                      <div className="mb-3">
-                        <h4 className="font-medium text-gray-900 mb-1">{inquiry.subject}</h4>
-                        <p className="text-gray-600 text-sm line-clamp-2">{inquiry.message}</p>
+                      <div className="mb-4 bg-white/30 rounded-xl p-3 border border-white/20">
+                        <h4 className="font-semibold text-gray-900 text-sm mb-1">{inquiry.subject}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed font-light">{inquiry.message}</p>
                       </div>
                       
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <Phone className="w-3 h-3" />
-                          <span>{inquiry.phone || 'N/A'}</span>
+                      <div className="flex items-center justify-between pt-3 border-t border-gray-100/50">
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <Phone className="w-3.5 h-3.5 text-gray-400" />
+                          <span className="font-medium">{inquiry.phone || 'N/A'}</span>
                         </div>
-                        <button className="text-sm text-gray-600 hover:text-gray-900">
-                          View →
-                        </button>
+                        <Link href="/admin/inquiries" className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5">
+                          Reply Inquiry
+                          <ChevronRight className="w-3 h-3" />
+                        </Link>
                       </div>
                     </div>
                   ))}
                 </div>
               )}
-
+ 
               {/* Applications Section */}
               {activeSection === 'applications' && (
-                <div className="overflow-x-auto">
-                  <table className="w-full">
+                <div className="overflow-x-auto rounded-2xl border border-gray-100">
+                  <table className="w-full border-collapse text-left">
                     <thead>
-                      <tr className="bg-gray-50">
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Candidate</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Position</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Applied</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Status</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">Actions</th>
+                      <tr className="bg-gray-50/50 border-b border-gray-250/50">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Candidate</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Position</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Applied Date</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {applicationsData.map((application, index) => {
+                    <tbody className="divide-y divide-gray-100 bg-white/20">
+                      {applicationsData.map((application) => {
                         const statusColor = getStatusColor(application.status);
                         return (
-                          <tr key={application._id} className="hover:bg-gray-50">
-                            <td className="px-4 py-3">
+                          <tr key={application._id} className="hover:bg-white/40 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
-                                <div className="w-8 h-8 rounded border border-gray-200 flex items-center justify-center mr-3">
+                                <div className="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center mr-3 shadow-inner">
                                   <User className="w-4 h-4 text-gray-600" />
                                 </div>
                                 <div>
-                                  <div className="font-medium text-gray-900">{application.name}</div>
-                                  <div className="text-xs text-gray-500">{application.email}</div>
+                                  <div className="font-semibold text-gray-900 text-sm">{application.name}</div>
+                                  <div className="text-xs text-gray-400 mt-0.5">{application.email}</div>
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-3">
-                              <div className="text-gray-900">{application.position?.title || 'N/A'}</div>
-                              <div className="text-xs text-gray-500 capitalize">{application.position?.type || 'N/A'}</div>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="font-semibold text-gray-900 text-sm">{application.position?.title || 'N/A'}</div>
+                              <div className="text-xs text-gray-400 mt-0.5 capitalize">{application.position?.type || 'N/A'}</div>
                             </td>
-                            <td className="px-4 py-3">
-                              <div className="text-gray-900">{formatDate(application.createdAt)}</div>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                              {formatDate(application.createdAt)}
                             </td>
-                            <td className="px-4 py-3">
-                              <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs ${statusColor}`}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${statusColor}`}>
                                 {application.status?.charAt(0).toUpperCase() + application.status?.slice(1) || 'Pending'}
                               </span>
                             </td>
-                            <td className="px-4 py-3">
-                              {application.resumeUrl ? (
-                                <a
-                                  href={application.resumeUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-sm text-gray-700"
-                                >
-                                  <Download className="w-3 h-3" />
-                                  CV
-                                </a>
-                              ) : (
-                                <span className="text-sm text-gray-500">No CV</span>
-                              )}
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <div className="flex items-center justify-end gap-3">
+                                {application.resumeUrl ? (
+                                  <a
+                                    href={application.resumeUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 transition-colors shadow-sm"
+                                  >
+                                    <Download className="w-3.5 h-3.5 text-gray-500" />
+                                    Resume
+                                  </a>
+                                ) : (
+                                  <span className="text-xs text-gray-400">No CV</span>
+                                )}
+                                <Link href="/admin/applications" className="text-indigo-600 hover:text-indigo-900 font-semibold">
+                                  View
+                                </Link>
+                              </div>
                             </td>
                           </tr>
                         );
@@ -599,21 +649,21 @@ function DashboardPage() {
                   </table>
                 </div>
               )}
-
+ 
               {/* Empty State */}
-              {eval(`${activeSection}Data`).length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {activeSection === 'projects' && <Layers className="w-8 h-8 text-gray-400" />}
-                    {activeSection === 'jobs' && <Briefcase className="w-8 h-8 text-gray-400" />}
-                    {activeSection === 'inquiries' && <MessageSquare className="w-8 h-8 text-gray-400" />}
-                    {activeSection === 'applications' && <FileCheck className="w-8 h-8 text-gray-400" />}
+              {getTabCount(activeSection) === 0 && (
+                <div className="text-center py-16 bg-white/20 rounded-2xl border border-dashed border-gray-200/50">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shadow-inner">
+                    {activeSection === 'projects' && <Layers className="w-6 h-6 text-gray-400" />}
+                    {activeSection === 'jobs' && <Briefcase className="w-6 h-6 text-gray-400" />}
+                    {activeSection === 'inquiries' && <MessageSquare className="w-6 h-6 text-gray-400" />}
+                    {activeSection === 'applications' && <FileCheck className="w-6 h-6 text-gray-400" />}
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
                     No {activeSection} found
                   </h3>
-                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                    Get started by creating your first {activeSection.slice(0, -1)}.
+                  <p className="text-gray-500 mb-6 max-w-sm mx-auto font-light text-sm">
+                    Get started by creating or managing your first {activeSection.slice(0, -1)}.
                   </p>
                   <Link href={
                     activeSection === 'projects' ? "/admin/projects" : 
@@ -621,7 +671,7 @@ function DashboardPage() {
                     activeSection === 'inquiries' ? "/admin/inquiries" :
                     "/admin/applications"
                   }>
-                    <button className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800">
+                    <button className="bg-gray-900 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-gray-800 transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] cursor-pointer">
                       Create {activeSection.slice(0, -1)}
                     </button>
                   </Link>

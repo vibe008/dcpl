@@ -1,28 +1,137 @@
-'use client';
-import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
-import React, { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, MapPin, Calendar, Users, Award, Target, Eye, Lightbulb, ChevronRight, ChevronLeft, BookOpen, Compass, Layers, Palette, Building, Globe, Leaf, Sparkles, TargetIcon, Zap, Shield, Clock, Star, Briefcase, Building2, Landmark, Factory, Mail, Phone, Linkedin, ExternalLink } from 'lucide-react';
+"use client";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  ArrowUpRight,
+  MapPin,
+  Calendar,
+  Users,
+  Award,
+  Target,
+  Eye,
+  Lightbulb,
+  ChevronRight,
+  ChevronLeft,
+  BookOpen,
+  Compass,
+  Layers,
+  Palette,
+  Building,
+  Globe,
+  Leaf,
+  Sparkles,
+  TargetIcon,
+  Zap,
+  Shield,
+  Clock,
+  Star,
+  Briefcase,
+  Building2,
+  Landmark,
+  Factory,
+  Mail,
+  Phone,
+  Linkedin,
+  ExternalLink,
+  Trophy,
+} from "lucide-react";
+
+// Carousel component for Award cards in about page showcase
+const AwardCardCarousel = ({ images }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [images]);
+
+  if (!images || images.length === 0) {
+    return (
+      <div className="w-full aspect-video bg-gray-100 flex items-center justify-center text-gray-400">
+        <Award className="w-8 h-8" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden group">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={index}
+          src={images[index]}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full h-full object-cover"
+        />
+      </AnimatePresence>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIndex((prev) => (prev - 1 + images.length) % images.length);
+            }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIndex((prev) => (prev + 1) % images.length);
+            }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+          <div className="absolute bottom-2 right-3 bg-black/50 text-[10px] text-white px-2 py-0.5 rounded-full z-10">
+            {index + 1}/{images.length}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 function Page() {
   const containerRef = useRef(null);
   const aboutContentRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   const leftImageY = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const rightContentY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [1, 0, 0, 1]);
+  const textOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.9, 1],
+    [1, 0, 0, 1],
+  );
 
   // State for API data
   const [teamMembers, setTeamMembers] = useState([]);
   const [clients, setClients] = useState([]);
   const [empanelments, setEmpanelments] = useState([]);
+  const [awards, setAwards] = useState([]);
+  const [aboutConfig, setAboutConfig] = useState(null);
   const [loading, setLoading] = useState({
     team: true,
     clients: true,
-    empanelments: true
+    empanelments: true,
+    awards: true,
+    about: true,
   });
   const [hoveredMember, setHoveredMember] = useState(null);
   const [activeClientIndex, setActiveClientIndex] = useState(0);
@@ -32,14 +141,29 @@ function Page() {
   const [slidesPerView, setSlidesPerView] = useState(4);
 
   // Brand colors
-  const primaryColor = '#6455D2';
-  const secondaryColor = '#51B873';
+  const primaryColor = "#6455D2";
+  const secondaryColor = "#51B873";
 
   // Core values
   const coreValues = [
-    { icon: Sparkles, title: "Sustainability", description: "Creating environmentally responsible designs that stand the test of time" },
-    { icon: TargetIcon, title: "Accessibility", description: "Designing inclusive spaces that serve all users with dignity and ease" },
-    { icon: Shield, title: "Economic Efficiency", description: "Delivering optimal value through smart design and resource management" }
+    {
+      icon: Sparkles,
+      title: "Sustainability",
+      description:
+        "Creating environmentally responsible designs that stand the test of time",
+    },
+    {
+      icon: TargetIcon,
+      title: "Accessibility",
+      description:
+        "Designing inclusive spaces that serve all users with dignity and ease",
+    },
+    {
+      icon: Shield,
+      title: "Economic Efficiency",
+      description:
+        "Delivering optimal value through smart design and resource management",
+    },
   ];
 
   // Company stats
@@ -55,30 +179,56 @@ function Page() {
     const fetchData = async () => {
       try {
         // Fetch team data
-        const teamResponse = await fetch('/api/team');
+        const teamResponse = await fetch("/api/team");
         const teamData = await teamResponse.json();
         if (teamData.success) {
           setTeamMembers(teamData.data);
         }
 
         // Fetch clients data
-        const clientsResponse = await fetch('/api/client');
+        const clientsResponse = await fetch("/api/client");
         const clientsData = await clientsResponse.json();
         if (clientsData.success) {
           setClients(clientsData.data);
         }
 
         // Fetch empanelments data
-        const empanelmentsResponse = await fetch('/api/empanelments');
+        const empanelmentsResponse = await fetch("/api/empanelments");
         const empanelmentsData = await empanelmentsResponse.json();
         if (empanelmentsData.success) {
           setEmpanelments(empanelmentsData.data);
         }
 
-        setLoading({ team: false, clients: false, empanelments: false });
+        // Fetch awards data
+        const awardsResponse = await fetch("/api/awards");
+        const awardsData = await awardsResponse.json();
+        if (awardsData.success) {
+          setAwards(awardsData.data);
+        }
+
+        // Fetch about details
+        const aboutResponse = await fetch("/api/about");
+        const aboutData = await aboutResponse.json();
+        if (aboutData.success) {
+          setAboutConfig(aboutData.data);
+        }
+
+        setLoading({
+          team: false,
+          clients: false,
+          empanelments: false,
+          awards: false,
+          about: false,
+        });
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading({ team: false, clients: false, empanelments: false });
+        console.error("Error fetching data:", error);
+        setLoading({
+          team: false,
+          clients: false,
+          empanelments: false,
+          awards: false,
+          about: false,
+        });
       }
     };
 
@@ -86,22 +236,22 @@ function Page() {
   }, []);
 
   // Separate leadership team and expert team
-  const leadershipTeam = teamMembers.filter(member => member.isLeaderShip);
-  const expertTeam = teamMembers.filter(member => !member.isLeaderShip);
+  const leadershipTeam = teamMembers.filter((member) => member.isLeaderShip);
+  const expertTeam = teamMembers.filter((member) => !member.isLeaderShip);
 
   // Enhanced animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   // Responsive slides per view
@@ -119,16 +269,16 @@ function Page() {
     };
 
     updateSlidesPerView();
-    window.addEventListener('resize', updateSlidesPerView);
-    return () => window.removeEventListener('resize', updateSlidesPerView);
+    window.addEventListener("resize", updateSlidesPerView);
+    return () => window.removeEventListener("resize", updateSlidesPerView);
   }, []);
 
   // Auto rotate functions
   useEffect(() => {
     const interval = setInterval(() => {
       if (autoRotateTeam && expertTeam.length > 0) {
-        setTeamSliderIndex((prev) => 
-          (prev + 1) % Math.ceil(expertTeam.length / slidesPerView)
+        setTeamSliderIndex(
+          (prev) => (prev + 1) % Math.ceil(expertTeam.length / slidesPerView),
         );
       }
     }, 4000);
@@ -136,15 +286,16 @@ function Page() {
   }, [autoRotateTeam, slidesPerView, expertTeam.length]);
 
   const nextSlide = () => {
-    setTeamSliderIndex((prev) => 
-      (prev + 1) % Math.ceil(expertTeam.length / slidesPerView)
+    setTeamSliderIndex(
+      (prev) => (prev + 1) % Math.ceil(expertTeam.length / slidesPerView),
     );
   };
 
   const prevSlide = () => {
-    setTeamSliderIndex((prev) => 
-      (prev - 1 + Math.ceil(expertTeam.length / slidesPerView)) % 
-      Math.ceil(expertTeam.length / slidesPerView)
+    setTeamSliderIndex(
+      (prev) =>
+        (prev - 1 + Math.ceil(expertTeam.length / slidesPerView)) %
+        Math.ceil(expertTeam.length / slidesPerView),
     );
   };
 
@@ -167,70 +318,70 @@ function Page() {
     <div className="bg-white">
       <div ref={containerRef} className="bg-white">
         {/* Enhanced Hero Section */}
-        <div className='w-full flex flex-col lg:flex-row h-auto lg:h-[150vh] justify-between relative overflow-hidden bg-gradient-to-br from-[#6455D2]/5 via-white to-[#51B873]/5'>
+        <div className="w-full flex flex-col lg:flex-row h-auto lg:h-[150vh] justify-between relative overflow-hidden bg-gradient-to-br from-[#6455D2]/5 via-white to-[#51B873]/5">
           {/* Animated Background */}
           <div className="absolute inset-0">
             <motion.div
               className="absolute top-1/4 left-1/4 w-32 md:w-64 h-32 md:h-64 rounded-full bg-gradient-to-r from-[#6455D2]/10 to-[#51B873]/10 blur-3xl"
-              animate={{ 
+              animate={{
                 scale: [1, 1.2, 1],
                 x: [0, 50, 0],
-                y: [0, -30, 0]
+                y: [0, -30, 0],
               }}
-              transition={{ 
-                duration: 8, 
+              transition={{
+                duration: 8,
                 repeat: Infinity,
-                ease: "easeInOut" 
+                ease: "easeInOut",
               }}
             />
             <motion.div
               className="absolute bottom-1/4 right-1/4 w-48 md:w-96 h-48 md:h-96 rounded-full bg-gradient-to-r from-[#51B873]/10 to-[#6455D2]/10 blur-3xl"
-              animate={{ 
+              animate={{
                 scale: [1.2, 1, 1.2],
                 x: [0, -30, 0],
-                y: [0, 20, 0]
+                y: [0, 20, 0],
               }}
-              transition={{ 
-                duration: 10, 
+              transition={{
+                duration: 10,
                 repeat: Infinity,
-                ease: "easeInOut" 
+                ease: "easeInOut",
               }}
             />
           </div>
 
           {/* Left Image Section */}
-          <div className='w-full lg:w-[45%] h-96 md:h-screen lg:h-full lg:sticky lg:top-0 z-10 order-1 lg:order-1'>
+          <div className="w-full lg:w-[45%] h-96 md:h-screen lg:h-full lg:sticky lg:top-0 z-10 order-1 lg:order-1">
             <motion.div
               style={{ y: leftImageY }}
-              className='h-full w-full relative overflow-hidden group'
+              className="h-full w-full relative overflow-hidden group"
             >
               <motion.img
-                src='https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                className='h-full w-full object-cover group-hover:scale-110 transition-transform duration-[10000ms]'
+                src={aboutConfig?.sideImage || "/assets/aboutimg.png"}
+                className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-[10000ms]"
                 initial={{ opacity: 0, scale: 1.1 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  duration: 1.5, 
-                  ease: [0.22, 1, 0.36, 1] 
+                transition={{
+                  duration: 1.5,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
               />
-              <div className='absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent' />
-              <div className='absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent' />
-              
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+
               <motion.div
                 className="absolute inset-0 border-[8px] md:border-[12px] border-white/10"
-                animate={{ 
+                animate={{
                   borderColor: [
-                    'rgba(255,255,255,0.1)', 
-                    'rgba(100,85,210,0.3)', 
-                    'rgba(81,184,115,0.2)',
-                    'rgba(255,255,255,0.1)'
-                  ] 
+                    "rgba(255,255,255,0.1)",
+                    "rgba(100,85,210,0.3)",
+                    "rgba(81,184,115,0.2)",
+                    "rgba(255,255,255,0.1)",
+                  ],
                 }}
-                transition={{ 
-                  duration: 4, 
+                transition={{
+                  duration: 4,
                   repeat: Infinity,
-                  ease: "linear" 
+                  ease: "linear",
                 }}
               />
 
@@ -239,24 +390,24 @@ function Page() {
                 className="absolute top-10 left-10 w-6 h-6 rounded-full bg-gradient-to-r from-[#6455D2] to-[#51B873]"
                 animate={{
                   y: [0, -20, 0],
-                  scale: [1, 1.2, 1]
+                  scale: [1, 1.2, 1],
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  delay: 0.5
+                  delay: 0.5,
                 }}
               />
               <motion.div
                 className="absolute bottom-10 right-10 w-4 h-4 rounded-full bg-gradient-to-r from-[#51B873] to-[#6455D2]"
                 animate={{
                   y: [0, 20, 0],
-                  scale: [1, 1.3, 1]
+                  scale: [1, 1.3, 1],
                 }}
                 transition={{
                   duration: 4,
                   repeat: Infinity,
-                  delay: 1
+                  delay: 1,
                 }}
               />
             </motion.div>
@@ -265,11 +416,14 @@ function Page() {
           {/* Right Content Section */}
           <motion.div
             style={{ y: rightContentY }}
-            className='w-full lg:w-[50%] mx-auto h-auto lg:h-full flex flex-col py-0 relative z-20 order-2 lg:order-2'
+            className="w-full lg:w-[50%] mx-auto h-auto lg:h-full flex flex-col py-0 relative z-20 order-2 lg:order-2"
           >
-            <div ref={aboutContentRef} className='w-full px-4 sm:px-6 md:px-8 mx-auto py-8 md:py-16 lg:py-32'>
+            <div
+              ref={aboutContentRef}
+              className="w-full px-4 sm:px-6 md:px-8 mx-auto py-8 md:py-16 lg:py-32"
+            >
               <motion.div
-                className='space-y-6 md:space-y-8 lg:space-y-12'
+                className="space-y-6 md:space-y-8 lg:space-y-12"
                 initial="initial"
                 animate="animate"
                 variants={staggerContainer}
@@ -278,10 +432,10 @@ function Page() {
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.8, 
+                  transition={{
+                    duration: 0.8,
                     delay: 0.2,
-                    ease: [0.22, 1, 0.36, 1]
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                   className="mb-6 md:mb-8 lg:mb-12"
                 >
@@ -290,31 +444,43 @@ function Page() {
                       className="relative mb-4"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ 
-                        duration: 0.6, 
+                      transition={{
+                        duration: 0.6,
                         delay: 0.3,
                         type: "spring",
-                        stiffness: 100 
+                        stiffness: 100,
                       }}
                     >
-                      <motion.h1 
-                        className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6455D2] via-[#51B873] to-[#6455D2] bg-[size:200%_auto]'
+                      <motion.h1
+                        className=" text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6455D2] via-[#51B873] to-[#6455D2] bg-[size:200%_auto]"
                         animate={{
-                          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                         }}
                         transition={{
                           duration: 5,
                           repeat: Infinity,
-                          ease: "linear"
+                          ease: "linear",
                         }}
                       >
-                        Dera Consultants
+                        {(() => {
+                          const title =
+                            aboutConfig?.title || "Dera Consultants Pvt. Ltd.";
+                          const words = title.split(" ");
+                          const firstWord = words[0];
+                          const restOfWords = words.slice(1).join(" ");
+                          return (
+                            <>
+                              <span className="derahading">{firstWord} </span>
+                              {restOfWords}
+                            </>
+                          );
+                        })()}
                       </motion.h1>
                       <div className="h-1 w-32 md:w-48 bg-gradient-to-r from-[#6455D2] to-[#51B873] rounded-full mt-2"></div>
                     </motion.div>
-                    <p className='text-base md:text-lg lg:text-xl text-gray-600 font-light text-center sm:text-left'>
+                    {/* <p className="text-base md:text-lg lg:text-xl text-gray-600 font-light text-center sm:text-left">
                       Private Limited
-                    </p>
+                    </p> */}
                   </div>
                 </motion.div>
 
@@ -322,12 +488,12 @@ function Page() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.8, 
+                  transition={{
+                    duration: 0.8,
                     delay: 0.4,
-                    ease: [0.22, 1, 0.36, 1]
+                    ease: [0.22, 1, 0.36, 1],
                   }}
-                  className='space-y-4 md:space-y-6 lg:space-y-8'
+                  className="space-y-4 md:space-y-6 lg:space-y-8"
                 >
                   <motion.div
                     className="space-y-3 md:space-y-4 lg:space-y-6"
@@ -335,67 +501,144 @@ function Page() {
                     animate="animate"
                     variants={staggerContainer}
                   >
-                    <motion.p 
-                      className='text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed'
+                    <motion.p
+                      className="text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed font-light"
                       variants={fadeInUp}
                     >
-                      <span className="font-semibold text-[#6455D2]">Dera Consultants Private Limited (DCPL)</span> is a multidisciplinary design and planning practice committed to creating environments that are purposeful, contextual, and future-ready.
+                      {aboutConfig ? (
+                        aboutConfig.foundedText
+                      ) : (
+                        <>
+                          <span className="font-semibold text-[#6455D2]">
+                            Dera Consultants
+                          </span>{" "}
+                          was founded by{" "}
+                          <span className="font-semibold text-gray-900">
+                            Ar. Mayank Garg
+                          </span>{" "}
+                          in 2011. Later in 2014, it was converted to{" "}
+                          <span className="font-semibold text-[#6455D2]">
+                            Dera Consultants Private Limited
+                          </span>
+                          .
+                        </>
+                      )}
                     </motion.p>
-                    
-                    <motion.div 
+
+                    <motion.div
                       className="bg-gradient-to-r from-[#6455D2]/5 to-[#51B873]/5 p-4 md:p-6 rounded-2xl border-l-4 border-[#6455D2]"
                       variants={fadeInUp}
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <p className='text-gray-700 leading-relaxed italic text-sm md:text-base'>
-                        Our approach is guided by three core principles: <span className="font-semibold text-[#6455D2]">sustainability</span>, <span className="font-semibold text-[#51B873]">accessibility</span>, and <span className="font-semibold text-gray-700">economic efficiency</span>.
+                      <p className="text-gray-700 leading-relaxed text-sm md:text-base">
+                        {aboutConfig ? (
+                          aboutConfig.directorsText
+                        ) : (
+                          <>
+                            Dera Consultants Private Limited has{" "}
+                            <strong>
+                              2 appointed Directors/decision makers
+                            </strong>
+                            :{" "}
+                            <span className="font-semibold text-[#6455D2]">
+                              Mayank Garg
+                            </span>{" "}
+                            and{" "}
+                            <span className="font-semibold text-[#51B873]">
+                              Anand Thakkar
+                            </span>
+                            .
+                          </>
+                        )}
                       </p>
                     </motion.div>
 
-                    <motion.p 
-                      className='text-gray-700 leading-relaxed text-sm md:text-base'
+                    <motion.p
+                      className="text-gray-700 leading-relaxed text-sm md:text-base font-light"
                       variants={fadeInUp}
                     >
-                      While we value innovation, we also celebrate the creative spark that brings character and delight into each space. Context—whether cultural, environmental, or social—remains central to our work.
+                      {aboutConfig ? (
+                        aboutConfig.teamText
+                      ) : (
+                        <>
+                          Today, it is a design practice with{" "}
+                          <strong>over 25 people</strong>, with offices at:
+                        </>
+                      )}
                     </motion.p>
 
-                    <motion.div 
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-4 md:mt-6"
+                    <motion.div
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-2"
                       variants={staggerContainer}
                     >
-                      {[
-                        "Modern Digital Technologies",
-                        "Traditional Wisdom",
-                        "Craftsmanship",
-                        "Contemporary & Enduring Designs"
-                      ].map((item, index) => (
-                        <motion.div 
+                      {(
+                        aboutConfig?.offices || [
+                          { city: "Mathura", state: "Uttar Pradesh" },
+                          {
+                            city: "Ahmedabad",
+                            state: "Gujarat - (Branch Office)",
+                          },
+                        ]
+                      ).map((office, index) => (
+                        <motion.div
                           key={index}
-                          className="flex items-center gap-2 md:gap-3"
+                          className="flex items-start gap-2.5 p-3 rounded-xl bg-gray-50 border border-gray-100"
                           variants={fadeInUp}
                           whileHover={{ x: 5 }}
                         >
-                          <motion.div 
-                            className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${index % 2 === 0 ? 'bg-[#6455D2]' : 'bg-[#51B873]'}`}
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, delay: index * 0.2, repeat: Infinity }}
-                          />
-                          <span className="text-gray-700 font-medium text-sm md:text-base">{item}</span>
+                          <MapPin className="w-5 h-5 text-[#6455D2] shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-semibold text-gray-800">
+                              {office.city}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {office.state}
+                            </p>
+                          </div>
                         </motion.div>
                       ))}
                     </motion.div>
 
-                    <motion.div 
-                      className="bg-gradient-to-r from-[#51B873]/10 to-[#6455D2]/10 p-4 md:p-6 rounded-2xl mt-4 md:mt-6"
+                    <motion.p
+                      className="text-gray-700 leading-relaxed text-sm md:text-base font-light"
                       variants={fadeInUp}
-                      whileHover={{ 
+                    >
+                      {aboutConfig ? (
+                        aboutConfig.servicesText
+                      ) : (
+                        <>
+                          We are a multidisciplinary practice that provides
+                          professional services in{" "}
+                          <strong>
+                            Architectural design, interior design, Engineering,
+                            Urban planning, Project management and construction
+                            management
+                          </strong>
+                          .
+                        </>
+                      )}
+                    </motion.p>
+
+                    <motion.div
+                      className="bg-gradient-to-r from-[#51B873]/10 to-[#6455D2]/10 p-4 md:p-6 rounded-2xl mt-4"
+                      variants={fadeInUp}
+                      whileHover={{
                         boxShadow: "0 20px 40px rgba(100, 85, 210, 0.1)",
-                        y: -2
+                        y: -2,
                       }}
                     >
-                      <p className='text-gray-700 leading-relaxed font-medium text-center text-sm md:text-base'>
-                        At DCPL, we see design as a partnership—an opportunity to bring together vision, expertise, and imagination to create spaces that inspire and endure.
+                      <p className="text-gray-700 leading-relaxed font-medium text-center text-sm md:text-base">
+                        {aboutConfig ? (
+                          aboutConfig.philosophyText
+                        ) : (
+                          <>
+                            We believe that design is essentially
+                            problem-solving. The objective is to find simple and
+                            elegant solutions to practical problems, within the
+                            unique constraints faced by each project.
+                          </>
+                        )}
                       </p>
                     </motion.div>
                   </motion.div>
@@ -412,9 +655,9 @@ function Page() {
               className="absolute inset-0"
               style={{
                 backgroundImage: `radial-gradient(circle at 25px 25px, ${primaryColor} 2px, transparent 0)`,
-                backgroundSize: '50px 50px'
+                backgroundSize: "50px 50px",
               }}
-              animate={{ backgroundPosition: ['0px 0px', '25px 25px'] }}
+              animate={{ backgroundPosition: ["0px 0px", "25px 25px"] }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             />
           </div>
@@ -436,13 +679,17 @@ function Page() {
                 <div className="relative">
                   <motion.div
                     className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-[#6455D2] to-[#51B873] flex items-center justify-center shadow-xl"
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
-                      scale: [1, 1.1, 1]
+                      scale: [1, 1.1, 1],
                     }}
-                    transition={{ 
-                      rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                      scale: { duration: 2, repeat: Infinity }
+                    transition={{
+                      rotate: {
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "linear",
+                      },
+                      scale: { duration: 2, repeat: Infinity },
                     }}
                   >
                     <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-white" />
@@ -456,18 +703,35 @@ function Page() {
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                Our <motion.span 
+                Our{" "}
+                <motion.span
                   className="text-[#6455D2]"
-                  animate={{ textShadow: ["0 0 0px #6455D2", "0 0 20px #6455D2", "0 0 0px #6455D2"] }}
+                  animate={{
+                    textShadow: [
+                      "0 0 0px #6455D2",
+                      "0 0 20px #6455D2",
+                      "0 0 0px #6455D2",
+                    ],
+                  }}
                   transition={{ duration: 3, repeat: Infinity }}
-                >Core</motion.span>{" "}
-                <motion.span 
+                >
+                  Core
+                </motion.span>{" "}
+                <motion.span
                   className="text-[#51B873]"
-                  animate={{ textShadow: ["0 0 0px #51B873", "0 0 20px #51B873", "0 0 0px #51B873"] }}
+                  animate={{
+                    textShadow: [
+                      "0 0 0px #51B873",
+                      "0 0 20px #51B873",
+                      "0 0 0px #51B873",
+                    ],
+                  }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                >Values</motion.span>
+                >
+                  Values
+                </motion.span>
               </motion.h3>
-              <motion.p 
+              <motion.p
                 className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -477,7 +741,7 @@ function Page() {
               </motion.p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8"
               variants={staggerContainer}
               initial="initial"
@@ -495,17 +759,17 @@ function Page() {
                   <div className="bg-white rounded-2xl p-4 md:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:border-[#6455D2]/30 h-full relative overflow-hidden">
                     {/* Animated background effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[#6455D2]/0 to-[#51B873]/0 group-hover:from-[#6455D2]/5 group-hover:to-[#51B873]/5 transition-all duration-500" />
-                    
+
                     <div className="relative z-10">
                       <motion.div
                         className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl bg-gradient-to-br from-[#6455D2]/10 to-[#51B873]/10 mb-4 md:mb-6"
-                        whileHover={{ 
+                        whileHover={{
                           scale: 1.1,
-                          rotate: 360 
+                          rotate: 360,
                         }}
-                        transition={{ 
+                        transition={{
                           scale: { type: "spring", stiffness: 300 },
-                          rotate: { duration: 0.5 }
+                          rotate: { duration: 0.5 },
                         }}
                       >
                         <value.icon className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-[#6455D2]" />
@@ -517,7 +781,7 @@ function Page() {
                         {value.description}
                       </p>
                       <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-100 group-hover:border-[#6455D2]/30 transition-colors">
-                        <motion.div 
+                        <motion.div
                           className="w-0 group-hover:w-full h-1 bg-gradient-to-r from-[#6455D2] to-[#51B873]"
                           transition={{ duration: 0.5, delay: 0.1 }}
                         />
@@ -530,6 +794,92 @@ function Page() {
           </div>
         </div>
 
+        {/* Accolades & Awards Section */}
+        {awards.length > 0 && (
+          <div className="w-full py-12 md:py-16 lg:py-24 bg-gray-50 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <motion.div
+                className="text-center mb-8 md:mb-12 lg:mb-16"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-6 md:mb-8">
+                  <motion.div
+                    className="relative"
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-[#6455D2] to-[#51B873] flex items-center justify-center shadow-xl">
+                      <Trophy className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                    </div>
+                  </motion.div>
+                  <div>
+                    <motion.div
+                      className="h-1 w-16 md:w-24 bg-gradient-to-r from-[#6455D2] to-[#51B873] mb-2 md:mb-3 mx-auto sm:mx-0"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      transition={{ duration: 1, delay: 0.2 }}
+                    />
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+                      Awards & <span className="text-[#6455D2]">Accolades</span>
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto font-light">
+                  Recognitions and milestones that validate our journey and
+                  dedication to architectural excellence.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto"
+                variants={staggerContainer}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                {awards.map((award) => (
+                  <motion.div
+                    key={award._id}
+                    className="group"
+                    variants={fadeInUp}
+                    whileHover={{ y: -8 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 hover:border-[#6455D2]/20 transition-all duration-300 h-full flex flex-col">
+                      <AwardCardCarousel images={award.images} />
+                      <div className="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6455D2] bg-[#6455D2]/5 border border-[#6455D2]/10 rounded-full px-3 py-1">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {award.year}
+                            </span>
+                          </div>
+                          <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-[#6455D2] transition-colors duration-300">
+                            {award.title}
+                          </h4>
+                          <p className="text-gray-600 leading-relaxed text-sm md:text-base font-light">
+                            {award.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        )}
+
         {/* Leadership Team Section */}
         <div className="w-full py-12 md:py-16 lg:py-24 bg-white relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -541,15 +891,15 @@ function Page() {
               viewport={{ once: true, margin: "-100px" }}
             >
               <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-6 md:mb-8">
-                <motion.div 
+                <motion.div
                   className="relative"
-                  animate={{ 
-                    y: [0, -10, 0]
+                  animate={{
+                    y: [0, -10, 0],
                   }}
-                  transition={{ 
-                    duration: 3, 
+                  transition={{
+                    duration: 3,
                     repeat: Infinity,
-                    ease: "easeInOut" 
+                    ease: "easeInOut",
                   }}
                 >
                   <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-[#6455D2] to-[#51B873] flex items-center justify-center shadow-xl">
@@ -557,7 +907,7 @@ function Page() {
                   </div>
                 </motion.div>
                 <div>
-                  <motion.div 
+                  <motion.div
                     className="h-1 w-16 md:w-24 bg-gradient-to-r from-[#6455D2] to-[#51B873] mb-2 md:mb-3 mx-auto sm:mx-0"
                     initial={{ width: 0 }}
                     whileInView={{ width: "100%" }}
@@ -575,10 +925,12 @@ function Page() {
 
             {loading.team ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
-                {[1, 2].map(i => <TeamMemberSkeleton key={i} />)}
+                {[1, 2].map((i) => (
+                  <TeamMemberSkeleton key={i} />
+                ))}
               </div>
             ) : (
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto"
                 variants={staggerContainer}
                 initial="initial"
@@ -596,7 +948,7 @@ function Page() {
                     <div className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:border-[#6455D2]/30 h-auto min-h-[400px] md:min-h-[480px] flex flex-col relative">
                       {/* Animated background gradient */}
                       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#6455D2]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      
+
                       <div className="relative h-48 md:h-64 overflow-hidden flex-shrink-0">
                         <motion.img
                           src={member.profile}
@@ -605,14 +957,14 @@ function Page() {
                           whileHover={{ scale: 1.1 }}
                           transition={{ duration: 0.7 }}
                         />
-                        <motion.div 
+                        <motion.div
                           className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
                           initial={{ opacity: 0 }}
                           whileHover={{ opacity: 1 }}
                           transition={{ duration: 0.3 }}
                         />
                         <div className="absolute bottom-4 left-4 right-4">
-                          <motion.div 
+                          <motion.div
                             className="w-full bg-gradient-to-r from-[#6455D2] to-[#51B873] h-1 rounded-full"
                             initial={{ scaleX: 0 }}
                             whileInView={{ scaleX: 1 }}
@@ -622,7 +974,7 @@ function Page() {
                       </div>
                       <div className="p-4 md:p-6 flex-1 flex flex-col relative z-10">
                         <div className="flex-1">
-                          <motion.h4 
+                          <motion.h4
                             className="text-lg md:text-xl font-bold text-gray-900 mb-1 md:mb-2"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -630,22 +982,33 @@ function Page() {
                           >
                             {member.name}
                           </motion.h4>
-                          <p className="text-[#6455D2] font-semibold text-sm md:text-base mb-2 md:mb-3">
+                          <p className="text-[#6455D2] font-semibold text-sm md:text-base mb-1">
                             {member.position}
                           </p>
+                          {member.description && (
+                            <p className="text-gray-600 text-xs md:text-sm my-2 line-clamp-4 font-light leading-relaxed">
+                              {member.description}
+                            </p>
+                          )}
                           <div className="text-gray-500 text-xs md:text-sm mt-2">
-                            {member.isLeaderShip ? "Leadership Team" : "Team Member"}
+                            {member.isLeaderShip
+                              ? "Leadership Team"
+                              : "Team Member"}
                           </div>
                         </div>
-                        <div className="pt-3 md:pt-4 border-t border-gray-100">
+                        {console.log("member", member)}
+                        {/* <div className="pt-3 md:pt-4 border-t border-gray-100">
                           <a
-                            href={`mailto:${member.email}`}
+                            href={member.email ? `mailto:${member.email}` : ""}
                             className="text-gray-600 hover:text-[#6455D2] transition-colors text-xs md:text-sm font-medium flex items-center gap-1 md:gap-2"
                           >
                             <Mail className="w-3 h-3 md:w-4 md:h-4" />
-                            <span className="truncate">{member.email || `${member.name.toLowerCase().replace(/\s+/g, '')}@archstudio.com`}</span>
+                            <span className="truncate">
+                              {member.email ||
+                                `${member.name.toLowerCase().replace(/\s+/g, "")}@archstudio.com`}
+                            </span>
                           </a>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </motion.div>
@@ -671,16 +1034,25 @@ function Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Our <motion.span 
+                Our{" "}
+                <motion.span
                   className="text-[#51B873]"
-                  animate={{ 
-                    textShadow: ["0 0 0px #51B873", "0 0 20px #51B873", "0 0 0px #51B873"] 
+                  animate={{
+                    textShadow: [
+                      "0 0 0px #51B873",
+                      "0 0 20px #51B873",
+                      "0 0 0px #51B873",
+                    ],
                   }}
                   transition={{ duration: 3, repeat: Infinity }}
-                >Expert</motion.span> Team
+                >
+                  Expert
+                </motion.span>{" "}
+                Team
               </motion.h3>
               <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
-                Talented professionals bringing diverse expertise to every project
+                Talented professionals bringing diverse expertise to every
+                project
               </p>
             </motion.div>
 
@@ -709,29 +1081,40 @@ function Page() {
                 </motion.button>
               </div>
               <div className="flex gap-1 md:gap-2 order-1 sm:order-2 mb-4 sm:mb-0">
-                {Array.from({ length: Math.ceil(expertTeam.length / slidesPerView) }).map((_, idx) => (
+                {Array.from({
+                  length: Math.ceil(expertTeam.length / slidesPerView),
+                }).map((_, idx) => (
                   <motion.button
                     key={idx}
                     onClick={() => {
                       setTeamSliderIndex(idx);
                       setAutoRotateTeam(false);
                     }}
-                    className={`relative overflow-hidden rounded-full ${idx === teamSliderIndex
-                      ? 'bg-gradient-to-r from-[#6455D2] to-[#51B873]'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
+                    className={`relative overflow-hidden rounded-full ${
+                      idx === teamSliderIndex
+                        ? "bg-gradient-to-r from-[#6455D2] to-[#51B873]"
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                   >
                     <motion.div
-                      className={`w-2 h-2 md:w-3 md:h-3 ${idx === teamSliderIndex ? 'w-6 md:w-8' : ''}`}
-                      animate={idx === teamSliderIndex ? {
-                        scale: [1, 1.2, 1],
-                      } : {}}
-                      transition={idx === teamSliderIndex ? {
-                        duration: 2,
-                        repeat: Infinity
-                      } : {}}
+                      className={`w-2 h-2 md:w-3 md:h-3 ${idx === teamSliderIndex ? "w-6 md:w-8" : ""}`}
+                      animate={
+                        idx === teamSliderIndex
+                          ? {
+                              scale: [1, 1.2, 1],
+                            }
+                          : {}
+                      }
+                      transition={
+                        idx === teamSliderIndex
+                          ? {
+                              duration: 2,
+                              repeat: Infinity,
+                            }
+                          : {}
+                      }
                     />
                   </motion.button>
                 ))}
@@ -741,38 +1124,40 @@ function Page() {
             {/* Expert Team Slider */}
             {loading.team ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                {[1, 2, 3, 4].map(i => <TeamMemberSkeleton key={i} />)}
+                {[1, 2, 3, 4].map((i) => (
+                  <TeamMemberSkeleton key={i} />
+                ))}
               </div>
             ) : (
               <div className="relative overflow-hidden">
                 <motion.div
                   className="flex gap-4 md:gap-6 lg:gap-8"
                   animate={{ x: `-${teamSliderIndex * 100}%` }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 30 
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
                   }}
                 >
                   {expertTeam.map((member, index) => (
                     <motion.div
                       key={member._id}
-                      className={`flex-shrink-0 ${slidesPerView === 1 ? 'w-full' : slidesPerView === 2 ? 'w-[calc(50%-8px)] md:w-[calc(50%-12px)]' : slidesPerView === 3 ? 'w-[calc(33.333%-11px)] md:w-[calc(33.333%-16px)]' : 'w-[calc(25%-18px)] md:w-[calc(25%-24px)]'} group`}
+                      className={`flex-shrink-0 ${slidesPerView === 1 ? "w-full" : slidesPerView === 2 ? "w-[calc(50%-8px)] md:w-[calc(50%-12px)]" : slidesPerView === 3 ? "w-[calc(33.333%-11px)] md:w-[calc(33.333%-16px)]" : "w-[calc(25%-18px)] md:w-[calc(25%-24px)]"} group`}
                       initial={{ opacity: 0, scale: 0.9, y: 20 }}
                       whileInView={{ opacity: 1, scale: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.05 }}
                       viewport={{ once: true }}
                       onMouseEnter={() => setHoveredMember(member._id)}
                       onMouseLeave={() => setHoveredMember(null)}
-                      whileHover={{ 
+                      whileHover={{
                         y: -10,
-                        transition: { type: "spring", stiffness: 400 }
+                        transition: { type: "spring", stiffness: 400 },
                       }}
                     >
                       <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group-hover:border-[#51B873]/30 h-full relative">
                         {/* Hover gradient effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#51B873]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
+
                         <div className="relative h-36 md:h-40 lg:h-48 overflow-hidden">
                           <motion.img
                             src={member.profile}
@@ -781,7 +1166,7 @@ function Page() {
                             whileHover={{ scale: 1.1 }}
                             transition={{ duration: 0.5 }}
                           />
-                          <motion.div 
+                          <motion.div
                             className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
                             initial={{ opacity: 0 }}
                             whileHover={{ opacity: 1 }}
@@ -789,27 +1174,42 @@ function Page() {
                           />
                         </div>
                         <div className="p-4 md:p-6 relative z-10">
-                          <motion.h5 
+                          <motion.h5
                             className="font-bold text-gray-900 text-sm md:text-base mb-1 md:mb-2"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                           >
                             {member.name}
                           </motion.h5>
-                          <p className="text-[#51B873] font-semibold text-xs md:text-sm mb-2 md:mb-3">
+                          <p className="text-[#51B873] font-semibold text-xs md:text-sm mb-1">
                             {member.position}
                           </p>
+                          {member.description && (
+                            <p className="text-gray-500 text-xs mb-2 line-clamp-3 font-light leading-relaxed">
+                              {member.description}
+                            </p>
+                          )}
                           <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100">
-                            <motion.div 
+                            <motion.div
                               className="flex items-center gap-2"
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               transition={{ delay: 0.1 }}
                             >
-                              <Mail className="w-3 h-3 md:w-4 md:h-4 text-gray-400" />
-                              <span className="text-xs text-gray-500 truncate">
-                                {`${member.name.toLowerCase().replace(/\s+/g, '')}@archstudio.com`}
-                              </span>
+                              <a
+                                href={
+                                  member.email
+                                    ? `mailto:${member.email}`
+                                    : `mailto:${member.name.toLowerCase().replace(/\s+/g, "")}@archstudio.com`
+                                }
+                                className="flex items-center gap-2 text-gray-600 hover:text-[#51B873] transition-colors"
+                              >
+                                <Mail className="w-3 h-3 md:w-4 md:h-4 text-gray-400" />
+                                <span className="text-xs text-gray-500 truncate">
+                                  {member.email ||
+                                    `${member.name.toLowerCase().replace(/\s+/g, "")}@archstudio.com`}
+                                </span>
+                              </a>
                             </motion.div>
                           </div>
                         </div>
@@ -836,7 +1236,8 @@ function Page() {
                 Government <span className="text-[#6455D2]">Empanelments</span>
               </h3>
               <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
-                Officially empaneled with leading government bodies and development authorities across India
+                Officially empaneled with leading government bodies and
+                development authorities across India
               </p>
             </motion.div>
 
@@ -851,128 +1252,158 @@ function Page() {
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-8 border border-gray-100 animate-pulse">
                   <div className="h-64 bg-gray-200 rounded-lg"></div>
                 </div>
-              ) : empanelments.length > 0 && (
-                <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden border border-gray-100 relative">
-                  {/* Animated border */}
-                  <motion.div
-                    className="absolute inset-0 rounded-2xl md:rounded-3xl pointer-events-none"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, transparent)`,
-                      padding: '2px',
-                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                      WebkitMaskComposite: 'xor',
-                      maskComposite: 'exclude',
-                    }}
-                    animate={{
-                      background: [
-                        `linear-gradient(90deg, transparent, ${primaryColor}, transparent)`,
-                        `linear-gradient(180deg, transparent, ${secondaryColor}, transparent)`,
-                        `linear-gradient(270deg, transparent, ${primaryColor}, transparent)`,
-                        `linear-gradient(360deg, transparent, ${secondaryColor}, transparent)`,
-                        `linear-gradient(90deg, transparent, ${primaryColor}, transparent)`,
-                      ]
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  />
-                  
-                  <div className="p-4 md:p-6 lg:p-8 relative z-10 bg-white rounded-2xl md:rounded-3xl">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
-                      <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
-                        <motion.div 
-                          className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl bg-white flex items-center justify-center shadow-lg overflow-hidden border border-gray-200"
-                          whileHover={{ rotate: 5, scale: 1.05 }}
-                        >
-                          <img
-                            src={empanelments[activeEmpanelmentIndex].image}
-                            alt={empanelments[activeEmpanelmentIndex].title}
-                            className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain p-2"
-                          />
-                        </motion.div>
-                        <div className="text-center sm:text-left">
-                          <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 md:mb-2">
-                            {empanelments[activeEmpanelmentIndex].title}
-                          </h4>
-                          <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-4">
-                            <motion.span 
-                              className="px-3 py-1 bg-gradient-to-r from-[#6455D2] to-[#51B873] text-white rounded-full text-xs md:text-sm font-medium inline-block"
-                              whileHover={{ scale: 1.05 }}
-                            >
-                              {empanelments[activeEmpanelmentIndex].category}
-                            </motion.span>
-                            <span className="text-gray-600 text-sm md:text-base">
-                              {empanelments[activeEmpanelmentIndex].city}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-center lg:text-right">
-                        <div className="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">Valid Until</div>
-                        <motion.div 
-                          className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900"
-                          key={activeEmpanelmentIndex}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          {new Date(empanelments[activeEmpanelmentIndex].validity).toLocaleDateString()}
-                        </motion.div>
-                      </div>
-                    </div>
+              ) : (
+                empanelments.length > 0 && (
+                  <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden border border-gray-100 relative">
+                    {/* Animated border */}
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl md:rounded-3xl pointer-events-none"
+                      style={{
+                        background: `linear-gradient(90deg, transparent, transparent)`,
+                        padding: "2px",
+                        WebkitMask:
+                          "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
+                      }}
+                      animate={{
+                        background: [
+                          `linear-gradient(90deg, transparent, ${primaryColor}, transparent)`,
+                          `linear-gradient(180deg, transparent, ${secondaryColor}, transparent)`,
+                          `linear-gradient(270deg, transparent, ${primaryColor}, transparent)`,
+                          `linear-gradient(360deg, transparent, ${secondaryColor}, transparent)`,
+                          `linear-gradient(90deg, transparent, ${primaryColor}, transparent)`,
+                        ],
+                      }}
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                    />
 
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
-                      <div className="flex flex-wrap items-center gap-4 md:gap-8">
-                        <div className="text-center">
-                          <div className="text-xs md:text-sm text-gray-500">Department</div>
-                          <div className="text-base md:text-lg font-semibold text-gray-900">
-                            {empanelments[activeEmpanelmentIndex].department}
+                    <div className="p-4 md:p-6 lg:p-8 relative z-10 bg-white rounded-2xl md:rounded-3xl">
+                      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+                          <motion.div
+                            className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl bg-white flex items-center justify-center shadow-lg overflow-hidden border border-gray-200"
+                            whileHover={{ rotate: 5, scale: 1.05 }}
+                          >
+                            <img
+                              src={empanelments[activeEmpanelmentIndex].image}
+                              alt={empanelments[activeEmpanelmentIndex].title}
+                              className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain p-2"
+                            />
+                          </motion.div>
+                          <div className="text-center sm:text-left">
+                            <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 md:mb-2">
+                              {empanelments[activeEmpanelmentIndex].title}
+                            </h4>
+                            <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-4">
+                              <motion.span
+                                className="px-3 py-1 bg-gradient-to-r from-[#6455D2] to-[#51B873] text-white rounded-full text-xs md:text-sm font-medium inline-block"
+                                whileHover={{ scale: 1.05 }}
+                              >
+                                {empanelments[activeEmpanelmentIndex].category}
+                              </motion.span>
+                              <span className="text-gray-600 text-sm md:text-base">
+                                {empanelments[activeEmpanelmentIndex].city}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <div className="text-center">
-                          <div className="text-xs md:text-sm text-gray-500">Empanelled Date</div>
-                          <div className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
-                            {new Date(empanelments[activeEmpanelmentIndex].empanelledDate).toLocaleDateString()}
+                        <div className="text-center lg:text-right">
+                          <div className="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">
+                            Valid Until
                           </div>
+                          <motion.div
+                            className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900"
+                            key={activeEmpanelmentIndex}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {new Date(
+                              empanelments[activeEmpanelmentIndex].validity,
+                            ).toLocaleDateString()}
+                          </motion.div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4">
-                        <div className="flex gap-1 md:gap-2">
-                          {empanelments.map((_, idx) => (
-                            <motion.button
-                              key={idx}
-                              onClick={() => setActiveEmpanelmentIndex(idx)}
-                              className={`relative overflow-hidden rounded-full ${idx === activeEmpanelmentIndex
-                                ? 'bg-gradient-to-r from-[#6455D2] to-[#51B873]'
-                                : 'bg-gray-300 hover:bg-gray-400'
+                      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
+                        <div className="flex flex-wrap items-center gap-4 md:gap-8">
+                          <div className="text-center">
+                            <div className="text-xs md:text-sm text-gray-500">
+                              Department
+                            </div>
+                            <div className="text-base md:text-lg font-semibold text-gray-900">
+                              {empanelments[activeEmpanelmentIndex].department}
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs md:text-sm text-gray-500">
+                              Empanelled Date
+                            </div>
+                            <div className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
+                              {new Date(
+                                empanelments[activeEmpanelmentIndex]
+                                  .empanelledDate,
+                              ).toLocaleDateString()}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                          <div className="flex gap-1 md:gap-2">
+                            {empanelments.map((_, idx) => (
+                              <motion.button
+                                key={idx}
+                                onClick={() => setActiveEmpanelmentIndex(idx)}
+                                className={`relative overflow-hidden rounded-full ${
+                                  idx === activeEmpanelmentIndex
+                                    ? "bg-gradient-to-r from-[#6455D2] to-[#51B873]"
+                                    : "bg-gray-300 hover:bg-gray-400"
                                 }`}
-                              whileHover={{ scale: 1.2 }}
-                              whileTap={{ scale: 0.9 }}
-                            >
-                              <motion.div
-                                className={`w-2 h-2 md:w-3 md:h-3 ${idx === activeEmpanelmentIndex ? 'w-6 md:w-8' : ''}`}
-                                animate={idx === activeEmpanelmentIndex ? {
-                                  scale: [1, 1.2, 1],
-                                } : {}}
-                                transition={idx === activeEmpanelmentIndex ? {
-                                  duration: 2,
-                                  repeat: Infinity
-                                } : {}}
-                              />
-                            </motion.button>
-                          ))}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.9 }}
+                              >
+                                <motion.div
+                                  className={`w-2 h-2 md:w-3 md:h-3 ${idx === activeEmpanelmentIndex ? "w-6 md:w-8" : ""}`}
+                                  animate={
+                                    idx === activeEmpanelmentIndex
+                                      ? {
+                                          scale: [1, 1.2, 1],
+                                        }
+                                      : {}
+                                  }
+                                  transition={
+                                    idx === activeEmpanelmentIndex
+                                      ? {
+                                          duration: 2,
+                                          repeat: Infinity,
+                                        }
+                                      : {}
+                                  }
+                                />
+                              </motion.button>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )
               )}
             </motion.div>
 
             {/* Empanelments Grid */}
             {loading.empanelments ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div key={i} className="bg-white rounded-2xl p-6 border border-gray-200 animate-pulse">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-2xl p-6 border border-gray-200 animate-pulse"
+                  >
                     <div className="h-40 bg-gray-200 rounded-lg mb-4"></div>
                     <div className="h-4 bg-gray-300 rounded mb-2"></div>
                     <div className="h-3 bg-gray-200 rounded w-2/3"></div>
@@ -980,7 +1411,7 @@ function Page() {
                 ))}
               </div>
             ) : (
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                 variants={staggerContainer}
                 initial="initial"
@@ -992,18 +1423,18 @@ function Page() {
                     key={emp._id}
                     className="bg-white rounded-2xl p-4 md:p-6 border border-gray-200 hover:border-[#6455D2] transition-all duration-300 group cursor-pointer relative overflow-hidden"
                     variants={fadeInUp}
-                    whileHover={{ 
-                      scale: 1.02, 
+                    whileHover={{
+                      scale: 1.02,
                       y: -5,
-                      transition: { type: "spring", stiffness: 300 }
+                      transition: { type: "spring", stiffness: 300 },
                     }}
                   >
                     {/* Hover gradient effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[#6455D2]/0 to-[#51B873]/0 group-hover:from-[#6455D2]/5 group-hover:to-[#51B873]/5 transition-all duration-300" />
-                    
+
                     <div className="relative z-10">
                       <div className="flex items-start justify-between mb-3 md:mb-4">
-                        <motion.div 
+                        <motion.div
                           className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-[#6455D2]/10 to-[#51B873]/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                           whileHover={{ rotate: 360 }}
                           transition={{ duration: 0.5 }}
@@ -1014,7 +1445,7 @@ function Page() {
                             className="w-8 h-8 md:w-12 md:h-12 object-contain p-1"
                           />
                         </motion.div>
-                        <motion.span 
+                        <motion.span
                           className="px-2 py-1 bg-gradient-to-r from-[#6455D2]/10 to-[#51B873]/10 text-[#6455D2] rounded-full text-xs md:text-sm font-semibold border border-[#6455D2]/20"
                           whileHover={{ scale: 1.1 }}
                         >
@@ -1028,11 +1459,17 @@ function Page() {
 
                       <div className="flex items-center justify-between mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-100">
                         <div>
-                          <div className="text-xs md:text-sm text-gray-500">City</div>
-                          <div className="font-semibold text-gray-900 text-sm md:text-base">{emp.city}</div>
+                          <div className="text-xs md:text-sm text-gray-500">
+                            City
+                          </div>
+                          <div className="font-semibold text-gray-900 text-sm md:text-base">
+                            {emp.city}
+                          </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xs md:text-sm text-gray-500">Department</div>
+                          <div className="text-xs md:text-sm text-gray-500">
+                            Department
+                          </div>
                           <div className="font-semibold text-gray-900 text-sm md:text-base line-clamp-1">
                             {emp.department}
                           </div>
@@ -1060,7 +1497,8 @@ function Page() {
                 Our <span className="text-[#51B873]">Clients</span>
               </h3>
               <p className="text-gray-600 text-sm md:text-base lg:text-lg max-w-2xl mx-auto">
-                Trusted by industry leaders across government, private, and corporate sectors
+                Trusted by industry leaders across government, private, and
+                corporate sectors
               </p>
             </motion.div>
 
@@ -1075,120 +1513,150 @@ function Page() {
                 <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl md:rounded-3xl p-8 shadow-xl border border-gray-200 animate-pulse">
                   <div className="h-48 bg-gray-200 rounded-lg"></div>
                 </div>
-              ) : clients.length > 0 && (
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-xl border border-gray-200 relative overflow-hidden">
-                  {/* Animated background */}
-                  <div className="absolute inset-0 opacity-5">
-                    <motion.div
-                      className="absolute inset-0"
-                      style={{
-                        backgroundImage: `radial-gradient(circle at ${Math.random() * 100}% ${Math.random() * 100}%, ${primaryColor} 1px, transparent 0)`,
-                        backgroundSize: '50px 50px'
-                      }}
-                      animate={{ backgroundPosition: ['0px 0px', '25px 25px'] }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    />
-                  </div>
+              ) : (
+                clients.length > 0 && (
+                  <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-xl border border-gray-200 relative overflow-hidden">
+                    {/* Animated background */}
+                    <div className="absolute inset-0 opacity-5">
+                      <motion.div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage: `radial-gradient(circle at ${Math.random() * 100}% ${Math.random() * 100}%, ${primaryColor} 1px, transparent 0)`,
+                          backgroundSize: "50px 50px",
+                        }}
+                        animate={{
+                          backgroundPosition: ["0px 0px", "25px 25px"],
+                        }}
+                        transition={{
+                          duration: 20,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                      />
+                    </div>
 
-                  <div className="relative z-10">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
-                      <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
-                        <motion.div 
-                          className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl bg-white flex items-center justify-center shadow-lg overflow-hidden border border-gray-200"
-                          whileHover={{ 
-                            rotate: [0, 10, -10, 0],
-                            transition: { duration: 0.5 }
-                          }}
-                        >
-                          <img
-                            src={clients[activeClientIndex].logo}
-                            alt={clients[activeClientIndex].name}
-                            className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain p-2"
-                          />
-                        </motion.div>
-                        <div className="text-center sm:text-left">
-                          <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 md:mb-2 line-clamp-2">
-                            {clients[activeClientIndex].name}
-                          </h4>
-                          <div className="flex items-center justify-center sm:justify-start gap-4">
-                            <motion.span 
-                              className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${clients[activeClientIndex].sector === 'Government'
-                                ? 'bg-blue-100 text-blue-600'
-                                : 'bg-green-100 text-green-600'
-                              }`}
-                              whileHover={{ scale: 1.05 }}
-                            >
-                              {clients[activeClientIndex].sector}
-                            </motion.span>
+                    <div className="relative z-10">
+                      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+                          <motion.div
+                            className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl bg-white flex items-center justify-center shadow-lg overflow-hidden border border-gray-200"
+                            whileHover={{
+                              rotate: [0, 10, -10, 0],
+                              transition: { duration: 0.5 },
+                            }}
+                          >
+                            <img
+                              src={clients[activeClientIndex].logo}
+                              alt={clients[activeClientIndex].name}
+                              className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain p-2"
+                            />
+                          </motion.div>
+                          <div className="text-center sm:text-left">
+                            <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 md:mb-2 line-clamp-2">
+                              {clients[activeClientIndex].name}
+                            </h4>
+                            <div className="flex items-center justify-center sm:justify-start gap-4">
+                              <motion.span
+                                className={`px-3 py-1 rounded-full text-xs md:text-sm font-medium ${
+                                  clients[activeClientIndex].sector ===
+                                  "Government"
+                                    ? "bg-blue-100 text-blue-600"
+                                    : "bg-green-100 text-green-600"
+                                }`}
+                                whileHover={{ scale: 1.05 }}
+                              >
+                                {clients[activeClientIndex].sector}
+                              </motion.span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <div className="flex gap-1 md:gap-2">
-                        {clients.slice(0, 6).map((_, idx) => (
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex gap-1 md:gap-2">
+                          {clients.slice(0, 6).map((_, idx) => (
+                            <motion.button
+                              key={idx}
+                              onClick={() => setActiveClientIndex(idx)}
+                              className={`relative overflow-hidden rounded-full ${
+                                idx === activeClientIndex
+                                  ? "bg-gradient-to-r from-[#6455D2] to-[#51B873]"
+                                  : "bg-gray-300 hover:bg-gray-400"
+                              }`}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.9 }}
+                            >
+                              <motion.div
+                                className={`w-2 h-2 md:w-3 md:h-3 ${idx === activeClientIndex ? "w-6 md:w-8" : ""}`}
+                                animate={
+                                  idx === activeClientIndex
+                                    ? {
+                                        scale: [1, 1.2, 1],
+                                      }
+                                    : {}
+                                }
+                                transition={
+                                  idx === activeClientIndex
+                                    ? {
+                                        duration: 2,
+                                        repeat: Infinity,
+                                      }
+                                    : {}
+                                }
+                              />
+                            </motion.button>
+                          ))}
+                        </div>
+
+                        <div className="flex gap-2 md:gap-4">
                           <motion.button
-                            key={idx}
-                            onClick={() => setActiveClientIndex(idx)}
-                            className={`relative overflow-hidden rounded-full ${idx === activeClientIndex
-                              ? 'bg-gradient-to-r from-[#6455D2] to-[#51B873]'
-                              : 'bg-gray-300 hover:bg-gray-400'
-                            }`}
-                            whileHover={{ scale: 1.2 }}
-                            whileTap={{ scale: 0.9 }}
+                            onClick={() =>
+                              setActiveClientIndex(
+                                (prev) =>
+                                  (prev - 1 + clients.length) % clients.length,
+                              )
+                            }
+                            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#6455D2] hover:bg-[#6455D2]/10 transition-colors"
+                            whileHover={{
+                              scale: 1.1,
+                              rotate: -5,
+                            }}
+                            whileTap={{ scale: 0.95 }}
                           >
-                            <motion.div
-                              className={`w-2 h-2 md:w-3 md:h-3 ${idx === activeClientIndex ? 'w-6 md:w-8' : ''}`}
-                              animate={idx === activeClientIndex ? {
-                                scale: [1, 1.2, 1],
-                              } : {}}
-                              transition={idx === activeClientIndex ? {
-                                duration: 2,
-                                repeat: Infinity
-                              } : {}}
-                            />
+                            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
                           </motion.button>
-                        ))}
-                      </div>
-
-                      <div className="flex gap-2 md:gap-4">
-                        <motion.button
-                          onClick={() => setActiveClientIndex((prev) => (prev - 1 + clients.length) % clients.length)}
-                          className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#6455D2] hover:bg-[#6455D2]/10 transition-colors"
-                          whileHover={{ 
-                            scale: 1.1,
-                            rotate: -5 
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
-                        </motion.button>
-                        <motion.button
-                          onClick={() => setActiveClientIndex((prev) => (prev + 1) % clients.length)}
-                          className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#6455D2] hover:bg-[#6455D2]/10 transition-colors"
-                          whileHover={{ 
-                            scale: 1.1,
-                            rotate: 5 
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
-                        </motion.button>
+                          <motion.button
+                            onClick={() =>
+                              setActiveClientIndex(
+                                (prev) => (prev + 1) % clients.length,
+                              )
+                            }
+                            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:border-[#6455D2] hover:bg-[#6455D2]/10 transition-colors"
+                            whileHover={{
+                              scale: 1.1,
+                              rotate: 5,
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
+                          </motion.button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )
               )}
             </motion.div>
 
             {/* Clients Grid */}
             {loading.clients ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => <ClientSkeleton key={i} />)}
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                  <ClientSkeleton key={i} />
+                ))}
               </div>
             ) : (
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6"
                 variants={staggerContainer}
                 initial="initial"
@@ -1200,20 +1668,22 @@ function Page() {
                     key={client._id}
                     className="group cursor-pointer"
                     variants={fadeInUp}
-                    whileHover={{ 
-                      scale: 1.05, 
+                    whileHover={{
+                      scale: 1.05,
                       y: -5,
-                      transition: { type: "spring", stiffness: 300 }
+                      transition: { type: "spring", stiffness: 300 },
                     }}
                     onClick={() => {
-                      const idx = clients.findIndex(c => c._id === client._id);
+                      const idx = clients.findIndex(
+                        (c) => c._id === client._id,
+                      );
                       if (idx >= 0) setActiveClientIndex(idx);
                     }}
                   >
                     <div className="aspect-square bg-gradient-to-br from-gray-50 to-white rounded-xl md:rounded-2xl flex items-center justify-center p-3 md:p-4 border border-gray-200 group-hover:border-[#51B873] group-hover:shadow-xl transition-all duration-300 relative overflow-hidden">
                       {/* Hover effect */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[#6455D2]/0 to-[#51B873]/0 group-hover:from-[#6455D2]/5 group-hover:to-[#51B873]/5 transition-all duration-300" />
-                      
+
                       <div className="relative w-full h-full flex items-center justify-center">
                         <motion.img
                           src={client.logo}
@@ -1225,10 +1695,13 @@ function Page() {
                       </div>
                     </div>
                     <div className="mt-2 md:mt-4 text-center">
-                      <div className={`text-xs px-2 py-1 rounded-full font-medium inline-block ${client.sector === 'Government'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-green-100 text-green-600'
-                      }`}>
+                      <div
+                        className={`text-xs px-2 py-1 rounded-full font-medium inline-block ${
+                          client.sector === "Government"
+                            ? "bg-blue-100 text-blue-600"
+                            : "bg-green-100 text-green-600"
+                        }`}
+                      >
                         {client.sector}
                       </div>
                     </div>
@@ -1255,10 +1728,14 @@ function Page() {
                   className="absolute inset-0"
                   style={{
                     backgroundImage: `radial-gradient(circle at 50% 50%, ${primaryColor} 1px, transparent 0)`,
-                    backgroundSize: '30px 30px'
+                    backgroundSize: "30px 30px",
                   }}
-                  animate={{ backgroundPosition: ['0px 0px', '15px 15px'] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  animate={{ backgroundPosition: ["0px 0px", "15px 15px"] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                 />
               </div>
 
@@ -1266,20 +1743,24 @@ function Page() {
                 <div className="flex-shrink-0">
                   <motion.div
                     className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-[#6455D2] to-[#51B873] flex items-center justify-center shadow-xl"
-                    animate={{ 
+                    animate={{
                       rotate: [0, 360],
-                      scale: [1, 1.1, 1]
+                      scale: [1, 1.1, 1],
                     }}
-                    transition={{ 
-                      rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                      scale: { duration: 2, repeat: Infinity }
+                    transition={{
+                      rotate: {
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "linear",
+                      },
+                      scale: { duration: 2, repeat: Infinity },
                     }}
                   >
                     <Eye className="w-8 h-8 md:w-10 md:h-10 text-white" />
                   </motion.div>
                 </div>
                 <div className="space-y-4 md:space-y-6">
-                  <motion.h3 
+                  <motion.h3
                     className="text-2xl md:text-3xl font-bold text-gray-900"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -1287,51 +1768,70 @@ function Page() {
                   >
                     Our <span className="text-[#6455D2]">Vision</span>
                   </motion.h3>
-                  <motion.div 
+                  <motion.div
                     className="space-y-3 md:space-y-4"
                     variants={staggerContainer}
                     initial="initial"
                     whileInView="animate"
                   >
-                    <motion.p 
+                    <motion.p
                       className="text-gray-700 text-sm md:text-base lg:text-lg leading-relaxed"
                       variants={fadeInUp}
                     >
-                      At DCPL, our approach is guided by clarity, rigor, and purpose. We blend technology, tradition, and creative insight to deliver solutions that are efficient, sustainable, and contextually responsive.
+                      At DCPL, our approach is guided by clarity, rigor, and
+                      purpose. We blend technology, tradition, and creative
+                      insight to deliver solutions that are efficient,
+                      sustainable, and contextually responsive.
                     </motion.p>
-                    <motion.p 
+                    <motion.p
                       className="text-gray-700 text-sm md:text-base lg:text-lg leading-relaxed"
                       variants={fadeInUp}
                     >
-                      The principles of <span className="font-semibold text-[#6455D2]">Firmness</span>, <span className="font-semibold text-[#51B873]">Utility</span>, and <span className="font-semibold text-gray-700">Beauty</span> anchor our process—ensuring that every project is robust in quality, functional in performance, and refined in its architectural expression.
+                      The principles of{" "}
+                      <span className="font-semibold text-[#6455D2]">
+                        Firmness
+                      </span>
+                      ,{" "}
+                      <span className="font-semibold text-[#51B873]">
+                        Utility
+                      </span>
+                      , and{" "}
+                      <span className="font-semibold text-gray-700">
+                        Beauty
+                      </span>{" "}
+                      anchor our process—ensuring that every project is robust
+                      in quality, functional in performance, and refined in its
+                      architectural expression.
                     </motion.p>
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className="flex flex-wrap items-center gap-3 md:gap-4 lg:gap-6 pt-4 md:pt-6 border-t border-gray-200"
                     variants={staggerContainer}
                     initial="initial"
                     whileInView="animate"
                   >
                     {["Firmness", "Utility", "Beauty"].map((item, index) => (
-                      <motion.div 
+                      <motion.div
                         key={item}
                         className="flex items-center gap-2 md:gap-3"
                         variants={fadeInUp}
                         whileHover={{ scale: 1.05 }}
                       >
-                        <motion.div 
-                          className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${index === 0 ? 'bg-[#6455D2]' : index === 1 ? 'bg-[#51B873]' : 'bg-gray-600'}`}
-                          animate={{ 
+                        <motion.div
+                          className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${index === 0 ? "bg-[#6455D2]" : index === 1 ? "bg-[#51B873]" : "bg-gray-600"}`}
+                          animate={{
                             scale: [1, 1.3, 1],
-                            rotate: [0, 180, 360]
+                            rotate: [0, 180, 360],
                           }}
-                          transition={{ 
-                            duration: 3, 
+                          transition={{
+                            duration: 3,
                             delay: index * 0.5,
-                            repeat: Infinity 
+                            repeat: Infinity,
                           }}
                         />
-                        <span className="font-medium text-gray-700 text-sm md:text-base">{item}</span>
+                        <span className="font-medium text-gray-700 text-sm md:text-base">
+                          {item}
+                        </span>
                       </motion.div>
                     ))}
                   </motion.div>

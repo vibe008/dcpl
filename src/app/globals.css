@@ -78,6 +78,13 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Danube';
+  src: url('/fonts/DANUBE__.TTF') format('truetype'),
+    url('/fonts/DANUBE__.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
 
 h1,
 h2,
@@ -85,6 +92,11 @@ h3 {
   font-family: 'Satoshi', sans-serif;
   font-weight: 700;
   /* Bold for headings */
+}
+
+.derahading {
+  font-family: 'Danube', sans-serif;
+  font-weight: 700;
 }
 
 p,

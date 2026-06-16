@@ -31,7 +31,9 @@ export default function TeamManagement() {
     name: "",
     position: "",
     isLeaderShip: false,
-    profile: ""
+    profile: "",
+    description: "",
+    email: ""
   });
 
   // Add state
@@ -41,7 +43,9 @@ export default function TeamManagement() {
     isLeaderShip: false,
     profileFile: null,
     profilePreview: "",
-    profileUrl: ""
+    profileUrl: "",
+    description: "",
+    email: ""
   });
 
   const fileInputRef = useRef(null);
@@ -223,7 +227,9 @@ export default function TeamManagement() {
           name: newMember.name.trim(),
           position: newMember.position.trim(),
           isLeaderShip: newMember.isLeaderShip,
-          profile: profileUrl
+          profile: profileUrl,
+          description: (newMember.description || "").trim(),
+          email: (newMember.email || "").trim()
         })
       });
 
@@ -239,7 +245,9 @@ export default function TeamManagement() {
           isLeaderShip: false,
           profileFile: null,
           profilePreview: "",
-          profileUrl: ""
+          profileUrl: "",
+          description: "",
+          email: ""
         });
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
@@ -264,7 +272,9 @@ export default function TeamManagement() {
       name: member.name,
       position: member.position,
       isLeaderShip: member.isLeaderShip || false,
-      profile: member.profile || ""
+      profile: member.profile || "",
+      description: member.description || "",
+      email: member.email || ""
     });
   };
 
@@ -306,7 +316,9 @@ export default function TeamManagement() {
           name: editData.name.trim(),
           position: editData.position.trim(),
           isLeaderShip: editData.isLeaderShip,
-          profile: profileUrl
+          profile: profileUrl,
+          description: (editData.description || "").trim(),
+          email: (editData.email || "").trim()
         })
       });
 
@@ -319,7 +331,9 @@ export default function TeamManagement() {
           name: "",
           position: "",
           isLeaderShip: false,
-          profile: ""
+          profile: "",
+          description: "",
+          email: ""
         });
         fetchTeamMembers();
       } else {
@@ -338,7 +352,9 @@ export default function TeamManagement() {
       name: "",
       position: "",
       isLeaderShip: false,
-      profile: ""
+      profile: "",
+      description: "",
+      email: ""
     });
   };
 
@@ -530,6 +546,34 @@ export default function TeamManagement() {
                   </div>
                 </div>
 
+                {/* Email Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address (Optional)
+                  </label>
+                  <input
+                    type="email"
+                    value={newMember.email || ""}
+                    onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-500/20 focus:border-gray-500 transition-all duration-200 bg-white/50 text-sm outline-none"
+                    placeholder="Enter email address"
+                  />
+                </div>
+
+                {/* Description Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description / Bio (Optional)
+                  </label>
+                  <textarea
+                    value={newMember.description || ""}
+                    onChange={(e) => setNewMember({ ...newMember, description: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-500/20 focus:border-gray-500 transition-all duration-200 bg-white/50 resize-none text-sm outline-none"
+                    placeholder="Enter a short bio or description..."
+                    rows={3}
+                  />
+                </div>
+
                 {/* Leadership Toggle */}
                 <div className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl bg-white/50">
                   <div className="flex items-center gap-3">
@@ -686,6 +730,32 @@ export default function TeamManagement() {
                           </datalist>
                         </div>
 
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email (Optional)
+                          </label>
+                          <input
+                            type="email"
+                            value={editData.email || ""}
+                            onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none"
+                            placeholder="Email address"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Description (Optional)
+                          </label>
+                          <textarea
+                            value={editData.description || ""}
+                            onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none outline-none"
+                            placeholder="Description / Bio"
+                            rows={2}
+                          />
+                        </div>
+
                         <div className="flex items-center gap-2">
                           <input
                             type="checkbox"
@@ -748,7 +818,17 @@ export default function TeamManagement() {
                           <h3 className="text-lg font-semibold text-gray-900 mb-1">
                             {member.name}
                           </h3>
-                          <p className="text-gray-600 mb-3">{member.position}</p>
+                          <p className="text-gray-600 mb-1">{member.position}</p>
+                          
+                          {member.email && (
+                            <p className="text-xs text-indigo-600 font-medium mb-2 break-all">{member.email}</p>
+                          )}
+
+                          {member.description && (
+                            <p className="text-xs text-gray-500 font-light leading-relaxed mb-3 max-w-xs px-2 line-clamp-3">
+                              {member.description}
+                            </p>
+                          )}
                           
                           {/* Leadership Badge */}
                           {member.isLeaderShip && (

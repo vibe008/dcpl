@@ -21,7 +21,9 @@ export async function PUT(req) {
         name: body.name,
         position: body.position,
         profile: body.profile || "",
-        isLeaderShip: body.isLeaderShip || false
+        isLeaderShip: body.isLeaderShip || false,
+        description: body.description || "",
+        email: body.email || ""
       },
       { new: true, runValidators: true }
     );

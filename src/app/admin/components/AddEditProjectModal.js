@@ -1403,7 +1403,7 @@ const AddEditProjectModal = ({ project, onClose, onSuccess }) => {
                 variants={itemVariants}
                 initial="hidden"
                 animate="visible"
-                className={`${cardGlass} rounded-2xl p-6 overflow-visible`}
+                className={`${cardGlass} rounded-2xl p-6 overflow-visible relative ${isServicesDropdownOpen ? 'z-20' : 'z-10'}`}
               >
                 <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                   <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center mr-3">

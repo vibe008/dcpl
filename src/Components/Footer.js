@@ -1,26 +1,48 @@
-'use client'
-import { useState } from 'react';
-import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Twitter, Send, ArrowRight, LogIn, Shield, Building } from "lucide-react";
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Send,
+  ArrowRight,
+  LogIn,
+  Shield,
+  Building,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Footer = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const navigationLinks = [
     { label: "About", href: "/About" },
     { label: "Projects", href: "/Projects" },
-    { label: "Gallery", href: "/Gallery" },
     { label: "Contact", href: "/Contact" },
     { label: "Careers", href: "/Careers" },
   ];
 
   const socialLinks = [
-    { Icon: Facebook, href: "https://www.facebook.com/DeraConsultants", label: "Facebook" },
-    { Icon: Instagram, href: "https://instagram.com/dera.consultants", label: "Instagram" },
-    { Icon: Linkedin, href: "https://linkedin.com/company/dera-consultants", label: "LinkedIn" },
-    { Icon: Twitter, href: "https://twitter.com/deraconsultants", label: "Twitter" },
+    {
+      Icon: Facebook,
+      href: "https://www.facebook.com/share/1C8xXVWiaV/",
+      label: "Facebook",
+    },
+    {
+      Icon: Instagram,
+      href: "https://www.instagram.com/dera_consultants/?utm_source=qr&r=nametag",
+      label: "Instagram",
+    },
+    {
+      Icon: Linkedin,
+      href: "https://linkedin.com/company/dera-consultants",
+      label: "LinkedIn",
+    },
   ];
 
   const officeAddresses = [
@@ -30,7 +52,7 @@ const Footer = () => {
       address: "30-B Geeta Enclave, Krishna Nagar",
       pincode: "281001",
       phone: "+91 7351077666",
-      email: "mathura@dera.co.in"
+      email: "mathura@dera.co.in",
     },
     {
       city: "Ahmedabad",
@@ -38,16 +60,16 @@ const Footer = () => {
       address: "508 Ganesh Glory, Jagatpur Road",
       pincode: "382481",
       phone: "+91 9876543210",
-      email: "ahmedabad@dera.co.in"
-    }
+      email: "ahmedabad@dera.co.in",
+    },
   ];
 
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (email) {
-      console.log('Subscribing email:', email);
+      console.log("Subscribing email:", email);
       setIsSubscribed(true);
-      setEmail('');
+      setEmail("");
       setTimeout(() => setIsSubscribed(false), 3000);
     }
   };
@@ -55,10 +77,8 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-gray-50 to-white mt-20 pt-16 w-full border-t border-gray-200">
       <div className="px-6 lg:px-12 max-w-7xl mx-auto">
-
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
-
           {/* Company Info - Takes 5 columns */}
           <div className="lg:col-span-5 space-y-6">
             <div className="flex items-center space-x-4">
@@ -74,7 +94,8 @@ const Footer = () => {
             </div>
 
             <p className="text-gray-600 text-sm leading-relaxed max-w-lg">
-              Creating timeless spaces that honor heritage while embracing innovation through thoughtful design and sustainable practices.
+              Creating timeless spaces that honor heritage while embracing
+              innovation through thoughtful design and sustainable practices.
             </p>
 
             {/* Contact Info - Horizontal Layout */}
@@ -88,7 +109,9 @@ const Footer = () => {
                     <p className="text-gray-700 font-medium text-sm">Address</p>
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm pl-10">30-B Geeta Enclave, Krishna Nagar</p>
+                <p className="text-gray-600 text-sm pl-10">
+                  30-B Geeta Enclave, Krishna Nagar
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -100,7 +123,10 @@ const Footer = () => {
                     <p className="text-gray-700 font-medium text-sm">Phone</p>
                   </div>
                 </div>
-                <a href="tel:+917351077666" className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block">
+                <a
+                  href="tel:+917351077666"
+                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block"
+                >
                   +91 7351077666
                 </a>
               </div>
@@ -114,7 +140,10 @@ const Footer = () => {
                     <p className="text-gray-700 font-medium text-sm">Email</p>
                   </div>
                 </div>
-                <a href="mailto:office@dera.co.in" className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block">
+                <a
+                  href="mailto:office@dera.co.in"
+                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block"
+                >
                   office@dera.co.in
                 </a>
               </div>
@@ -122,7 +151,9 @@ const Footer = () => {
 
             {/* Social Media */}
             <div className="pt-4">
-              <p className="text-gray-700 font-medium text-sm mb-3">Follow Us</p>
+              <p className="text-gray-700 font-medium text-sm mb-3">
+                Follow Us
+              </p>
               <div className="flex space-x-3">
                 {socialLinks.map((social, index) => (
                   <a
@@ -154,7 +185,9 @@ const Footer = () => {
                       className="flex items-center text-gray-600 hover:text-[#6455D1] transition-colors duration-300 group"
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3 group-hover:bg-[#6455D1] transition-colors"></div>
-                      <span className="group-hover:font-medium">{link.label}</span>
+                      <span className="group-hover:font-medium">
+                        {link.label}
+                      </span>
                       <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     </Link>
                   </li>
@@ -180,8 +213,12 @@ const Footer = () => {
                     <LogIn className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900 group-hover:text-[#6455D1]">Login</div>
-                    <div className="text-sm text-gray-500">Access your account</div>
+                    <div className="font-semibold text-gray-900 group-hover:text-[#6455D1]">
+                      Login
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      Access your account
+                    </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#6455D1] group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -191,15 +228,18 @@ const Footer = () => {
                   href="/admin/login"
                   target="_blank"
                   rel="noopener noreferrer"
-
                   className="flex items-center p-4 rounded-lg border border-gray-200 hover:border-gray-800 hover:bg-gray-800/5 transition-all duration-300 group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center mr-3">
                     <Shield className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900 group-hover:text-gray-800">Admin Panel</div>
-                    <div className="text-sm text-gray-500">Manage website content</div>
+                    <div className="font-semibold text-gray-900 group-hover:text-gray-800">
+                      Admin Panel
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      Manage website content
+                    </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-800 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -207,10 +247,14 @@ const Footer = () => {
 
               {/* Newsletter */}
               <div className="pt-4 border-t border-gray-100">
-                <h5 className="text-gray-700 font-semibold text-sm mb-3">Get Project Updates</h5>
+                <h5 className="text-gray-700 font-semibold text-sm mb-3">
+                  Get Project Updates
+                </h5>
                 {isSubscribed ? (
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <p className="text-green-700 text-sm font-medium">✓ Subscribed Successfully!</p>
+                    <p className="text-green-700 text-sm font-medium">
+                      ✓ Subscribed Successfully!
+                    </p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubscribe} className="space-y-3">
@@ -264,7 +308,9 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <h5 className="text-lg font-semibold text-gray-900">{office.city}</h5>
+                      <h5 className="text-lg font-semibold text-gray-900">
+                        {office.city}
+                      </h5>
                       <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                         {office.state}
                       </span>
@@ -272,18 +318,32 @@ const Footer = () => {
 
                     <div className="space-y-3 text-sm">
                       <div className="flex items-start">
-                        <div className="min-w-16 text-gray-500 font-medium">Address:</div>
-                        <div className="text-gray-600">{office.address}, {office.pincode}</div>
+                        <div className="min-w-16 text-gray-500 font-medium">
+                          Address:
+                        </div>
+                        <div className="text-gray-600">
+                          {office.address}, {office.pincode}
+                        </div>
                       </div>
                       <div className="flex items-center">
-                        <div className="min-w-16 text-gray-500 font-medium">Phone:</div>
-                        <a href={`tel:${office.phone}`} className="text-gray-600 hover:text-[#6455D1] hover:underline">
+                        <div className="min-w-16 text-gray-500 font-medium">
+                          Phone:
+                        </div>
+                        <a
+                          href={`tel:${office.phone}`}
+                          className="text-gray-600 hover:text-[#6455D1] hover:underline"
+                        >
                           {office.phone}
                         </a>
                       </div>
                       <div className="flex items-center">
-                        <div className="min-w-16 text-gray-500 font-medium">Email:</div>
-                        <a href={`mailto:${office.email}`} className="text-gray-600 hover:text-[#6455D1] hover:underline">
+                        <div className="min-w-16 text-gray-500 font-medium">
+                          Email:
+                        </div>
+                        <a
+                          href={`mailto:${office.email}`}
+                          className="text-gray-600 hover:text-[#6455D1] hover:underline"
+                        >
                           {office.email}
                         </a>
                       </div>

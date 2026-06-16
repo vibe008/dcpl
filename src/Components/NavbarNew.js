@@ -1,263 +1,341 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { X, ChevronRight, LogIn, Shield } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import {
+  ChevronDown,
+  X,
+  ChevronRight,
+  MessageSquare,
+  Briefcase,
+  Phone,
+  BookOpen,
+  Layers,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
-import Link from 'next/link';
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [services, setServices] = useState([]);
+  const pathname = usePathname();
+  const dropdownRef = useRef(null);
+  const servicesDropdownRef = useRef(null);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+  // Track scroll to apply subtle styling changes
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
+
+  // Fetch services from API
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("/api/services");
+        const data = await res.json();
+        if (data.success) {
+          setServices(data.data);
         }
-    }, [isMenuOpen]);
+      } catch (error) {
+        console.error("Error fetching services for navbar:", error);
+      }
+    };
+    fetchServices();
+  }, []);
 
-    const menuItems = [
-        { name: 'Home', path: '/' },
-        { name: 'About', path: '/About' },
-        { name: 'Services', path: '/Services' },
-        { name: 'Projects', path: '/Projects' },
-        { name: 'Careers', path: '/Careers' },
-        { name: 'Contact', path: '/Contact' },
-    ];
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+      if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(event.target)) {
+        setIsServicesOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    return (
-        <>
-            {/* Navbar - Only Logo & Menu Icon */}
-            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-5' : 'py-6'
-                }`}>
-                <div className="container mx-auto px-6">
-                    <div className="flex justify-between items-center">
-                        {/* Logo */}
-                        <Link href="/" className="group">
-                            <div className="flex items-center space-x-3  w-[80px] h-[80px] rounded-[50%]">
-                                <img
-                                    src='/assets/logo.png'
-                                    alt="DERA Logo"
-                                    className="w-full h-full object-contain rounded-[50%] "
-                                />
-                            </div>
-                        </Link>
+  const menuItems = [
+    { name: "About", path: "/About" },
+    { name: "Services", path: "/Services" },
+    { name: "Careers", path: "/Careers" },
+    { name: "Contact", path: "/Contact" },
+  ];
 
-                        {/* Menu Button */}
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="group relative"
-                            aria-label="Toggle menu"
+  return (
+    <>
+      {/* Top Fixed Floating Container */}
+      <header
+        className={`fixed top-6 left-0 right-0 z-50 px-4 w-full transition-all duration-500 transform ${
+          isScrolled ? "translate-y-[-4px]" : "translate-y-0"
+        }`}
+      >
+        <div className="max-w-5xl mx-auto">
+          {/* Floating Pill Navbar */}
+          <div className="bg-[#121411]/80 backdrop-blur-xl border border-white/10 rounded-full px-6 py-2.5 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/15">
+            {/* Logo & Geometric Emblem */}
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-[#4e6149]/40 to-[#2c3829]/60 border border-white/10 group-hover:border-white/20 transition-all duration-300">
+                {/* Elegant Geometric Leaf/Emblem */}
+                {/* <svg className="w-4 h-4 text-white/90 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 12h18M5.315 7.685l13.37 13.37m0-13.37L5.315 21.055" />
+                                </svg> */}
+                <img
+                  src="/assets/logo.png"
+                  alt="DERA Logo"
+                  className="w-full h-full object-contain rounded-[50%] "
+                />
+              </div>
+              <span className="derahading text-white font-bold tracking-[0.25em] text-xs md:text-sm uppercase font-[Satoshi]">
+                DERA
+              </span>
+            </Link>
+
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              {/* Projects Dropdown Trigger */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className={`text-gray-300 hover:text-white transition-colors duration-200 text-xs font-medium uppercase tracking-[0.15em] flex items-center gap-1.5 focus:outline-none py-1.5 ${
+                    pathname.startsWith("/Projects") ? "text-white" : ""
+                  }`}
+                >
+                  Projects
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-300 ${
+                      isDropdownOpen ? "rotate-180 text-white" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      onMouseLeave={() => setIsDropdownOpen(false)}
+                      className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-56 bg-[#161815] border border-white/10 rounded-2xl p-2 shadow-2xl backdrop-blur-2xl z-50"
+                    >
+                      <Link
+                        href="/Projects"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center justify-between px-4 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 text-xs font-medium tracking-wider transition-all duration-150 border-b border-white/5"
+                      >
+                        All Projects
+                      </Link>
+                      {services.map((service) => (
+                        <Link
+                          key={service._id}
+                          href={`/Projects?service=${encodeURIComponent(service.title)}`}
+                          onClick={() => setIsDropdownOpen(false)}
+                          className="flex items-center justify-between px-4 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 text-xs font-medium tracking-wider transition-all duration-150"
                         >
-                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 ${isScrolled
-                                ? 'bg-white shadow-sm'
-                                : 'bg-white/95 backdrop-blur-sm'
-                                } group-hover:shadow-md`}>
-                                <div className="relative w-6 h-6">
-                                    <span className={`absolute top-0 left-0 w-6 h-0.5 bg-gray-800 transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-2.5' : ''
-                                        }`}></span>
-                                    <span className={`absolute top-2.5 left-0 w-6 h-0.5 bg-gray-800 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'
-                                        }`}></span>
-                                    <span className={`absolute top-5 left-0 w-6 h-0.5 bg-gray-800 transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-2.5' : ''
-                                        }`}></span>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
+                          {service.title}
+                          <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Standard Nav Links */}
+              {menuItems.map((item) => {
+                const isActive = pathname === item.path;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.path}
+                    className={`text-gray-300 hover:text-white transition-colors duration-200 text-xs font-medium uppercase tracking-[0.15em] py-1.5 ${
+                      isActive ? "text-white border-b border-white/20" : ""
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </nav>
 
-            {/* Sidebar Menu */}
-            <div className={`fixed inset-0 z-[60] transition-all duration-500 ${isMenuOpen
-                ? 'opacity-100 pointer-events-auto'
-                : 'opacity-0 pointer-events-none'
-                }`}>
-                {/* Backdrop */}
-                <div
-                    className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-all duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0'
-                        }`}
-                    onClick={() => setIsMenuOpen(false)}
-                />
+            {/* CTA button (Desktop) & Hamburger menu (Mobile) */}
+            <div className="flex items-center space-x-4">
+              {/* Get Quote button (Desktop) */}
+              <Link
+                href="/Contact"
+                className="hidden lg:inline-flex items-center justify-center bg-[#6455D1] hover:bg-[#5143c6] text-white rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(100,85,209,0.3)]"
+              >
+                Get Quote
+              </Link>
 
-                {/* Sidebar Panel - FIXED HEIGHT WITH SCROLL */}
-                <div className={`absolute top-0 right-0 h-full w-full max-w-md bg-white transform transition-all duration-500 ease-out flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                    }`}>
-                    {/* Fixed Header */}
-                    <div className="flex-shrink-0 p-6 border-b border-gray-100">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-800">Navigation</h2>
-                                <p className="text-sm text-gray-500 mt-1">Select a destination</p>
-                            </div>
-                            <button
-                                onClick={() => setIsMenuOpen(false)}
-                                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all duration-300"
-                            >
-                                <X size={20} className="text-gray-600" />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Scrollable Content Area */}
-                    <div className="flex-1 overflow-y-auto">
-                        <div className="p-6">
-                            {/* Main Navigation */}
-                            <div className="mb-8">
-                                {menuItems.map((item, index) => {
-                                    const isActive = item.path === '/'
-                                        ? pathname === '/'
-                                        : pathname.startsWith(item.path);
-
-                                    return (
-                                        <Link
-                                            key={item.name}
-                                            href={item.path}
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="group block py-4 px-2 relative"
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center space-x-4">
-                                                    <span className="text-sm text-gray-400 font-mono">
-                                                        0{index + 1}
-                                                    </span>
-                                                    <span className={`text-base font-medium transition-all duration-300 ${isActive
-                                                        ? 'text-[#6556D5]'
-                                                        : 'text-gray-700 group-hover:text-[#6556D5]'
-                                                        }`}>
-                                                        {item.name}
-                                                    </span>
-                                                </div>
-                                                <ChevronRight className={`w-4 h-4 transition-all duration-300 ${isActive
-                                                    ? 'text-[#6556D5]'
-                                                    : 'text-gray-300 group-hover:text-[#6556D5]'
-                                                    }`} />
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 right-0 h-0.5 overflow-hidden">
-                                                <div className={`absolute bottom-0 left-0 h-full transition-all duration-500 ${isActive
-                                                    ? 'w-full bg-[#6556D5]'
-                                                    : 'w-0 bg-[#6556D5] group-hover:w-full'
-                                                    }`}></div>
-                                            </div>
-                                        </Link>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Divider */}
-                            <div className="relative my-8">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-200"></div>
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-3 bg-white text-gray-500 uppercase tracking-wider font-medium">
-                                        Account Access
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* LOGIN AND ADMIN SECTION - NOW VISIBLE */}
-                            <div className="space-y-4">
-                                {/* Login Button */}
-                                <Link
-                                    href="/login"
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="group flex items-center justify-between p-4 rounded-lg border border-gray-200 hover:border-[#6556D5] hover:shadow-sm transition-all duration-300 bg-gray-50/50"
-                                >
-                                    <div className="flex items-center space-x-4">
-                                        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 group-hover:border-[#6556D5] group-hover:bg-[#6556D5]/5 transition-all duration-300">
-                                            <LogIn className="w-5 h-5 text-gray-600 group-hover:text-[#6556D5] transition-all duration-300" />
-                                        </div>
-                                        <div>
-                                            <p className="font-semibold text-gray-800">Login</p>
-                                            <p className="text-sm text-gray-500">Sign in to your account</p>
-                                        </div>
-                                    </div>
-                                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-[#6556D5] transition-all duration-300" />
-                                </Link>
-
-                                {/* Admin Button */}
-                                <Link
-                                    href="/admin/login"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="group flex items-center justify-between p-4 rounded-lg border border-gray-200 hover:border-gray-800 hover:shadow-sm transition-all duration-300 bg-gray-50/50"
-                                >
-                                    <div className="flex items-center space-x-4">
-                                        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 group-hover:border-gray-800 group-hover:bg-gray-800/5 transition-all duration-300">
-                                            <Shield className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-all duration-300" />
-                                        </div>
-                                        <div>
-                                            <p className="font-semibold text-gray-800">Admin Panel</p>
-                                            <p className="text-sm text-gray-500">Administrative dashboard</p>
-                                        </div>
-                                    </div>
-                                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-800 transition-all duration-300" />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Fixed Footer */}
-                    <div className="flex-shrink-0 p-6 border-t border-gray-100 bg-white">
-                        <div className="text-center">
-                            <p className="text-sm text-gray-600">© {new Date().getFullYear()} DERA Digital</p>
-                            <p className="text-xs text-gray-400 mt-1">All rights reserved</p>
-                        </div>
-                    </div>
-                </div>
+              {/* Mobile Hamburger Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all focus:outline-none"
+                aria-label="Toggle Menu"
+              >
+                {isMenuOpen ? (
+                  <X size={16} />
+                ) : (
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16m-7 6h7"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
+          </div>
+        </div>
+      </header>
 
-            {/* Custom Styles for Scrollbar */}
-            <style jsx global>{`
-                /* Custom scrollbar for sidebar */
-                .overflow-y-auto {
-                    scrollbar-width: thin;
-                    scrollbar-color: #cbd5e1 #f1f5f9;
-                }
+      {/* Mobile Navigation Menu Slide-over */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <div className="fixed inset-0 z-[60] lg:hidden">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            />
 
-                .overflow-y-auto::-webkit-scrollbar {
-                    width: 4px;
-                }
+            {/* Sidebar Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="absolute top-0 right-0 h-full w-full max-w-sm bg-[#121411] border-l border-white/10 flex flex-col justify-between shadow-2xl p-8"
+            >
+              <div>
+                {/* Header */}
+                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 rounded-lg overflow-hidden bg-gradient-to-br from-[#6455D1]/40 to-[#4e3fa3]/60 border border-white/10 flex items-center justify-center">
+                      <img
+                        src="/assets/logo.png"
+                        alt="DERA Logo"
+                        className="w-full h-full object-contain rounded-[50%]"
+                      />
+                    </div>
+                    <span className="derahading text-white font-bold tracking-[0.2em] text-xs uppercase">
+                      DERA
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
 
-                .overflow-y-auto::-webkit-scrollbar-track {
-                    background: #f1f5f9;
-                    border-radius: 2px;
-                }
+                {/* Main Links */}
+                <nav className="mt-8 space-y-6">
+                  <div className="space-y-3">
+                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.25em] font-semibold">
+                      Projects by Service
+                    </p>
+                    <div className="grid grid-cols-1 gap-2 pl-2 border-l border-white/5">
+                      <Link
+                        href="/Projects"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors py-1"
+                      >
+                        <Layers className="w-3.5 h-3.5 text-[#6455D1]" />
+                        All Projects
+                      </Link>
+                      {services.map((service, i) => (
+                        <Link
+                          key={i}
+                          href={`/Projects?service=${encodeURIComponent(service.title)}`}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors py-1"
+                        >
+                          <Layers className="w-3.5 h-3.5 text-[#6455D1]" />
+                          {service.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
 
-                .overflow-y-auto::-webkit-scrollbar-thumb {
-                    background: #cbd5e1;
-                    border-radius: 2px;
-                }
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.25em] font-semibold">
+                      Pages
+                    </p>
+                    <div className="space-y-1">
+                      {menuItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          href={item.path}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex items-center justify-between text-base text-gray-300 hover:text-white py-3 border-b border-white/5"
+                        >
+                          {item.name}
+                          <ChevronRight size={16} className="text-gray-600" />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </nav>
+              </div>
 
-                .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-                    background: #94a3b8;
-                }
+              {/* Bottom CTA Block */}
+              <div className="space-y-4">
+                <Link
+                  href="/Contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full inline-flex items-center justify-center bg-[#6455D1] hover:bg-[#5143c6] text-white rounded-full py-3 text-xs font-semibold uppercase tracking-[0.15em] transition-colors duration-300"
+                >
+                  Get Quote
+                </Link>
 
-                html {
-                    scroll-behavior: smooth;
-                }
-
-                /* Smooth transitions */
-                .transition-all {
-                    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                }
-
-                /* Selection */
-                ::selection {
-                    background-color: rgba(101, 86, 213, 0.2);
-                }
-            `}</style>
-        </>
-    );
+                <div className="flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-widest pt-4 border-t border-white/5">
+                  <span>© {new Date().getFullYear()} Dera Consultants</span>
+                  <Link
+                    href="/admin/login"
+                    className="hover:text-white transition-colors"
+                  >
+                    Admin
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }

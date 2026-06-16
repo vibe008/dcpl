@@ -1,12 +1,18 @@
 // app/services/ServicesClient.js
-'use client';
+"use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence, LayoutGroup, useScroll, useTransform } from 'framer-motion';
-import ServiceCard from '../../Components/ServiceCard';
-import ProjectCarousel from '../../Components/ProjectCarousel';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useEffect, useState, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  LayoutGroup,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import ServiceCard from "../../Components/ServiceCard";
+import ProjectCarousel from "../../Components/ProjectCarousel";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ServicesClient() {
   const [services, setServices] = useState([]);
@@ -21,14 +27,22 @@ export default function ServicesClient() {
 
   // Service images mapping
   const serviceImages = {
-    'Architecture': 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop',
-    'Urban Design': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w-1200&auto=format&fit=crop',
-    'Interior Design': 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&auto=format&fit=crop',
-    'Landscape Design': 'https://images.unsplash.com/photo-1573497161163-c293a4b3f8e2?w=1200&auto=format&fit=crop',
-    'Master Planning': 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop',
-    'Sustainable Design': 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&auto=format&fit=crop',
-    'Heritage Conservation': 'https://images.unsplash.com/photo-1641803189124-91775ae91171?q=80&w=1133&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'Project Management': 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    Architecture:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop",
+    "Urban Design":
+      "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w-1200&auto=format&fit=crop",
+    "Interior Design":
+      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&auto=format&fit=crop",
+    "Landscape Design":
+      "https://images.unsplash.com/photo-1573497161163-c293a4b3f8e2?w=1200&auto=format&fit=crop",
+    "Master Planning":
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop",
+    "Sustainable Design":
+      "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&auto=format&fit=crop",
+    "Heritage Conservation":
+      "https://images.unsplash.com/photo-1641803189124-91775ae91171?q=80&w=1133&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "Project Management":
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   };
 
   useEffect(() => {
@@ -38,19 +52,21 @@ export default function ServicesClient() {
   const fetchServices = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/services');
+      const response = await fetch("/api/services");
       const data = await response.json();
 
       if (data.success) {
         // Add images to services
-        const servicesWithImages = data.data.map(service => ({
+        const servicesWithImages = data.data.map((service) => ({
           ...service,
-          image: serviceImages[service.title] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop'
+          image:
+            serviceImages[service.title] ||
+            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&auto=format&fit=crop",
         }));
         setServices(servicesWithImages);
       }
     } catch (error) {
-      console.error('Error fetching services:', error);
+      console.error("Error fetching services:", error);
     } finally {
       setIsLoading(false);
     }
@@ -68,11 +84,14 @@ export default function ServicesClient() {
     setTimeout(() => {
       if (detailsSectionRef.current) {
         const yOffset = -100; // Adjust this value as needed
-        const y = detailsSectionRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        const y =
+          detailsSectionRef.current.getBoundingClientRect().top +
+          window.pageYOffset +
+          yOffset;
 
         window.scrollTo({
           top: y,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }, 100); // Small delay to ensure DOM is updated
@@ -86,11 +105,11 @@ export default function ServicesClient() {
     setSelectedService(null);
 
     // Scroll back to services grid
-    const servicesGrid = document.querySelector('#services-grid');
+    const servicesGrid = document.querySelector("#services-grid");
     if (servicesGrid) {
       window.scrollTo({
         top: servicesGrid.offsetTop - 100,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
 
@@ -114,12 +133,9 @@ export default function ServicesClient() {
       <div className="min-h-screen bg-white">
         {/* === BANNER IMAGE SECTION - 80vh Height === */}
         <div className="relative h-[85vh] overflow-hidden">
-          <motion.div
-            className="absolute inset-0"
-            style={{ y, scale }}
-          >
+          <motion.div className="absolute inset-0" style={{ y, scale }}>
             <img
-              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop"
+              src="/assets/services.png"
               alt="Projects Header"
               className="w-full h-full object-cover"
             />
@@ -144,7 +160,9 @@ export default function ServicesClient() {
                   transition={{ delay: 0.2 }}
                 >
                   <div className="w-8 h-0.5 bg-gradient-to-r from-[#6455D1] to-white"></div>
-                  <span className="text-white/90 font-light tracking-[0.2em] text-sm">SERVICES</span>
+                  <span className="text-white/90 font-light tracking-[0.2em] text-sm">
+                    SERVICES
+                  </span>
                 </motion.div>
                 <h1 className="text-7xl lg:text-8xl font-light text-white mb-6 tracking-tight">
                   Design <br />
@@ -159,7 +177,8 @@ export default function ServicesClient() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  Comprehensive architectural solutions that blend innovation, functionality, and aesthetic excellence.
+                  Comprehensive architectural solutions that blend innovation,
+                  functionality, and aesthetic excellence.
                 </motion.p>
               </motion.div>
             </div>
@@ -173,7 +192,9 @@ export default function ServicesClient() {
             transition={{ delay: 1, duration: 1 }}
           >
             <div className="flex flex-col items-center">
-              <span className="text-white/60 font-light text-sm mb-2 tracking-wider">EXPLORE</span>
+              <span className="text-white/60 font-light text-sm mb-2 tracking-wider">
+                EXPLORE
+              </span>
               <motion.div
                 className="w-[1px] h-16 bg-gradient-to-b from-white/80 to-transparent"
                 animate={{ height: [16, 32, 16] }}
@@ -185,7 +206,10 @@ export default function ServicesClient() {
         {/* === END BANNER SECTION === */}
 
         {/* Services Section - Always visible */}
-        <section id="services-grid" className="py-16 md:py-24 px-4 max-w-7xl mx-auto">
+        <section
+          id="services-grid"
+          className="py-16 md:py-24 px-4 max-w-7xl mx-auto"
+        >
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -211,13 +235,13 @@ export default function ServicesClient() {
                   duration: 0.5,
                   delay: index * 0.1,
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 100,
                 }}
                 viewport={{ once: true }}
                 whileHover={{
                   y: -8,
                   scale: 1.02,
-                  transition: { type: "spring", stiffness: 300 }
+                  transition: { type: "spring", stiffness: 300 },
                 }}
                 className="cursor-pointer relative"
                 onClick={() => handleServiceClick(service)}
@@ -236,7 +260,7 @@ export default function ServicesClient() {
                 <ServiceCard
                   service={service}
                   isSelected={selectedService?._id === service._id}
-                  brandColors={{ primary: '#6556D5', secondary: '#51B873' }}
+                  brandColors={{ primary: "#6556D5", secondary: "#51B873" }}
                 />
               </motion.div>
             ))}
@@ -255,13 +279,13 @@ export default function ServicesClient() {
                   transition: {
                     type: "spring",
                     stiffness: 300,
-                    damping: 25
-                  }
+                    damping: 25,
+                  },
                 }}
                 exit={{
                   opacity: 0,
                   y: -20,
-                  transition: { duration: 0.3 }
+                  transition: { duration: 0.3 },
                 }}
                 className="relative"
               >
@@ -284,7 +308,12 @@ export default function ServicesClient() {
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
                     </svg>
                   </motion.div>
                   <span className="text-gray-600 group-hover:text-gray-900 font-medium transition-colors">
@@ -302,8 +331,8 @@ export default function ServicesClient() {
                     transition: {
                       type: "spring",
                       stiffness: 280,
-                      damping: 20
-                    }
+                      damping: 20,
+                    },
                   }}
                   className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
                 >
@@ -320,8 +349,8 @@ export default function ServicesClient() {
                         transition: {
                           type: "spring",
                           stiffness: 200,
-                          delay: 0.3
-                        }
+                          delay: 0.3,
+                        },
                       }}
                       className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-bl from-[#6556D5]/5 to-transparent rounded-full blur-xl"
                     />
@@ -338,8 +367,8 @@ export default function ServicesClient() {
                               type: "spring",
                               stiffness: 200,
                               damping: 15,
-                              delay: 0.4
-                            }
+                              delay: 0.4,
+                            },
                           }}
                           className="flex-shrink-0 w-full lg:w-1/3"
                         >
@@ -366,7 +395,9 @@ export default function ServicesClient() {
                                   </motion.h3>
                                   <div className="flex items-center gap-2">
                                     <div className="w-8 h-1 bg-gradient-to-r from-[#6556D5] to-[#51B873]"></div>
-                                    <span className="text-sm text-white/80">Expert Service</span>
+                                    <span className="text-sm text-white/80">
+                                      Expert Service
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -395,12 +426,20 @@ export default function ServicesClient() {
                             className="mt-6 grid grid-cols-2 gap-4"
                           >
                             <div className="bg-gradient-to-br from-[#6556D5]/5 to-[#51B873]/5 p-4 rounded-xl">
-                              <div className="text-2xl font-bold text-[#6556D5]">25+</div>
-                              <div className="text-sm text-gray-600">Projects</div>
+                              <div className="text-2xl font-bold text-[#6556D5]">
+                                25+
+                              </div>
+                              <div className="text-sm text-gray-600">
+                                Projects
+                              </div>
                             </div>
                             <div className="bg-gradient-to-br from-[#6556D5]/5 to-[#51B873]/5 p-4 rounded-xl">
-                              <div className="text-2xl font-bold text-[#51B873]">15+</div>
-                              <div className="text-sm text-gray-600">Years Exp</div>
+                              <div className="text-2xl font-bold text-[#51B873]">
+                                15+
+                              </div>
+                              <div className="text-sm text-gray-600">
+                                Years Exp
+                              </div>
                             </div>
                           </motion.div>
                         </motion.div>
@@ -415,7 +454,9 @@ export default function ServicesClient() {
                           >
                             <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-gradient-to-r from-[#6556D5]/10 to-[#51B873]/10">
                               <div className="w-2 h-2 rounded-full bg-[#6556D5]"></div>
-                              <span className="text-sm font-medium text-[#6556D5]">Specialized Service</span>
+                              <span className="text-sm font-medium text-[#6556D5]">
+                                Specialized Service
+                              </span>
                             </div>
 
                             <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 mb-6 leading-tight">
@@ -433,48 +474,69 @@ export default function ServicesClient() {
                           </motion.p>
 
                           {/* Features/Highlights with Brand Accents */}
-                          {selectedService.features && selectedService.features.length > 0 && (
-                            <motion.div
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 0.7, staggerChildren: 0.1 }}
-                              className="mt-10"
-                            >
-                              <h4 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-                                <div className="w-8 h-1 bg-gradient-to-r from-[#6556D5] to-[#51B873]"></div>
-                                Key Features & Benefits
-                              </h4>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {selectedService.features.map((feature, index) => (
-                                  <motion.div
-                                    key={index}
-                                    initial={{ x: -20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.8 + index * 0.1 }}
-                                    className="group"
-                                  >
-                                    <div className="flex items-start gap-4 p-4 rounded-lg hover:bg-gradient-to-r hover:from-[#6556D5]/5 hover:to-[#51B873]/5 transition-all duration-300 border border-gray-100 hover:border-[#6556D5]/20">
-                                      <div className="flex-shrink-0 mt-1">
-                                        <motion.div
-                                          whileHover={{ scale: 1.2, rotate: 5 }}
-                                          className="w-8 h-8 rounded-full bg-gradient-to-r from-[#6556D5] to-[#51B873] flex items-center justify-center shadow-sm"
-                                        >
-                                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                          </svg>
-                                        </motion.div>
-                                      </div>
-                                      <div>
-                                        <span className="text-gray-700 group-hover:text-gray-900 transition-colors font-medium">
-                                          {feature}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </motion.div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
+                          {selectedService.features &&
+                            selectedService.features.length > 0 && (
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{
+                                  delay: 0.7,
+                                  staggerChildren: 0.1,
+                                }}
+                                className="mt-10"
+                              >
+                                <h4 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
+                                  <div className="w-8 h-1 bg-gradient-to-r from-[#6556D5] to-[#51B873]"></div>
+                                  Key Features & Benefits
+                                </h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {selectedService.features.map(
+                                    (feature, index) => (
+                                      <motion.div
+                                        key={index}
+                                        initial={{ x: -20, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{
+                                          delay: 0.8 + index * 0.1,
+                                        }}
+                                        className="group"
+                                      >
+                                        <div className="flex items-start gap-4 p-4 rounded-lg hover:bg-gradient-to-r hover:from-[#6556D5]/5 hover:to-[#51B873]/5 transition-all duration-300 border border-gray-100 hover:border-[#6556D5]/20">
+                                          <div className="flex-shrink-0 mt-1">
+                                            <motion.div
+                                              whileHover={{
+                                                scale: 1.2,
+                                                rotate: 5,
+                                              }}
+                                              className="w-8 h-8 rounded-full bg-gradient-to-r from-[#6556D5] to-[#51B873] flex items-center justify-center shadow-sm"
+                                            >
+                                              <svg
+                                                className="w-4 h-4 text-white"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                              >
+                                                <path
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  strokeWidth={3}
+                                                  d="M5 13l4 4L19 7"
+                                                />
+                                              </svg>
+                                            </motion.div>
+                                          </div>
+                                          <div>
+                                            <span className="text-gray-700 group-hover:text-gray-900 transition-colors font-medium">
+                                              {feature}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </motion.div>
+                                    ),
+                                  )}
+                                </div>
+                              </motion.div>
+                            )}
 
                           {/* Service Process */}
                           <motion.div
@@ -488,7 +550,12 @@ export default function ServicesClient() {
                               Our Process
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                              {['Consultation', 'Design', 'Development', 'Delivery'].map((step, index) => (
+                              {[
+                                "Consultation",
+                                "Design",
+                                "Development",
+                                "Delivery",
+                              ].map((step, index) => (
                                 <motion.div
                                   key={index}
                                   initial={{ scale: 0 }}
@@ -498,10 +565,16 @@ export default function ServicesClient() {
                                   className="text-center p-4 rounded-lg bg-gradient-to-b from-white to-gray-50 border border-gray-100 hover:border-[#6556D5]/30 transition-all"
                                 >
                                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#6556D5]/10 to-[#51B873]/10 flex items-center justify-center mx-auto mb-3">
-                                    <span className="text-lg font-bold text-[#6556D5]">{index + 1}</span>
+                                    <span className="text-lg font-bold text-[#6556D5]">
+                                      {index + 1}
+                                    </span>
                                   </div>
-                                  <div className="font-medium text-gray-900">{step}</div>
-                                  <div className="text-sm text-gray-600 mt-1">Phase {index + 1}</div>
+                                  <div className="font-medium text-gray-900">
+                                    {step}
+                                  </div>
+                                  <div className="text-sm text-gray-600 mt-1">
+                                    Phase {index + 1}
+                                  </div>
                                 </motion.div>
                               ))}
                             </div>
@@ -513,34 +586,42 @@ export default function ServicesClient() {
                 </motion.div>
 
                 {/* Related Projects Section */}
-                {selectedService.projects && selectedService.projects.length > 0 && (
-                  <motion.div
-                    initial={{ y: 50, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1.2, type: "spring", stiffness: 100 }}
-                    className="mt-20"
-                  >
-                    <motion.h4
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 1.3 }}
-                      className="text-2xl md:text-3xl font-serif font-semibold text-gray-900 mb-8 flex items-center gap-3"
-                    >
-                      <div className="w-8 h-1 bg-gradient-to-r from-[#6556D5] to-[#51B873]"></div>
-                      Related Projects
-                    </motion.h4>
+                {selectedService.projects &&
+                  selectedService.projects.length > 0 && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.4 }}
+                      initial={{ y: 50, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{
+                        delay: 1.2,
+                        type: "spring",
+                        stiffness: 100,
+                      }}
+                      className="mt-20"
                     >
-                      <ProjectCarousel
-                        projects={selectedService.projects}
-                        brandColors={{ primary: '#6556D5', secondary: '#51B873' }}
-                      />
+                      <motion.h4
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1.3 }}
+                        className="text-2xl md:text-3xl font-serif font-semibold text-gray-900 mb-8 flex items-center gap-3"
+                      >
+                        <div className="w-8 h-1 bg-gradient-to-r from-[#6556D5] to-[#51B873]"></div>
+                        Related Projects
+                      </motion.h4>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.4 }}
+                      >
+                        <ProjectCarousel
+                          projects={selectedService.projects}
+                          brandColors={{
+                            primary: "#6556D5",
+                            secondary: "#51B873",
+                          }}
+                        />
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                )}
+                  )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -559,7 +640,8 @@ export default function ServicesClient() {
                   Ready to Start Your Project?
                 </h3>
                 <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-                  Let&apos;s discuss how our services can bring your vision to life.
+                  Let&apos;s discuss how our services can bring your vision to
+                  life.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <motion.button
@@ -574,10 +656,7 @@ export default function ServicesClient() {
                     whileTap={{ scale: 0.95 }}
                     className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-[#6556D5] hover:text-[#6556D5] transition-colors"
                   >
-                    <Link href="/Projects">
-                      View All Projects
-                    </Link>
-
+                    <Link href="/Projects">View All Projects</Link>
                   </motion.button>
                 </div>
               </div>

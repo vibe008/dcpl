@@ -1,11 +1,33 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Filter, X, MapPin, Calendar, ChevronDown, ArrowRight, Eye, Clock, Building2, Map, Layers, ExternalLink, RefreshCw } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, Suspense } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  X,
+  MapPin,
+  Calendar,
+  ChevronDown,
+  ArrowRight,
+  Eye,
+  Clock,
+  Building2,
+  Map,
+  Layers,
+  ExternalLink,
+  RefreshCw,
+} from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ProjectsPage() {
+function ProjectsPageContent() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filteredProjects, setFilteredProjects] = useState([]);
@@ -13,23 +35,55 @@ export default function ProjectsPage() {
     sectors: [],
     regions: [],
     status: [],
-    types: []
+    types: [],
+    service: "",
   });
+  const [services, setServices] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Read search parameters for initial sector and service filter
+  useEffect(() => {
+    if (searchParams) {
+      const sector = searchParams.get("sector");
+      const service = searchParams.get("service");
+      setFilters((prev) => ({
+        ...prev,
+        sectors: sector ? [sector] : [],
+        service: service ? service : "",
+      }));
+    }
+  }, [searchParams]);
+
+  // Fetch services list
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("/api/services");
+        const data = await res.json();
+        if (data.success) {
+          setServices(data.data);
+        }
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    };
+    fetchServices();
+  }, []);
 
   // Check for mobile/tablet
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Parallax scroll effect for header - only on desktop
@@ -46,19 +100,19 @@ export default function ProjectsPage() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Fetch projects from API
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('/api/projects');
+        const response = await fetch("/api/projects");
         const data = await response.json();
-        
+
         if (data.success) {
-          const transformedProjects = data.data.map(project => ({
+          const transformedProjects = data.data.map((project) => ({
             id: project._id,
             title: project.title,
             location: project.location,
@@ -66,22 +120,27 @@ export default function ProjectsPage() {
             description: project.description,
             status: project.status,
             type: project.type,
-            sectors: project.sectors && project.sectors.length > 0 ? project.sectors : 
-                    project.sector ? [project.sector] : [],
+            sectors:
+              project.sectors && project.sectors.length > 0
+                ? project.sectors
+                : project.sector
+                  ? [project.sector]
+                  : [],
             region: project.region,
             headerimage: project.headerimage,
             images: project.images || [],
             markforhomepage: project.markforhomepage,
+            services: project.services || [],
             client: project.client || "Confidential",
             area: project.area || "N/A",
-            budget: project.budget || "Confidential"
+            budget: project.budget || "Confidential",
           }));
-          
+
           setProjects(transformedProjects);
           setFilteredProjects(transformedProjects);
         }
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error("Error fetching projects:", error);
         const sampleProjects = getSampleProjects();
         setProjects(sampleProjects);
         setFilteredProjects(sampleProjects);
@@ -100,40 +159,44 @@ export default function ProjectsPage() {
       title: "ESIC 300 Bedded Hospital",
       location: "Noida, Uttar Pradesh",
       year: "2023",
-      description: "A state-of-the-art 300 bedded hospital with advanced medical facilities.",
+      description:
+        "A state-of-the-art 300 bedded hospital with advanced medical facilities.",
       status: "Completed",
       type: "Hospital",
       sectors: ["Healthcare", "Infrastructure"],
       region: "North",
-      headerimage: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200",
+      headerimage:
+        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200",
       images: [
         "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1200",
-        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200"
+        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200",
       ],
       markforhomepage: true,
       client: "ESIC",
       area: "50,000 sq ft",
-      budget: "₹150 Crore"
+      budget: "₹150 Crore",
     },
     {
       id: "2",
       title: "Tech Innovation Hub",
       location: "Bangalore, Karnataka",
       year: "2024",
-      description: "Modern innovation center for technology startups and research facilities.",
+      description:
+        "Modern innovation center for technology startups and research facilities.",
       status: "Active",
       type: "Commercial",
       sectors: ["Technology", "Commercial"],
       region: "South",
-      headerimage: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200",
+      headerimage:
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200",
       images: [
         "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200",
-        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200"
+        "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200",
       ],
       markforhomepage: true,
       client: "Tech Corp",
       area: "75,000 sq ft",
-      budget: "₹200 Crore"
+      budget: "₹200 Crore",
     },
     {
       id: "3",
@@ -145,61 +208,80 @@ export default function ProjectsPage() {
       type: "Residential",
       sectors: ["Residential", "Real Estate"],
       region: "West",
-      headerimage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200",
+      headerimage:
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200",
       images: [
         "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200",
-        "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=1200"
+        "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=1200",
       ],
       markforhomepage: false,
       client: "Elite Developers",
       area: "2,00,000 sq ft",
-      budget: "₹500 Crore"
-    }
+      budget: "₹500 Crore",
+    },
   ];
 
   // Extract unique values for filters
-  const allSectors = [...new Set(projects.flatMap(project => project.sectors || []))].filter(Boolean);
-  const allRegions = [...new Set(projects.map(project => project.region).filter(Boolean))];
-  const allStatus = [...new Set(projects.map(project => project.status).filter(Boolean))];
-  const allTypes = [...new Set(projects.map(project => project.type).filter(Boolean))];
+  const allSectors = [
+    ...new Set(projects.flatMap((project) => project.sectors || [])),
+  ].filter(Boolean);
+  const allRegions = [
+    ...new Set(projects.map((project) => project.region).filter(Boolean)),
+  ];
+  const allStatus = [
+    ...new Set(projects.map((project) => project.status).filter(Boolean)),
+  ];
+  const allTypes = [
+    ...new Set(projects.map((project) => project.type).filter(Boolean)),
+  ];
 
   // Apply filters
   useEffect(() => {
     let result = projects;
 
     if (filters.sectors.length > 0) {
-      result = result.filter(project => 
-        project.sectors?.some(sector => filters.sectors.includes(sector))
+      result = result.filter((project) =>
+        project.sectors?.some((sector) => filters.sectors.includes(sector)),
       );
     }
 
     if (filters.regions.length > 0) {
-      result = result.filter(project => 
-        filters.regions.includes(project.region)
+      result = result.filter((project) =>
+        filters.regions.includes(project.region),
       );
     }
 
     if (filters.status.length > 0) {
-      result = result.filter(project => 
-        filters.status.includes(project.status)
+      result = result.filter((project) =>
+        filters.status.includes(project.status),
       );
     }
 
     if (filters.types.length > 0) {
-      result = result.filter(project => 
-        filters.types.includes(project.type)
+      result = result.filter((project) => filters.types.includes(project.type));
+    }
+
+    if (filters.service) {
+      const matchedServiceObj = services.find(
+        (s) => s.title.toLowerCase() === filters.service.toLowerCase()
       );
+      if (matchedServiceObj) {
+        const serviceId = matchedServiceObj._id;
+        result = result.filter((project) =>
+          project.services?.includes(serviceId)
+        );
+      }
     }
 
     setFilteredProjects(result);
-  }, [filters, projects]);
+  }, [filters, projects, services]);
 
   const toggleFilter = (type, value) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
       [type]: prev[type].includes(value)
-        ? prev[type].filter(item => item !== value)
-        : [...prev[type], value]
+        ? prev[type].filter((item) => item !== value)
+        : [...prev[type], value],
     }));
     setActiveDropdown(null);
   };
@@ -209,7 +291,8 @@ export default function ProjectsPage() {
       sectors: [],
       regions: [],
       status: [],
-      types: []
+      types: [],
+      service: "",
     });
   };
 
@@ -262,20 +345,17 @@ export default function ProjectsPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Premium Header with Parallax */}
       <div className="relative h-[60vh] md:h-[75vh] lg:h-[85vh] overflow-hidden">
-        <motion.div
-          className="absolute inset-0"
-          style={{ y, scale }}
-        >
+        <motion.div className="absolute inset-0" style={{ y, scale }}>
           <img
-            src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop"
+            src="/assets/DCPLPROJECTCOLLAG.png"
             alt="Projects Header"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="absolute inset-0 flex items-center"
           style={{ opacity }}
         >
@@ -285,30 +365,33 @@ export default function ProjectsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
             >
-              <motion.div 
+              <motion.div
                 className="inline-flex items-center space-x-2 md:space-x-3 mb-4 md:mb-6 lg:mb-8 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
               >
                 <div className="w-4 md:w-6 lg:w-8 h-0.5 bg-gradient-to-r from-[#6455D1] to-white"></div>
-                <span className="text-white/90 font-light tracking-[0.1em] md:tracking-[0.2em] text-xs md:text-sm">PORTFOLIO</span>
+                <span className="text-white/90 font-light tracking-[0.1em] md:tracking-[0.2em] text-xs md:text-sm">
+                  PORTFOLIO
+                </span>
               </motion.div>
-              
+
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-light text-white mb-4 md:mb-6 tracking-tight">
                 Architectural <br className="hidden sm:block" />
                 <span className="font-normal bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                   Excellence
                 </span>
               </h1>
-              
+
               <motion.p
                 className="text-white/80 font-light text-sm md:text-base lg:text-lg max-w-2xl leading-relaxed mb-6 md:mb-8 lg:mb-10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                Discover our portfolio of transformative projects that redefine spaces and experiences.
+                Discover our portfolio of transformative projects that redefine
+                spaces and experiences.
               </motion.p>
             </motion.div>
           </div>
@@ -323,7 +406,9 @@ export default function ProjectsPage() {
             transition={{ delay: 1, duration: 1 }}
           >
             <div className="flex flex-col items-center">
-              <span className="text-white/60 font-light text-xs md:text-sm mb-1 md:mb-2 tracking-wider">EXPLORE</span>
+              <span className="text-white/60 font-light text-xs md:text-sm mb-1 md:mb-2 tracking-wider">
+                EXPLORE
+              </span>
               <motion.div
                 className="w-[1px] h-8 md:h-12 lg:h-16 bg-gradient-to-b from-white/80 to-transparent"
                 animate={{ height: [8, 16, 8] }}
@@ -335,7 +420,7 @@ export default function ProjectsPage() {
       </div>
 
       {/* Premium Filters Section - Mobile optimized */}
-      <motion.div 
+      <motion.div
         className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-sm"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -345,9 +430,11 @@ export default function ProjectsPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 md:py-6 gap-4 sm:gap-0">
             {/* Mobile: Filters header */}
             <div className="sm:hidden w-full flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">Filter Projects</h2>
+              <h2 className="text-lg font-medium text-gray-900">
+                Filter Projects
+              </h2>
               <motion.button
-                onClick={() => toggleDropdown('advanced')}
+                onClick={() => toggleDropdown("advanced")}
                 className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white rounded-lg"
                 whileTap={{ scale: 0.95 }}
               >
@@ -367,38 +454,67 @@ export default function ProjectsPage() {
                 whileTap={{ scale: 0.98 }}
               >
                 <button
-                  onClick={() => toggleDropdown('advanced')}
+                  onClick={() => toggleDropdown("advanced")}
                   className="flex items-center space-x-2 px-4 md:px-5 py-2.5 md:py-3 bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white rounded-lg md:rounded-xl hover:shadow-lg transition-all duration-300"
                 >
                   <Layers className="w-4 h-4 md:w-5 md:h-5" />
-                  <span className="font-medium text-sm md:text-base">Filters</span>
-                  <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 ${activeDropdown === 'advanced' ? 'rotate-180' : ''}`} />
+                  <span className="font-medium text-sm md:text-base">
+                    Filters
+                  </span>
+                  <ChevronDown
+                    className={`w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 ${activeDropdown === "advanced" ? "rotate-180" : ""}`}
+                  />
                 </button>
               </motion.div>
 
-              {/* Active Filters Display */}
               <AnimatePresence>
-                {(filters.sectors.length > 0 || filters.regions.length > 0 || filters.status.length > 0 || filters.types.length > 0) && (
+                {(filters.sectors.length > 0 ||
+                  filters.regions.length > 0 ||
+                  filters.status.length > 0 ||
+                  filters.types.length > 0 ||
+                  filters.service) && (
                   <motion.div
                     className="flex items-center space-x-2 overflow-x-auto max-w-[200px] md:max-w-none"
                     initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 'auto' }}
+                    animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
                   >
                     <div className="flex items-center space-x-2">
-                      {[...filters.sectors, ...filters.regions, ...filters.status, ...filters.types].slice(0, 2).map((filter, idx) => (
-                        <motion.span
-                          key={idx}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="px-2 py-1 bg-gradient-to-r from-[#6455D1]/10 to-[#8B7CFF]/10 text-[#6455D1] text-xs md:text-sm rounded border border-[#6455D1]/20 whitespace-nowrap"
-                        >
-                          {filter}
-                        </motion.span>
-                      ))}
-                      {[...filters.sectors, ...filters.regions, ...filters.status, ...filters.types].length > 2 && (
+                      {[
+                        ...filters.sectors,
+                        ...filters.regions,
+                        ...filters.status,
+                        ...filters.types,
+                        ...(filters.service ? [filters.service] : []),
+                      ]
+                        .slice(0, 2)
+                        .map((filter, idx) => (
+                          <motion.span
+                            key={idx}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="px-2 py-1 bg-gradient-to-r from-[#6455D1]/10 to-[#8B7CFF]/10 text-[#6455D1] text-xs md:text-sm rounded border border-[#6455D1]/20 whitespace-nowrap"
+                          >
+                            {filter}
+                          </motion.span>
+                        ))}
+                      {[
+                        ...filters.sectors,
+                        ...filters.regions,
+                        ...filters.status,
+                        ...filters.types,
+                        ...(filters.service ? [filters.service] : []),
+                      ].length > 2 && (
                         <span className="text-xs text-gray-500">
-                          +{[...filters.sectors, ...filters.regions, ...filters.status, ...filters.types].length - 2} more
+                          +
+                          {[
+                            ...filters.sectors,
+                            ...filters.regions,
+                            ...filters.status,
+                            ...filters.types,
+                            ...(filters.service ? [filters.service] : []),
+                          ].length - 2}{" "}
+                          more
                         </span>
                       )}
                     </div>
@@ -420,9 +536,10 @@ export default function ProjectsPage() {
               animate={{ opacity: 1 }}
             >
               <span className="text-gray-600 font-light text-sm md:text-base">
-                {filteredProjects.length} <span className="text-gray-400">projects</span>
+                {filteredProjects.length}{" "}
+                <span className="text-gray-400">projects</span>
               </span>
-              <motion.div 
+              <motion.div
                 className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] flex items-center justify-center text-white text-xs md:text-sm font-medium"
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 transition={{ duration: 0.3 }}
@@ -434,35 +551,59 @@ export default function ProjectsPage() {
 
           {/* Advanced Filter Panel - Responsive */}
           <AnimatePresence>
-            {activeDropdown === 'advanced' && (
+            {activeDropdown === "advanced" && (
               <motion.div
-                className={`pb-4 md:pb-6 ${isMobile ? 'overflow-y-auto max-h-[60vh]' : ''}`}
+                className={`pb-4 md:pb-6 ${isMobile ? "overflow-y-auto max-h-[60vh]" : ""}`}
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-4'} gap-4 md:gap-6`}>
+                <div
+                  className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-4"} gap-4 md:gap-6`}
+                >
                   {[
-                    { type: 'sectors', label: 'Sectors', icon: <Building2 className="w-3 h-3 md:w-4 md:h-4" />, items: allSectors },
-                    { type: 'regions', label: 'Regions', icon: <Map className="w-3 h-3 md:w-4 md:h-4" />, items: allRegions },
-                    { type: 'status', label: 'Status', icon: <Clock className="w-3 h-3 md:w-4 md:h-4" />, items: allStatus },
-                    { type: 'types', label: 'Types', icon: <Layers className="w-3 h-3 md:w-4 md:h-4" />, items: allTypes }
+                    {
+                      type: "sectors",
+                      label: "Sectors",
+                      icon: <Building2 className="w-3 h-3 md:w-4 md:h-4" />,
+                      items: allSectors,
+                    },
+                    {
+                      type: "regions",
+                      label: "Regions",
+                      icon: <Map className="w-3 h-3 md:w-4 md:h-4" />,
+                      items: allRegions,
+                    },
+                    {
+                      type: "status",
+                      label: "Status",
+                      icon: <Clock className="w-3 h-3 md:w-4 md:h-4" />,
+                      items: allStatus,
+                    },
+                    {
+                      type: "types",
+                      label: "Types",
+                      icon: <Layers className="w-3 h-3 md:w-4 md:h-4" />,
+                      items: allTypes,
+                    },
                   ].map(({ type, label, icon, items }) => (
                     <div key={type} className="space-y-2 md:space-y-3">
                       <div className="flex items-center space-x-1.5 md:space-x-2 text-gray-600">
                         {icon}
-                        <span className="font-medium text-sm md:text-base">{label}</span>
+                        <span className="font-medium text-sm md:text-base">
+                          {label}
+                        </span>
                       </div>
                       <div className="flex flex-wrap gap-1.5 md:gap-2">
-                        {items.map(item => (
+                        {items.map((item) => (
                           <motion.button
                             key={item}
                             onClick={() => toggleFilter(type, item)}
                             className={`px-2.5 py-1 md:px-3 md:py-1.5 text-xs md:text-sm rounded-lg transition-all duration-300 ${
                               filters[type].includes(item)
-                                ? 'bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white shadow-lg'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                ? "bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white shadow-lg"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                             }`}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -474,7 +615,7 @@ export default function ProjectsPage() {
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Mobile Filter Actions */}
                 {isMobile && (
                   <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
@@ -513,8 +654,12 @@ export default function ProjectsPage() {
             >
               <Eye className="w-10 h-10 md:w-16 md:h-16 text-gray-400" />
             </motion.div>
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-gray-600 mb-3 md:mb-4">No projects found</h3>
-            <p className="text-gray-400 font-light text-sm md:text-base">Try adjusting your filters or browse all projects.</p>
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-gray-600 mb-3 md:mb-4">
+              No projects found
+            </h3>
+            <p className="text-gray-400 font-light text-sm md:text-base">
+              Try adjusting your filters or browse all projects.
+            </p>
           </motion.div>
         ) : (
           <motion.div
@@ -527,15 +672,15 @@ export default function ProjectsPage() {
                 opacity: 1,
                 transition: {
                   staggerChildren: 0.1,
-                  delayChildren: 0.1
-                }
-              }
+                  delayChildren: 0.1,
+                },
+              },
             }}
           >
             {filteredProjects.map((project, index) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
+              <ProjectCard
+                key={project.id}
+                project={project}
                 index={index}
                 isHovered={hoveredCard === project.id}
                 onMouseEnter={() => handleMouseEnter(project.id)}
@@ -557,12 +702,16 @@ export default function ProjectsPage() {
       >
         <motion.button
           onClick={clearFilters}
-          className={`flex items-center space-x-2 md:space-x-3 ${isMobile ? 'px-4 py-3' : 'px-5 md:px-6 py-3 md:py-4'} bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl hover:shadow-2xl transition-all duration-300`}
+          className={`flex items-center space-x-2 md:space-x-3 ${isMobile ? "px-4 py-3" : "px-5 md:px-6 py-3 md:py-4"} bg-gradient-to-r from-[#6455D1] to-[#8B7CFF] text-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl hover:shadow-2xl transition-all duration-300`}
           whileHover={{ scale: 1.05, y: -5 }}
           whileTap={{ scale: 0.95 }}
         >
           <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
-          {!isMobile && <span className="font-medium text-sm md:text-base">Reset Filters</span>}
+          {!isMobile && (
+            <span className="font-medium text-sm md:text-base">
+              Reset Filters
+            </span>
+          )}
         </motion.button>
       </motion.div>
     </div>
@@ -570,13 +719,23 @@ export default function ProjectsPage() {
 }
 
 // Premium Project Card Component - Responsive
-const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, onClick, isMobile }) => {
+const ProjectCard = ({
+  project,
+  index,
+  isHovered,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+  isMobile,
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const [direction, setDirection] = useState(0);
   const cardRef = useRef(null);
 
-  const images = [project.headerimage, ...(project.images || [])].filter(Boolean);
+  const images = [project.headerimage, ...(project.images || [])].filter(
+    Boolean,
+  );
 
   const nextImage = () => {
     setDirection(0);
@@ -602,7 +761,7 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
 
   // Elegant card animations
   const cardVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 40,
       scale: 0.96,
@@ -614,16 +773,16 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
       transition: {
         duration: 0.7,
         ease: [0.19, 1, 0.22, 1],
-        delay: index * 0.1
-      }
+        delay: index * 0.1,
+      },
     },
     hover: {
       y: isMobile ? 0 : -12,
       transition: {
         duration: 0.4,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   // Refined slide animation
@@ -640,17 +799,17 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
       transition: {
         x: { type: "spring", stiffness: 350, damping: 30 },
         opacity: { duration: 0.3 },
-        scale: { duration: 0.3 }
-      }
+        scale: { duration: 0.3 },
+      },
     },
     exit: (direction) => ({
       x: direction === 0 ? -300 : 300,
       opacity: 0,
       scale: 1.08,
       transition: {
-        duration: 0.3
-      }
-    })
+        duration: 0.3,
+      },
+    }),
   };
 
   return (
@@ -666,8 +825,9 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
       className="relative cursor-pointer group"
     >
       {/* Card Container */}
-      <div className={`relative ${isMobile ? 'h-[300px]' : 'h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px]'} overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-all duration-500`}>
-        
+      <div
+        className={`relative ${isMobile ? "h-[300px]" : "h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px]"} overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-all duration-500`}
+      >
         {/* Image Container */}
         <div className="absolute inset-0">
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -683,14 +843,14 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
               exit="exit"
             />
           </AnimatePresence>
-          
+
           {/* Elegant Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-          
+
           {/* Subtle Glow on Hover */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-gradient-to-tr from-[#6455D1]/10 via-transparent to-[#8B7CFF]/10"
-            animate={{ 
+            animate={{
               opacity: isHovered && !isMobile ? 0.2 : 0,
             }}
             transition={{ duration: 0.4 }}
@@ -698,45 +858,60 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
         </div>
 
         {/* Content Overlay - Responsive positioning */}
-        <div className={`absolute bottom-0 left-0 right-0 ${isMobile ? 'p-4' : 'p-5 md:p-6'} text-white`}>
+        <div
+          className={`absolute bottom-0 left-0 right-0 ${isMobile ? "p-4" : "p-5 md:p-6"} text-white`}
+        >
           {/* Title and Location Container */}
-          <motion.div 
+          <motion.div
             className="mb-3 md:mb-4"
-            animate={{ 
-              y: isHovered && !isMobile ? -10 : 0
+            animate={{
+              y: isHovered && !isMobile ? -10 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
             {/* Project Title - Capitalized */}
             <motion.h3
-              className={`font-light mb-1.5 md:mb-2 leading-snug capitalize ${isMobile ? 'text-lg' : 'text-xl md:text-2xl'}`}
-              animate={{ 
+              className={`font-light mb-1.5 md:mb-2 leading-snug capitalize ${isMobile ? "text-lg" : "text-xl md:text-2xl"}`}
+              animate={{
                 scale: isHovered && !isMobile ? 1.02 : 1,
               }}
               transition={{ duration: 0.3 }}
             >
-              {project.title.toLowerCase().split(' ').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-              ).join(' ')}
+              {project.title
+                .toLowerCase()
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
             </motion.h3>
-            
+
             {/* Location with Elegant Icon - Capitalized */}
             <div className="flex items-center text-white/80 font-light">
-              <MapPin className={`${isMobile ? 'w-3 h-3' : 'w-3 h-3 md:w-4 md:h-4'} mr-1.5 md:mr-2 opacity-80`} />
-              <span className={`tracking-wide capitalize ${isMobile ? 'text-xs' : 'text-sm md:text-base'}`}>
-                {project.location.toLowerCase().split(', ').map(part => 
-                  part.split(' ').map(word => 
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                  ).join(' ')
-                ).join(', ')}
+              <MapPin
+                className={`${isMobile ? "w-3 h-3" : "w-3 h-3 md:w-4 md:h-4"} mr-1.5 md:mr-2 opacity-80`}
+              />
+              <span
+                className={`tracking-wide capitalize ${isMobile ? "text-xs" : "text-sm md:text-base"}`}
+              >
+                {project.location
+                  .toLowerCase()
+                  .split(", ")
+                  .map((part) =>
+                    part
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                      )
+                      .join(" "),
+                  )
+                  .join(", ")}
               </span>
             </div>
           </motion.div>
 
           {/* Bottom Slide Navigation - Mobile optimized */}
           {images.length > 1 && (
-            <motion.div 
-              className={`flex items-center justify-between ${isMobile ? 'mt-4' : 'mt-4 md:mt-6'}`}
+            <motion.div
+              className={`flex items-center justify-between ${isMobile ? "mt-4" : "mt-4 md:mt-6"}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -752,14 +927,14 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
                       setCurrentImageIndex(idx);
                     }}
                     className={`rounded-full transition-all duration-300 ${
-                      idx === currentImageIndex 
-                        ? `bg-white ${isMobile ? 'w-6 h-1' : 'w-7 md:w-8 h-1'}` 
-                        : 'bg-white/40 hover:bg-white/60 w-1 h-1'
+                      idx === currentImageIndex
+                        ? `bg-white ${isMobile ? "w-6 h-1" : "w-7 md:w-8 h-1"}`
+                        : "bg-white/40 hover:bg-white/60 w-1 h-1"
                     }`}
                   />
                 ))}
               </div>
-              
+
               {/* Navigation Arrows - Show only on hover for desktop */}
               {(!isMobile || isHovered) && (
                 <div className="flex space-x-1.5 md:space-x-2">
@@ -768,23 +943,27 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
                       e.stopPropagation();
                       prevImage();
                     }}
-                    className={`${isMobile ? 'w-7 h-7' : 'w-7 md:w-8 md:h-8'} rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300`}
+                    className={`${isMobile ? "w-7 h-7" : "w-7 md:w-8 md:h-8"} rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <ChevronLeft className={`${isMobile ? 'w-3 h-3' : 'w-3 md:w-4 md:h-4'} text-white`} />
+                    <ChevronLeft
+                      className={`${isMobile ? "w-3 h-3" : "w-3 md:w-4 md:h-4"} text-white`}
+                    />
                   </motion.button>
-                  
+
                   <motion.button
                     onClick={(e) => {
                       e.stopPropagation();
                       nextImage();
                     }}
-                    className={`${isMobile ? 'w-7 h-7' : 'w-7 md:w-8 md:h-8'} rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300`}
+                    className={`${isMobile ? "w-7 h-7" : "w-7 md:w-8 md:h-8"} rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <ChevronRight className={`${isMobile ? 'w-3 h-3' : 'w-3 md:w-4 md:h-4'} text-white`} />
+                    <ChevronRight
+                      className={`${isMobile ? "w-3 h-3" : "w-3 md:w-4 md:h-4"} text-white`}
+                    />
                   </motion.button>
                 </div>
               )}
@@ -793,14 +972,17 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
         </div>
 
         {/* Status Badge - Responsive */}
-        <motion.div 
-          className={`absolute ${isMobile ? 'top-3 left-3' : 'top-4 left-4'} backdrop-blur`}
+        <motion.div
+          className={`absolute ${isMobile ? "top-3 left-3" : "top-4 left-4"} backdrop-blur`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 + index * 0.1 }}
         >
-          <span className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full ${isMobile ? 'text-xs' : 'text-xs md:text-sm'} font-medium backdrop-blur-lg bg-white/10 border border-white/20`}>
-            {project.status?.charAt(0).toUpperCase() + project.status?.slice(1).toLowerCase()}
+          <span
+            className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full ${isMobile ? "text-xs" : "text-xs md:text-sm"} font-medium backdrop-blur-lg bg-white/10 border border-white/20`}
+          >
+            {project.status?.charAt(0).toUpperCase() +
+              project.status?.slice(1).toLowerCase()}
           </span>
         </motion.div>
 
@@ -816,7 +998,9 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
                 className="absolute bottom-20 md:bottom-24 left-1/2 transform -translate-x-1/2 z-10"
               >
                 <button className="flex items-center bg-white/10 backdrop-blur-lg border border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group/explore">
-                  <span className="text-xs md:text-sm font-medium mr-2">Explore</span>
+                  <span className="text-xs md:text-sm font-medium mr-2">
+                    Explore
+                  </span>
                   <motion.div
                     animate={{ x: [0, 3, 0] }}
                     transition={{ repeat: Infinity, duration: 2 }}
@@ -844,7 +1028,7 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
       {!isMobile && (
         <motion.div
           className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#6455D1]/10 to-[#8B7CFF]/10 blur-md -z-10"
-          animate={{ 
+          animate={{
             opacity: isHovered ? 0.4 : 0,
           }}
           transition={{ duration: 0.4 }}
@@ -853,3 +1037,22 @@ const ProjectCard = ({ project, index, isHovered, onMouseEnter, onMouseLeave, on
     </motion.div>
   );
 };
+
+export default function ProjectsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-gray-200 border-t-[#6455D1] animate-spin mx-auto"></div>
+            <p className="mt-4 md:mt-6 text-gray-600 font-light tracking-wider text-sm md:text-base">
+              LOADING PORTFOLIO...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <ProjectsPageContent />
+    </Suspense>
+  );
+}

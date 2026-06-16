@@ -13,6 +13,7 @@ import {
   User,
   Building2,
   Award,
+  Trophy,
   Menu,
   ChevronLeft,
   ChevronRight,
@@ -96,6 +97,16 @@ export default function AdminSidebar() {
       label: "Empanelments",
       icon: <Award className="w-5 h-5" />,
     },
+    {
+      href: "/admin/awards",
+      label: "Awards",
+      icon: <Trophy className="w-5 h-5" />,
+    },
+    {
+      href: "/admin/about",
+      label: "About Page",
+      icon: <Building2 className="w-5 h-5" />,
+    },
   ];
 
   return (
@@ -113,12 +124,12 @@ export default function AdminSidebar() {
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className={`h-screen flex flex-col bg-white border-r border-gray-100 transition-all duration-300 ease-in-out fixed lg:relative z-40 ${isCollapsed ? 'w-20' : 'w-64'
+        className={`h-screen flex flex-col bg-[#0b0f19] border-r border-[#1e293b]/60 transition-all duration-300 ease-in-out fixed lg:relative z-40 ${isCollapsed ? 'w-20' : 'w-64'
           }`}
       >
 
         {/* Logo Section */}
-        <div className="px-6 py-5 border-b border-gray-100">
+        <div className="px-6 py-5 border-b border-[#1e293b]/60">
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
             {!isCollapsed ? (
               <motion.div
@@ -126,28 +137,28 @@ export default function AdminSidebar() {
                 animate={{ opacity: 1 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-10 h-10 relative">
+                <div className="w-10 h-10 relative bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center justify-center shadow-inner">
                   <img
                     src='/assets/logo.png'
                     alt="DERA Logo"
-                    className="w-full h-full object-contain rounded-lg"
+                    className="w-full h-full object-contain rounded-md"
                   />
                 </div>
                 <div>
-                  <h1 className="text-lg font-semibold text-gray-900 tracking-tight">DCPL Admin</h1>
-                  <p className="text-xs text-gray-500 font-light">Management Console</p>
+                  <h1 className="text-sm font-semibold text-white tracking-tight">DCPL Admin</h1>
+                  <p className="text-xs text-indigo-400 font-light">Management Console</p>
                 </div>
               </motion.div>
             ) : (
               <motion.div
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
-                className="w-10 h-10"
+                className="w-10 h-10 relative bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center justify-center shadow-inner"
               >
                 <img
                   src='/assets/logo.png'
                   alt="DERA Logo"
-                  className="w-full h-full object-contain rounded-lg"
+                  className="w-full h-full object-contain rounded-md"
                 />
               </motion.div>
             )}
@@ -155,17 +166,17 @@ export default function AdminSidebar() {
             {/* Desktop Toggle Button */}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className={`hidden lg:flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors ${isCollapsed ? 'absolute -right-4 top-8 bg-white shadow-sm' : ''
+              className={`hidden lg:flex items-center justify-center w-8 h-8 rounded-lg border border-[#1e293b] bg-[#0d1320] text-gray-400 hover:text-white hover:bg-[#1e293b]/50 transition-colors ${isCollapsed ? 'absolute -right-4 top-8 bg-[#0b0f19] shadow-lg border border-[#1e293b]' : ''
                 }`}
             >
-              <ChevronLeft className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''
+              <ChevronLeft className={`w-4 h-4 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''
                 }`} />
             </button>
           </div>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex-1 px-3 py-4 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 overflow-y-auto custom-scrollbar">
           <div className="space-y-1">
             {menuItems.map((item, index) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -178,26 +189,27 @@ export default function AdminSidebar() {
                   transition={{ delay: index * 0.03 }}
                   onMouseEnter={() => setHoveredItem(item.href)}
                   onMouseLeave={() => setHoveredItem(null)}
+                  className="relative"
                 >
                   <Link
                     href={item.href}
                     className={`relative flex items-center ${isCollapsed ? 'justify-center px-0 py-3' : 'justify-start px-4 py-3'
-                      } rounded-lg transition-all duration-200 group ${isActive
-                        ? "text-gray-900 bg-gray-50"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      } rounded-xl transition-all duration-200 group ${isActive
+                        ? "text-white"
+                        : "text-gray-400 hover:text-white hover:bg-white/5"
                       }`}
                   >
-                    {/* Active Indicator Line */}
-                    {isActive && !isCollapsed && (
+                    {/* Active Sliding Background Pill */}
+                    {isActive && (
                       <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: 3 }}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 h-6 bg-gray-900 rounded-r-full"
+                        layoutId="active-nav-pill"
+                        className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-indigo-500/10 border-l-4 border-indigo-500 rounded-xl"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
 
                     {/* Icon */}
-                    <div className={`relative flex items-center justify-center ${isActive ? 'text-gray-900' : 'text-gray-500'
+                    <div className={`relative flex items-center justify-center z-10 ${isActive ? 'text-indigo-400' : 'text-gray-400 group-hover:text-white'
                       }`}>
                       <div className={`transition-transform duration-200 group-hover:scale-110 ${isCollapsed ? '' : 'mr-3'
                         }`}>
@@ -212,7 +224,7 @@ export default function AdminSidebar() {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -10 }}
-                          className={`text-sm font-medium flex-1 ${isActive ? "font-semibold" : ""
+                          className={`text-sm font-medium flex-1 z-10 ${isActive ? "font-semibold text-white" : "text-gray-300 group-hover:text-white"
                             }`}
                         >
                           {item.label}
@@ -225,9 +237,9 @@ export default function AdminSidebar() {
                       <motion.div
                         initial={{ opacity: 0, x: -5 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="ml-auto"
+                        className="ml-auto z-10"
                       >
-                        <ChevronRight className="w-4 h-4 text-gray-400" />
+                        <ChevronRight className="w-4 h-4 text-gray-500" />
                       </motion.div>
                     )}
 
@@ -236,10 +248,11 @@ export default function AdminSidebar() {
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="absolute left-full ml-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg whitespace-nowrap z-50"
+                        className="absolute left-full ml-3 px-3 py-2 bg-[#0b0f19] border border-[#1e293b] text-white text-xs rounded-lg shadow-2xl whitespace-nowrap z-50"
                       >
                         {item.label}
-                        <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-gray-900" />
+                        <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-r-[6px] border-y-transparent border-r-[#0b0f19]" />
+                        <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-r-[6px] border-y-transparent border-r-[#1e293b] -z-10 translate-x-[-1px]" />
                       </motion.div>
                     )}
                   </Link>
@@ -253,36 +266,32 @@ export default function AdminSidebar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-8"
+            className="mt-8 border-t border-[#1e293b]/40 pt-4"
           >
             <button
               onClick={handleLogout}
               className={`relative flex items-center w-full ${isCollapsed ? 'justify-center px-0 py-3' : 'justify-start px-4 py-3'
-                } rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200 group`}
+                } rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 group`}
             >
               <div className={`flex items-center justify-center ${isCollapsed ? '' : 'mr-3'
                 }`}>
-                <LogOut className="w-5 h-5 text-gray-500 group-hover:scale-110 transition-transform duration-200" />
+                <LogOut className="w-5 h-5 text-gray-400 group-hover:text-red-400 group-hover:scale-110 transition-transform duration-200" />
               </div>
               
               {!isCollapsed && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-sm font-medium"
-                >
+                <span className="text-sm font-medium text-gray-300 group-hover:text-red-400">
                   Logout
-                </motion.span>
+                </span>
               )}
 
               {isCollapsed && hoveredItem === 'logout' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="absolute left-full ml-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg whitespace-nowrap z-50"
+                  className="absolute left-full ml-3 px-3 py-2 bg-[#0b0f19] border border-[#1e293b] text-white text-xs rounded-lg shadow-2xl whitespace-nowrap z-50"
                 >
                   Logout
-                  <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-gray-900" />
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-y-[6px] border-r-[6px] border-y-transparent border-r-[#0b0f19]" />
                 </motion.div>
               )}
             </button>
@@ -290,41 +299,39 @@ export default function AdminSidebar() {
         </nav>
 
         {/* User Profile */}
-        <div className="px-4 py-4 border-t border-gray-100">
+        <div className="px-4 py-4 border-t border-[#1e293b]/60">
           <AnimatePresence>
-            {!isCollapsed && (
+            {!isCollapsed ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="flex items-center gap-3"
+                className="flex items-center gap-3 p-2 bg-white/5 border border-white/5 rounded-2xl shadow-inner"
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
                   <span className="text-white text-sm font-medium">A</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">Admin User</p>
-                  <p className="text-xs text-gray-500 truncate">Super Administrator</p>
+                  <p className="text-sm font-medium text-white truncate">Admin User</p>
+                  <p className="text-xs text-indigo-400/80 truncate">Super Admin</p>
                 </div>
-                <ShieldCheck className="w-4 h-4 text-green-500" />
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
               </motion.div>
+            ) : (
+              <div className="flex justify-center">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <span className="text-white text-sm font-medium">A</span>
+                </div>
+              </div>
             )}
           </AnimatePresence>
-
-          {isCollapsed && (
-            <div className="flex justify-center">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                <span className="text-white text-sm font-medium">A</span>
-              </div>
-            </div>
-          )}
         </div>
       </motion.div>
 
       {/* Overlay for Mobile */}
       {!isCollapsed && (
         <div
-          className="fixed inset-0 bg-black/10 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setIsCollapsed(true)}
         />
       )}

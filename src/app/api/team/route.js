@@ -14,7 +14,9 @@ export async function POST(req) {
             name: body.name,
             profile: body.profile || "",
             position: body.position,
-            isLeaderShip: body.isLeaderShip || false
+            isLeaderShip: body.isLeaderShip || false,
+            description: body.description || "",
+            email: body.email || ""
         });
         return json({ success: true, data: team }, 201);
 

@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "../Components/Footer";
 import FooterWrapper from "../Components/FooterWrapper"; // NEW
-import NavbarNew from "../Components/NavbarNew"
+import NavbarNew from "../Components/NavbarNew";
 import NavWrapper from "src/Components/NavWrapper";
 
 const geistSans = Geist({
@@ -21,7 +21,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="en">
       <body
@@ -29,8 +28,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning={true}
       >
         <NavWrapper>
-
-        <NavbarNew  />
+          <NavbarNew />
         </NavWrapper>
         <div>
           {children}
