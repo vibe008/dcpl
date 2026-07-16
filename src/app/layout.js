@@ -27,10 +27,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        {/* <p className="text-red-500 text-center text-2xl font-bold">
+        <p className="text-red-500 text-center text-2xl font-bold">
           Page Not Found
-        </p> */}
-        <NavWrapper>
+        </p>
+        {/* <NavWrapper>
           <NavbarNew />
         </NavWrapper>
         <div>
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
           <FooterWrapper>
             <Footer />
           </FooterWrapper>
-        </div>
+        </div> */}
       </body>
     </html>
   );
