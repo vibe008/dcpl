@@ -1,5 +1,10 @@
-'use client';
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+"use client";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { useState, useRef } from "react";
 import {
   ArrowRight,
@@ -19,9 +24,9 @@ import {
   Sparkles,
   Users,
   Award,
-  Briefcase
+  Briefcase,
 } from "lucide-react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -29,75 +34,83 @@ const ContactPage = () => {
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef(null);
-  
+
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, 100]);
   const opacity = useTransform(scrollY, [0, 200], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 1.1]);
 
   // Brand Colors (same as CareersPage)
-  const primaryColor = '#6556D5';
-  const secondaryColor = '#51B873';
-  const primaryLight = 'rgba(101, 86, 213, 0.1)';
-  const secondaryLight = 'rgba(81, 184, 115, 0.1)';
+  const primaryColor = "#6556D5";
+  const secondaryColor = "#51B873";
+  const primaryLight = "rgba(101, 86, 213, 0.1)";
+  const secondaryLight = "rgba(81, 184, 115, 0.1)";
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate required fields
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      toast.error('Please fill in all required fields');
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
+      toast.error("Please fill in all required fields");
       return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
       return;
     }
 
     setIsSubmitting(true);
-    const submitToast = toast.loading('Sending message...');
+    const submitToast = toast.loading("Sending message...");
 
     try {
       // Send data to your API
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           phone: formData.phone || "", // Optional field
           subject: formData.subject,
-          message: formData.message
+          message: formData.message,
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Message sent successfully! We\'ll get back to you soon.', {
-          id: submitToast,
-          duration: 5000
-        });
+        toast.success(
+          "Message sent successfully! We'll get back to you soon.",
+          {
+            id: submitToast,
+            duration: 5000,
+          },
+        );
 
         setIsSubmitted(true);
-        
+
         // Reset form after submission
         setTimeout(() => {
           setIsSubmitted(false);
@@ -106,22 +119,28 @@ const ContactPage = () => {
             email: "",
             phone: "",
             subject: "",
-            message: ""
+            message: "",
           });
           if (formRef.current) {
             formRef.current.reset();
           }
         }, 3000);
       } else {
-        toast.error(data.message || 'Failed to send message. Please try again.', {
-          id: submitToast
-        });
+        toast.error(
+          data.message || "Failed to send message. Please try again.",
+          {
+            id: submitToast,
+          },
+        );
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('Network error. Please check your connection and try again.', {
-        id: submitToast
-      });
+      console.error("Error submitting form:", error);
+      toast.error(
+        "Network error. Please check your connection and try again.",
+        {
+          id: submitToast,
+        },
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -131,73 +150,83 @@ const ContactPage = () => {
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: ["30-B Geeta enclave, Krishna nagar, Mathura, 281001", "508 Ganesh Glory, Jagatpur Road Gota Ahmedabad, Gujarat"],
+      details: [
+        "30-B Geeta enclave, Krishna nagar, Mathura, 281001 , UP",
+        "508 Ganesh Glory, Jagatpur Road Gota Ahmedabad, Gujarat",
+      ],
       link: "https://www.google.com/maps/place/DERA+CONSULTANTS+PRIVATE+LIMITED/@27.4983124,77.6516774,13z/data=!4m6!3m5!1s0x397371537d90b05b:0xa6bfe506ff5bbe22!8m2!3d27.5034704!4d77.663168!16s%2Fg%2F11fqc87ztq?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D",
-      linkText: "View on Map"
+      linkText: "View on Map",
     },
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Call Us",
       details: ["+917351077666"],
       link: "tel:+917351077666",
-      linkText: "Call Now"
+      linkText: "Call Now",
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
       details: ["office@dera.co.in"],
       link: "mailto:office@dera.co.in",
-      linkText: "Send Email"
+      linkText: "Send Email",
     },
     {
       icon: <Clock className="w-6 h-6" />,
       title: "Working Hours",
       details: ["Mon - Fri: 9:00 - 18:00", "Sat: 10:00 - 16:00", "Sun: Closed"],
       link: null,
-      linkText: null
-    }
+      linkText: null,
+    },
   ];
 
   const whyChooseUs = [
     {
       icon: <Award className="w-8 h-8" />,
       title: "Award-Winning Designs",
-      description: "Recognized architectural excellence and industry-leading innovation"
+      description:
+        "Recognized architectural excellence and industry-leading innovation",
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: "Collaborative Approach",
-      description: "Work directly with our passionate team of architects and designers"
+      description:
+        "Work directly with our passionate team of architects and designers",
     },
     {
       icon: <Sparkles className="w-8 h-8" />,
       title: "Personalized Solutions",
-      description: "Tailored architectural designs that reflect your unique vision"
+      description:
+        "Tailored architectural designs that reflect your unique vision",
     },
     {
       icon: <Calendar className="w-8 h-8" />,
       title: "Timely Delivery",
-      description: "Efficient project management ensuring on-time completion"
-    }
+      description: "Efficient project management ensuring on-time completion",
+    },
   ];
 
   const faqItems = [
     {
       question: "How long does a typical architectural project take?",
-      answer: "Project timelines vary based on scope and complexity, but most architectural projects take between 6-18 months from concept to completion, with clear milestones throughout."
+      answer:
+        "Project timelines vary based on scope and complexity, but most architectural projects take between 6-18 months from concept to completion, with clear milestones throughout.",
     },
     {
       question: "Do you work on residential and commercial projects?",
-      answer: "Yes, we specialize in both residential and commercial architecture, with expertise in modern, sustainable, and functional designs for various project types."
+      answer:
+        "Yes, we specialize in both residential and commercial architecture, with expertise in modern, sustainable, and functional designs for various project types.",
     },
     {
       question: "What is your design process?",
-      answer: "Our process involves discovery and consultation, conceptual design, design development, detailed documentation, and construction administration to ensure your vision is perfectly realized."
+      answer:
+        "Our process involves discovery and consultation, conceptual design, design development, detailed documentation, and construction administration to ensure your vision is perfectly realized.",
     },
     {
       question: "Can you work within our budget constraints?",
-      answer: "Absolutely. We provide transparent cost estimation and work creatively to deliver exceptional architectural solutions that align with your budgetary requirements."
-    }
+      answer:
+        "Absolutely. We provide transparent cost estimation and work creatively to deliver exceptional architectural solutions that align with your budgetary requirements.",
+    },
   ];
 
   return (
@@ -207,16 +236,16 @@ const ContactPage = () => {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#fff',
-            color: '#374151',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            fontSize: '14px',
+            background: "#fff",
+            color: "#374151",
+            border: "1px solid #e5e7eb",
+            borderRadius: "8px",
+            fontSize: "14px",
           },
           success: {
             iconTheme: {
-              primary: '#51B873',
-              secondary: '#fff',
+              primary: "#51B873",
+              secondary: "#fff",
             },
             style: {
               borderLeft: `4px solid ${secondaryColor}`,
@@ -224,11 +253,11 @@ const ContactPage = () => {
           },
           error: {
             iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
+              primary: "#ef4444",
+              secondary: "#fff",
             },
             style: {
-              borderLeft: '4px solid #ef4444',
+              borderLeft: "4px solid #ef4444",
             },
           },
         }}
@@ -237,10 +266,7 @@ const ContactPage = () => {
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <div className="relative h-[85vh] overflow-hidden">
-          <motion.div
-            className="absolute inset-0"
-            style={{ y, scale }}
-          >
+          <motion.div className="absolute inset-0" style={{ y, scale }}>
             <img
               src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop"
               alt="Contact Header"
@@ -267,7 +293,9 @@ const ContactPage = () => {
                   transition={{ delay: 0.2 }}
                 >
                   <div className="w-8 h-0.5 bg-gradient-to-r from-[#6556D5] to-white"></div>
-                  <span className="text-white/90 font-light tracking-[0.2em] text-sm">CONNECT</span>
+                  <span className="text-white/90 font-light tracking-[0.2em] text-sm">
+                    CONNECT
+                  </span>
                 </motion.div>
                 <h1 className="text-7xl lg:text-8xl font-light text-white mb-6 tracking-tight">
                   Let&apos;s Design <br />
@@ -282,7 +310,8 @@ const ContactPage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
-                  Connect with our team of visionary architects to transform your ideas into remarkable architectural realities.
+                  Connect with our team of visionary architects to transform
+                  your ideas into remarkable architectural realities.
                 </motion.p>
               </motion.div>
             </div>
@@ -296,7 +325,9 @@ const ContactPage = () => {
             transition={{ delay: 1, duration: 1 }}
           >
             <div className="flex flex-col items-center">
-              <span className="text-white/60 font-light text-sm mb-2 tracking-wider">CONTACT</span>
+              <span className="text-white/60 font-light text-sm mb-2 tracking-wider">
+                CONTACT
+              </span>
               <motion.div
                 className="w-[1px] h-16 bg-gradient-to-b from-white/80 to-transparent"
                 animate={{ height: [16, 32, 16] }}
@@ -327,7 +358,8 @@ const ContactPage = () => {
               />
             </div>
             <p className="text-gray-600 max-w-2xl mx-auto font-light">
-              Reach out to our team through any of these channels. We&apos;re here to help bring your architectural vision to life.
+              Reach out to our team through any of these channels. We&apos;re
+              here to help bring your architectural vision to life.
             </p>
           </motion.div>
 
@@ -347,12 +379,10 @@ const ContactPage = () => {
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                   style={{
-                    background: `linear-gradient(135deg, ${primaryLight}, ${secondaryLight})`
+                    background: `linear-gradient(135deg, ${primaryLight}, ${secondaryLight})`,
                   }}
                 >
-                  <div style={{ color: primaryColor }}>
-                    {item.icon}
-                  </div>
+                  <div style={{ color: primaryColor }}>{item.icon}</div>
                 </motion.div>
                 <h3 className="text-lg font-medium text-gray-900 mb-3">
                   {item.title}
@@ -373,7 +403,7 @@ const ContactPage = () => {
                     className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition-all"
                     style={{
                       background: primaryLight,
-                      color: primaryColor
+                      color: primaryColor,
                     }}
                   >
                     {item.linkText} <ArrowRight className="w-3 h-3" />
@@ -405,7 +435,7 @@ const ContactPage = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     style={{
-                      background: secondaryLight
+                      background: secondaryLight,
                     }}
                   >
                     <motion.div
@@ -415,20 +445,30 @@ const ContactPage = () => {
                       transition={{
                         duration: 2,
                         repeat: Infinity,
-                        repeatDelay: 1
+                        repeatDelay: 1,
                       }}
                       className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full"
                       style={{ background: primaryLight }}
                     >
-                      <CheckCircle className="w-10 h-10" style={{ color: secondaryColor }} />
+                      <CheckCircle
+                        className="w-10 h-10"
+                        style={{ color: secondaryColor }}
+                      />
                     </motion.div>
-                    <div className="text-xl font-light text-gray-900 mb-2">Thank You!</div>
+                    <div className="text-xl font-light text-gray-900 mb-2">
+                      Thank You!
+                    </div>
                     <p className="text-gray-600 font-light">
-                      Your message has been sent successfully. We&apos;ll get back to you within 24 hours.
+                      Your message has been sent successfully. We&apos;ll get
+                      back to you within 24 hours.
                     </p>
                   </motion.div>
                 ) : (
-                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                  <form
+                    ref={formRef}
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                  >
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -532,7 +572,7 @@ const ContactPage = () => {
                       className="w-full py-4 font-medium rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                       style={{
                         background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                        color: '#fff'
+                        color: "#fff",
                       }}
                     >
                       {isSubmitting ? (
@@ -575,10 +615,17 @@ const ContactPage = () => {
                     className="border border-gray-200 rounded-lg p-6 hover:shadow-sm transition-all"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: primaryColor }}></div>
+                      <div
+                        className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+                        style={{ background: primaryColor }}
+                      ></div>
                       <div>
-                        <h4 className="font-medium text-gray-900 mb-3">{item.question}</h4>
-                        <p className="text-gray-600 font-light leading-relaxed">{item.answer}</p>
+                        <h4 className="font-medium text-gray-900 mb-3">
+                          {item.question}
+                        </h4>
+                        <p className="text-gray-600 font-light leading-relaxed">
+                          {item.answer}
+                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -593,8 +640,13 @@ const ContactPage = () => {
                 transition={{ delay: 0.5 }}
               >
                 <div className="h-64 bg-gray-100 flex flex-col items-center justify-center p-6 text-center">
-                  <Map className="w-12 h-12 mb-4" style={{ color: primaryColor }} />
-                  <h4 className="text-lg font-medium text-gray-900 mb-2">Visit Our Studio</h4>
+                  <Map
+                    className="w-12 h-12 mb-4"
+                    style={{ color: primaryColor }}
+                  />
+                  <h4 className="text-lg font-medium text-gray-900 mb-2">
+                    Visit Our Studio
+                  </h4>
                   <p className="text-gray-600 font-light mb-4 text-sm">
                     30-B Geeta enclave, Krishna nagar, Mathura, 281001
                   </p>
@@ -606,7 +658,7 @@ const ContactPage = () => {
                     className="px-5 py-2.5 text-sm font-medium rounded-lg flex items-center gap-2 transition-all"
                     style={{
                       background: primaryLight,
-                      color: primaryColor
+                      color: primaryColor,
                     }}
                   >
                     View on Google Maps <ArrowRight className="w-3 h-3" />
@@ -637,12 +689,13 @@ const ContactPage = () => {
                   transition={{ duration: 1, delay: 0.2 }}
                   className="absolute h-full"
                   style={{
-                    background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+                    background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
                   }}
                 />
               </div>
               <p className="text-gray-600 max-w-2xl mx-auto font-light">
-                We combine architectural expertise with innovative design thinking to create spaces that inspire and endure.
+                We combine architectural expertise with innovative design
+                thinking to create spaces that inspire and endure.
               </p>
             </motion.div>
 
@@ -661,12 +714,10 @@ const ContactPage = () => {
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-all"
                     style={{
-                      background: `linear-gradient(135deg, ${primaryLight}, ${secondaryLight})`
+                      background: `linear-gradient(135deg, ${primaryLight}, ${secondaryLight})`,
                     }}
                   >
-                    <div style={{ color: primaryColor }}>
-                      {item.icon}
-                    </div>
+                    <div style={{ color: primaryColor }}>{item.icon}</div>
                   </motion.div>
                   <h3 className="text-lg font-medium text-gray-900 mb-3">
                     {item.title}
@@ -693,7 +744,8 @@ const ContactPage = () => {
               Ready to Start Your Architectural Journey?
             </h3>
             <p className="text-gray-600 mb-8 max-w-2xl mx-auto font-light">
-              Schedule a complimentary consultation with our team to discuss your vision and explore how we can transform it into reality.
+              Schedule a complimentary consultation with our team to discuss
+              your vision and explore how we can transform it into reality.
             </p>
             <div className="w-20 h-px bg-gray-300 mx-auto mb-8 relative">
               <motion.div
@@ -702,15 +754,18 @@ const ContactPage = () => {
                 transition={{ duration: 1, delay: 0.2 }}
                 className="absolute h-full w-full origin-left"
                 style={{
-                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+                  background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`,
                 }}
               />
             </div>
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: `0 10px 30px ${primaryColor}20` }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: `0 10px 30px ${primaryColor}20`,
+              }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
-                const formSection = document.getElementById('contact-info');
+                const formSection = document.getElementById("contact-info");
                 if (formSection) {
                   formSection.scrollIntoView({ behavior: "smooth" });
                 }
@@ -718,7 +773,7 @@ const ContactPage = () => {
               className="px-8 py-4 font-medium rounded-lg inline-flex items-center gap-3 transition-all"
               style={{
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                color: '#fff'
+                color: "#fff",
               }}
             >
               <Heart className="w-5 h-5" />

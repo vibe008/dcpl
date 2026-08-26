@@ -22,9 +22,10 @@ const Footer = () => {
 
   const navigationLinks = [
     { label: "About", href: "/About" },
+    { label: "Services", href: "/Services" },
     { label: "Projects", href: "/Projects" },
-    { label: "Contact", href: "/Contact" },
     { label: "Careers", href: "/Careers" },
+    { label: "Contact", href: "/Contact" },
   ];
 
   const socialLinks = [
@@ -49,10 +50,10 @@ const Footer = () => {
     {
       city: "Mathura",
       state: "Uttar Pradesh",
-      address: "30-B Geeta Enclave, Krishna Nagar",
-      pincode: "281001",
+      address: "30-B Geeta Enclave, Krishna Nagar , Mathura  , Up",
+      pincode: "281004",
       phone: "+91 7351077666",
-      email: "mathura@dera.co.in",
+      email: "office@dera.co.in",
     },
     {
       city: "Ahmedabad",
@@ -60,38 +61,40 @@ const Footer = () => {
       address: "508 Ganesh Glory, Jagatpur Road",
       pincode: "382481",
       phone: "+91 9876543210",
-      email: "ahmedabad@dera.co.in",
+      email: "office@dera.co.in",
     },
   ];
 
   const handleSubscribe = (e) => {
     e.preventDefault();
-    if (email) {
-      console.log("Subscribing email:", email);
+    if (email && email.includes("@")) {
       setIsSubscribed(true);
       setEmail("");
-      setTimeout(() => setIsSubscribed(false), 3000);
+      setTimeout(() => setIsSubscribed(false), 3500);
     }
   };
 
   return (
     <footer className="bg-gradient-to-b from-gray-50 to-white mt-20 pt-16 w-full border-t border-gray-200">
-      <div className="px-6 lg:px-12 max-w-7xl mx-auto">
+      <div className="px-6  max-w-7xl mx-auto">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
           {/* Company Info - Takes 5 columns */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="flex items-center space-x-4">
-              {/* <div className="w-14 h-14 bg-gradient-to-br from-[#6455D1] to-[#8B5CF6] rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-2xl tracking-tight">DCPL</span>
-              </div> */}
-              <div>
-                <h3 className="text-2xl font-light text-gray-900 tracking-wide">
-                  Dera Consultants
-                </h3>
-                <p className="text-gray-600 text-sm">Architecture & Planning</p>
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="w-10 h-10 rounded-xl bg-[#6455D1]/10 border border-[#6455D1]/20 flex items-center justify-center p-1.5 shadow-sm group-hover:bg-[#6455D1]/20 transition-all duration-300">
+                <img
+                  src="/assets/logo.png"
+                  alt="DERA Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
-            </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-light text-gray-900 tracking-wide font-[Satoshi]">
+                  Dera Consultants Private Limited
+                </h3>
+              </div>
+            </Link>
 
             <p className="text-gray-600 text-sm leading-relaxed max-w-lg">
               Creating timeless spaces that honor heritage while embracing
@@ -109,8 +112,8 @@ const Footer = () => {
                     <p className="text-gray-700 font-medium text-sm">Address</p>
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm pl-10">
-                  30-B Geeta Enclave, Krishna Nagar
+                <p className="text-gray-600 text-sm pl-10 leading-snug">
+                  30-B Geeta Enclave, Krishna Nagar, Mathura 281004 UP
                 </p>
               </div>
 
@@ -125,7 +128,7 @@ const Footer = () => {
                 </div>
                 <a
                   href="tel:+917351077666"
-                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block"
+                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block font-medium"
                 >
                   +91 7351077666
                 </a>
@@ -142,7 +145,7 @@ const Footer = () => {
                 </div>
                 <a
                   href="mailto:office@dera.co.in"
-                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block"
+                  className="text-gray-600 text-sm pl-10 hover:text-[#6455D1] hover:underline block font-medium truncate"
                 >
                   office@dera.co.in
                 </a>
@@ -155,13 +158,13 @@ const Footer = () => {
                 Follow Us
               </p>
               <div className="flex space-x-3">
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((social) => (
                   <a
-                    key={index}
+                    key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-[#6455D1] hover:text-white hover:border-[#6455D1] transition-all duration-300 shadow-sm"
+                    className="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-[#6455D1] hover:text-white hover:border-[#6455D1] transition-all duration-300 shadow-sm"
                     aria-label={social.label}
                   >
                     <social.Icon className="w-4 h-4" />
@@ -173,12 +176,12 @@ const Footer = () => {
 
           {/* Quick Links - Takes 3 columns */}
           <div className="lg:col-span-3">
-            <div className=" rounded-xl p-6  h-full">
+            <div className="rounded-xl p-6 h-full">
               <h4 className="text-lg font-semibold text-gray-900 mb-6 pb-3 border-b border-gray-100">
                 Quick Links
               </h4>
-              <ul className="space-y-3">
-                {navigationLinks.map((link, index) => (
+              <ul className="space-y-3.5">
+                {navigationLinks.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
@@ -267,11 +270,11 @@ const Footer = () => {
                         className="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg outline-none focus:border-[#6455D1] focus:ring-2 focus:ring-[#6455D1]/20"
                         required
                       />
-                      <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     </div>
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-[#6455D1] to-[#8B5CF6] text-white px-4 py-3 rounded-lg hover:opacity-90 transition-opacity font-medium text-sm flex items-center justify-center gap-2"
+                      className="w-full bg-gradient-to-r from-[#6455D1] to-[#8B5CF6] text-white px-4 py-3 rounded-lg hover:opacity-90 transition-opacity font-medium text-sm flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Send className="w-4 h-4" />
                       Subscribe to Newsletter
@@ -299,6 +302,7 @@ const Footer = () => {
                 key={office.city}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="flex-1 bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300"
               >
@@ -311,7 +315,7 @@ const Footer = () => {
                       <h5 className="text-lg font-semibold text-gray-900">
                         {office.city}
                       </h5>
-                      <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                      <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full font-medium">
                         {office.state}
                       </span>
                     </div>
@@ -356,18 +360,19 @@ const Footer = () => {
         </div>
 
         {/* Bottom Copyright Section */}
-        {/* <div className="border-t border-gray-200 pt-8 pb-6">
+        <div className="border-t border-gray-200 pt-8 pb-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-600 text-sm">
-              © {new Date().getFullYear()} Dera Consultants Pvt. Ltd. All rights reserved.
+              © {new Date().getFullYear()} Dera Consultants Pvt. Ltd. All rights
+              reserved.
             </div>
 
             <div className="text-gray-500 text-sm flex items-center">
               <div className="w-1.5 h-1.5 bg-[#6455D1] rounded-full mr-2"></div>
-              Crafting architectural excellence since 1998
+              Crafting architectural excellence since 2011
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </footer>
   );
